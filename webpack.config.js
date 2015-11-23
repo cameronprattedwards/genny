@@ -20,7 +20,7 @@ module.exports = {
   },
   output: {
     path: __dirname + '/client/dist',
-    publicPath: '/',
+    publicPath: '/public/',
     filename: 'bundle.js'
   },
   devServer: {
@@ -28,6 +28,6 @@ module.exports = {
     hot: true,
   },
   plugins: [
-    new webpack.HotModuleReplacementPlugin()
+    new webpack.HotModuleReplacementPlugin(),
   ]
 };

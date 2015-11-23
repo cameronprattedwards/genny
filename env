@@ -1,0 +1,9 @@
+export PORT=8081 
+export CLIENT_DOMAIN=http://localhost:8080 
+export CLIENT_ID=5bb8eec801db19a2cda2 
+export CLIENT_SECRET=f0ecb32e93026c76bdc97554076d772167dde180 
+export SERVER_DOMAIN=http://localhost:8081
+export MYSQL_URL=gennydev.c4rmshyw44ay.us-west-2.rds.amazonaws.com
+export MYSQL_USER=genny
+export MYSQL_PASSWORD=a2n4frenchm3n
+export MYSQL_DB=genny
