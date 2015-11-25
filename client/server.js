@@ -3,7 +3,7 @@ import api from '../api/server';
 import _ from 'lodash';
 import fs from 'fs';
 import path from 'path';
-import {reversePath, BASE_PATH} from '../api/paths';
+import {BASE_PATH} from '../api/paths';
 
 const app = express();
 const {PORT} = process.env;
