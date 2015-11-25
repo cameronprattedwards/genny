@@ -65,8 +65,6 @@ export class Client {
 
 	addPermissions(login, repoName, adminName, permission = 'admin') {
 		const collabUrl = Paths.collaborators(login, repoName, adminName);
-		console.log('collabUrl:');
-		console.log(collabUrl);
 		return request(collabUrl, this.accessToken, {method: 'PUT', body: {permission}});
 	}
 

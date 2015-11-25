@@ -7,7 +7,15 @@ export default {
 			.set('id', id)
 			.set('repoName', repoName)
 			.set('token', accessToken)
-			.set('webhookSecret', webhookSecret);
+			.set('webhookSecret', webhookSecret)
+			.set('createdAt', new Date().getTime());
+
 		return mysql(query);
+	},
+
+	async get(id) {
+		const query = squel.select().from('User').where(`id = ${id}`);
+		const [gennyUser] = await mysql(query);
+		return gennyUser;
 	},
 };

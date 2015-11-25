@@ -3,11 +3,9 @@ import randomstring from 'randomstring';
 import 'isomorphic-fetch';
 import cookieParser from 'cookie-parser';
 import apiPaths from './paths';
-import mysql from '../utils/mysql';
-import squel from 'squel';
 import github from '../utils/github';
 import UserService from '../domain/UserService';
-import RepoService from '../domain/RepoService';
+import {RepoService} from '../domain/RepoService';
 
 const app = express();
 
@@ -34,7 +32,7 @@ function login(request, response) {
 		.redirect(github.Paths.authorize(params));
 }
 
-const getTokenFn = async function getToken(code) {  // eslint-disable-line no-unused-vars
+const getToken = async function getToken(code) {  // eslint-disable-line no-unused-vars
 	const params = {
 		code,
 		'client_id': CLIENT_ID,
@@ -46,15 +44,14 @@ const getTokenFn = async function getToken(code) {  // eslint-disable-line no-un
 	return response['access_token'];
 };
 
-const makeRepoFn = async function makeRepo(accessToken) {  // eslint-disable-line no-unused-vars
+const makeRepo = async function makeRepo(accessToken) {  // eslint-disable-line no-unused-vars
 	const client = new github.Client(accessToken);
 	const {id, login} = await client.getUser();
-	const query = squel.select().from('User').where(`id = ${id}`);
-	const [gennyUser] = await mysql(query);
+	const gennyUser = await UserService.get(id);
 
 	if (!gennyUser) {
 		const repoService = new RepoService(accessToken, {id, login});
-		const {repoName, webhookSecret} = repoService.create();
+		const {repoName, webhookSecret} = await repoService.create();
 		const user = {
 			id,
 			repoName,
@@ -66,7 +63,7 @@ const makeRepoFn = async function makeRepo(accessToken) {  // eslint-disable-lin
 	}
 };
 
-const callbackFn = async function callback(request, response) {  // eslint-disable-line no-unused-vars
+const callback = async function callback(request, response) {  // eslint-disable-line no-unused-vars
 	const {code} = request.query;
 	const storedState = request.cookies[STATE_KEY];
 	const receivedState = request.query[STATE_KEY];
