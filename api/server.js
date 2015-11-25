@@ -3,9 +3,11 @@ import qs from 'qs';
 import randomstring from 'randomstring';
 import 'isomorphic-fetch';
 import cookieParser from 'cookie-parser';
-import {Paths, reversePath} from './paths';
+import apiPaths from './paths';
+import webhookPaths from '../hooks/paths';
 import mysql from '../utils/mysql';
 import squel from 'squel';
+import github from '../utils/github';
 
 const app = express();
 
@@ -14,12 +16,13 @@ const STATE_KEY = 'state';
 const {
 	CLIENT_ID,
 	CLIENT_SECRET,
+	WEBHOOK_DOMAIN,
 } = process.env;
 
 app.use(cookieParser());
 
-app.get(Paths.LOGIN, (request, response) => {
-	const redirectUri = reversePath(Paths.CALLBACK);
+app.get(apiPaths.Paths.LOGIN, (request, response) => {
+	const redirectUri = apiPaths.reversePath(apiPaths.Paths.CALLBACK);
 	const state = randomstring.generate({ length: 32 });
 	const params = {
 		[STATE_KEY]: state,
@@ -30,10 +33,10 @@ app.get(Paths.LOGIN, (request, response) => {
 
 	response
 		.cookie('state', state)
-		.redirect('https://github.com/login/oauth/authorize?' + qs.stringify(params));
+		.redirect(github.Paths.AUTHORIZE(params));
 });
 
-app.get(Paths.CALLBACK, (request, response) => {
+app.get(apiPaths.Paths.CALLBACK, (request, response) => {
 	const {code} = request.query;
 	const storedState = request.cookies[STATE_KEY];
 	const receivedState = request.query[STATE_KEY];
@@ -49,42 +52,75 @@ app.get(Paths.CALLBACK, (request, response) => {
 		});
 });
 
-function getToken(code) {
+const getToken = async function getToken(code) {
 	const params = {
 		code,
 		client_id: CLIENT_ID,
 		client_secret: CLIENT_SECRET,
 	};
 
-	const options = {
-		headers: {
-			'Accept': 'application/json',
-		}
-	};
+	const {access_token} = await github.request(github.Paths.ACCESS_TOKEN(params));
 
-	return fetch('https://github.com/login/oauth/access_token?' + qs.stringify(params), options)
-		.then(githubResponse => githubResponse.json())
-		.then(body => body.access_token);
+	return access_token;
 }
 
 const BASE_REPO_NAME = 'genny-test';
+const GITHUB_ADMIN = 'cameronprattedwards';
 
 const makeRepo = async function makeRepo(accessToken) {
-	const headers = {
-		'Accept': 'application/json',
-		'Authorization': 'Token ' + accessToken,
-	};
-
-	const githubResponse = await fetch('https://api.github.com/user', {headers});
-	const body = await githubResponse.json();
+	const client = new github.Client(accessToken);
+	const {id, login} = await client.getUser();
 	const query = squel.select().from('User').where(`id = ${id}`);
-	const [user] = await mysql(query);
-	if (!user) {
-		let repoName = BASE_REPO_NAME;
-		const reposResponse = await fetch('https://api.github.com/user/repos?sort=full_name', {headers});
-		const reposBody = await githubResponse.json();
-		console.log(reposBody);
+	const [gennyUser] = await mysql(query);
+
+	if (!gennyUser) {
+		const repos = await client.getRepos();
+		const repoName = getRepoName(repos);
+		const repo = {
+			name: repoName,
+			description: 'This is your Genny repository',
+		};
+		await client.createRepo(repo);
+		await client.addPermissions(login, repoName, GITHUB_ADMIN);
+		const hookUrl = webhookPaths.reversePath(webhookPaths.Paths.HOOK, true, {userId: id});
+		const secret = randomstring.generate({ length: 32 });
+		const hook = {
+			name: 'web',
+			events: ['push', 'pull_request'],
+			config: {
+				url: hookUrl,
+				content_type: 'json',
+				secret,
+			},
+			active: true,
+		};
+
+		await client.createHook(hook, login, repoName);
+
+		const createQuery = squel.insert().into('User').set('id', id).set('repoName', repoName).set('token', accessToken).set('webhookSecret', secret);
+		return mysql(createQuery);
 	}
+}
+
+function getRepoName(repos) {
+	let repoName = BASE_REPO_NAME;
+	let counter = 1;
+
+	for (let i = 0; i < repos.length; i++) {
+		const {name} = repos[i];
+		if (name === repoName) {
+			repoName = `${BASE_REPO_NAME}-${counter}`;
+			counter++;
+		} else if (name[0] > BASE_REPO_NAME[0]) {
+			break;
+		}
+	}
+
+	return repoName;
+}
+
+function signHookRequest(body, secret) {
+	return HmacSHA1(JSON.stringify(body), secret);
 }
 
 export default app;

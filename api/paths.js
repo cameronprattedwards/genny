@@ -15,3 +15,8 @@ export function reversePath(path, full=true) {
 
 	return reversedPath;
 }
+
+export default {
+	Paths,
+	reversePath,
+};

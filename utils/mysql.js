@@ -20,7 +20,7 @@ function connect() {
 export default function execMysql(query) {
 	return new Promise((resolve, reject) => {
 		const {text, values} = query.toParam();
-		mysql.query(text, values, (error, rows) => {
+		connection.query(text, values, (error, rows) => {
 			if (error) {
 				reject(error);
 

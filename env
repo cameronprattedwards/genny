@@ -7,3 +7,5 @@ export MYSQL_URL=gennydev.c4rmshyw44ay.us-west-2.rds.amazonaws.com
 export MYSQL_USER=genny
 export MYSQL_PASSWORD=a2n4frenchm3n
 export MYSQL_DB=genny
+export VAGRANT_SHARE_NAME=cameron-edwards-4598
+export WEBHOOK_DOMAIN=http://`printenv VAGRANT_SHARE_NAME`.vagrantshare.com
