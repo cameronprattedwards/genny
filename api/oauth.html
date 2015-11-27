@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Genny OAuth</title>
+</head>
+<body>
+	<script>
+		var accessToken = "<%= accessToken %>";
+		window.opener.postMessage(accessToken, '*');
+	</script>
+</body>
+</html>
