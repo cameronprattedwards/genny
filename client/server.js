@@ -12,11 +12,12 @@ const index = _.template(indexHtml)(process.env);
 
 app.use(BASE_PATH, api);
 
-app.get('/', (request, response) => { 
+app.use('/public', express.static(path.join(__dirname, 'dist')));
+
+app.get('/*', (request, response) => { 
 	response.send(index);
 });
 
-app.use('/public', express.static(path.join(__dirname, 'dist')));
 
 app.listen(PORT, () => {
 	console.log(`API listening on ${PORT}`);

@@ -3,11 +3,13 @@ import React from 'react';
 import {Router, Route} from 'react-router';
 
 import {HomeContainer} from './components/Home';
-import {StepContainer} from './components/Step';
+import {Step} from './components/Step';
 
-export default (
-	<Router history={createBrowserHistory()}>
+export const history = createBrowserHistory();
+
+export const routes = (
+	<Router history={history}>
 		<Route path="/" component={HomeContainer} />
-		<Route path="/step/:stepName" component={StepContainer} />
+		<Route path="/step/:stepName" component={Step} />
 	</Router>
 );
