@@ -79,4 +79,23 @@ const callback = async function callback(request, response) {  // eslint-disable
 
 app.get(apiPaths.Paths.CALLBACK, callback);  // eslint-disable-line no-undef
 
+const getUserState = async function getUserState(request, response) {
+	const {token} = request.query;
+	const client = new github.Client(token);
+
+	const {id, login, avatar_url} = await client.getUser();
+	const state = {
+		id,
+		token,
+		login,
+		avatar: avatar_url,
+		currentStep: null,
+		steps: {},
+		modules: {},
+	};
+	response.status(200).send(state);
+};
+
+app.get(apiPaths.Paths.GET_USER_STATE, getUserState);
+
 export default app;

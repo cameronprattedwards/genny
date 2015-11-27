@@ -3,6 +3,7 @@ export const BASE_PATH = '/api';
 export const Paths = {
 	LOGIN: '/login',
 	CALLBACK: '/callback',
+	GET_USER_STATE: '/state',
 };
 
 const {SERVER_DOMAIN} = process.env;
