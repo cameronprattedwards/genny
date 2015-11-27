@@ -16,6 +16,7 @@ window.addEventListener('message', (event) => {
 	store.dispatch(fetchUserState(event.data))
 		.then(() => {
 			const state = store.getState();
+			console.log(state.toJS());
 			const currentStep = state.get('currentStep');
 			let route;
 			switch (currentStep) {
