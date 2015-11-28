@@ -11,6 +11,7 @@ sudo apt-get install -y npm
 npm config set registry http://registry.npmjs.org/
 sudo apt-get install -y build-essential libssl-dev curl git-core
 sudo npm install -g --unsafe-perm node-inspector
+sudo npm install -g nodemon webpack-dev-server
 
 sudo debconf-set-selections <<< 'mysql-server-5.5 mysql-server/root_password password rootpass'
 sudo debconf-set-selections <<< 'mysql-server-5.5 mysql-server/root_password_again password rootpass'
@@ -21,8 +22,3 @@ mysql -u root -p"rootpass" -e "create database genny DEFAULT CHARACTER SET utf8 
 
 cd /vagrant/migrations
 mysql -u root -p"rootpass" < 1.sql
-
-cd /vagrant
-rm -rf node_modules
-npm install
-
