@@ -1,0 +1,29 @@
+USE genny;
+
+INSERT INTO migrations (id, description, action) VALUES (4, 'Add Module, Step and Step_directoryName_update', 'CREATE');
+
+CREATE TABLE Module(
+	id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+	name VARCHAR(255) NOT NULL,
+	`index` INT NOT NULL,
+	createdAt BIGINT UNSIGNED NOT NULL
+);
+
+CREATE TABLE Step(
+	id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+	name VARCHAR(255) NOT NULL,
+	`index` INT NOT NULL,
+	Module_id INT UNSIGNED NOT NULL,
+	createdAt BIGINT UNSIGNED NOT NULL
+);
+
+ALTER TABLE Step ADD CONSTRAINT fk_module_id FOREIGN KEY (Module_id) REFERENCES Module(id);
+
+CREATE TABLE Step_directoryName_update(
+	id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+	directoryName VARCHAR(255) NOT NULL,
+	Step_id INT UNSIGNED NOT NULL,
+	updatedAt BIGINT UNSIGNED NOT NULL
+);
+
+ALTER TABLE Step_directoryName_update ADD CONSTRAINT fk_step_id FOREIGN KEY (Step_id) REFERENCES Step(id);

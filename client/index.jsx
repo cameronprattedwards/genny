@@ -6,9 +6,11 @@ import {reducer} from './reducers';
 import {Provider} from 'react-redux';
 import {fetchUserState} from './actionCreators';
 import thunkMiddleware from 'redux-thunk';
+import Firebase from 'firebase';
 
 const createStoreWithMiddleware = applyMiddleware(thunkMiddleware)(createStore);
 const store = createStoreWithMiddleware(reducer);
+const firebaseApp = new Firebase(`https://${process.env.FIREBASE_NAME}.firebaseio.com/`);
 
 window.addEventListener('message', (event) => {
 	store.getState().get('childWindow').close();
@@ -21,11 +23,12 @@ window.addEventListener('message', (event) => {
 			let route;
 			switch (currentStep) {
 				default:
-					route = '/step/monkey';
+					route = '/step/terminal-basics';
 					break;
 			}
 			history.pushState(null, route);
 		});
 });
+
 
 ReactDOM.render(<Provider store={store}>{routes}</Provider>, document.getElementById('app'));

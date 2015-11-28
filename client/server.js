@@ -6,9 +6,9 @@ import path from 'path';
 import {BASE_PATH} from '../api/paths';
 
 const app = express();
-const {PORT} = process.env;
+const {PORT, FIREBASE_NAME, CLIENT_DOMAIN} = process.env;
 const indexHtml = fs.readFileSync(path.join(__dirname, 'index.html'), {encoding: 'utf8'});
-const index = _.template(indexHtml)(process.env);
+const index = _.template(indexHtml)({env: {FIREBASE_NAME}, CLIENT_DOMAIN});
 
 app.use(BASE_PATH, api);
 

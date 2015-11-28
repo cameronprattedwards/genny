@@ -78,11 +78,11 @@ export class Client {
 }
 
 function signHookRequest(body, secret) {
-	return getHookSignature(JSON.stringify(body), secret); // eslint-disable-line new-cap
+	return getHookSignature(JSON.stringify(body), secret);
 }
 
 export function getHookSignature(string, key) {
-	return HmacSHA1(string, key);
+	return HmacSHA1(string, key); // eslint-disable-line new-cap
 }
 
 export default {

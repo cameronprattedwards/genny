@@ -1,6 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {history} from '../routes';
+import stepsMapping from '../../steps/content';
 
 export const Step = React.createClass({
 	componentWillMount() {
@@ -12,15 +13,13 @@ export const Step = React.createClass({
 	render() {
 		const {
 			params: {stepName},
-			repoName,
-			login,
 		} = this.props;
 
-		const cloneUrl = `https://github.com/${login}/${repoName}.git`;
+		const StepContent = stepsMapping[stepName];
 
 		return <div>
 			<p>Step {stepName}!</p>
-			<p>To get started, run <code>git clone {cloneUrl} && cd {repoName}</code></p>
+			<StepContent {...this.props} stepName={stepName} />
 		</div>;
 	},
 });
