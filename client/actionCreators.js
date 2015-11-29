@@ -30,3 +30,31 @@ export function fetchUserState(authToken) {
 			.then(json => dispatch(receiveUserState(json)));
 	};
 }
+
+export function stepCommit(stepId) {
+	return {
+		type: 'STEP_COMMIT',
+		stepId,
+	};
+}
+
+export function stepSuccess(stepId) {
+	return {
+		type: 'STEP_SUCCESS',
+		stepId,
+	};
+}
+
+export function stepFailure(stepId) {
+	return {
+		type: 'STEP_FAILURE',
+		stepId,
+	};
+}
+
+export function stepUpdate(type, stepId) {
+	return {
+		type: `STEP_${type.toUpperCase()}`,
+		stepId,
+	};
+}

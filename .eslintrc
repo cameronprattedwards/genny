@@ -57,5 +57,8 @@
         "space-in-parens": [2, "never"],
         "prefer-template": 2,
         "react/jsx-uses-react": 1
+    },
+    "globals": {
+        "env": true
     }
 }

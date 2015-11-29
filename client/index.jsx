@@ -4,13 +4,14 @@ import {routes, history} from './routes';
 import {createStore, applyMiddleware} from 'redux';
 import {reducer} from './reducers';
 import {Provider} from 'react-redux';
-import {fetchUserState} from './actionCreators';
+import {fetchUserState, stepUpdate} from './actionCreators';
 import thunkMiddleware from 'redux-thunk';
 import Firebase from 'firebase';
+import _ from 'lodash';
 
 const createStoreWithMiddleware = applyMiddleware(thunkMiddleware)(createStore);
 const store = createStoreWithMiddleware(reducer);
-const firebaseApp = new Firebase(`https://${process.env.FIREBASE_NAME}.firebaseio.com/`);
+const firebaseApp = new Firebase(`https://${env.FIREBASE_NAME}.firebaseio.com/`);
 
 window.addEventListener('message', (event) => {
 	store.getState().get('childWindow').close();
@@ -23,10 +24,19 @@ window.addEventListener('message', (event) => {
 			let route;
 			switch (currentStep) {
 				default:
-					route = '/step/terminal-basics';
+					let step = state.getIn(['db', 'steps', currentStep.toString()]);
+					route = `/step/${step.get('directoryName')}`;
 					break;
 			}
 			history.pushState(null, route);
+
+			firebaseApp.child(state.get('token')).on('child_added', snapshot => {
+				console.log(snapshot.val());
+				const stepId = snapshot.key();
+				_.each(snapshot.val(), (value, event) => {
+					store.dispatch(stepUpdate(event, stepId));
+				});
+			});
 		});
 });
 

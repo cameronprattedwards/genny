@@ -6,7 +6,7 @@
 <body>
 	<h1>Genny</h1>
 	<div id="app"></div>
-	<script>window.process = { env: <%= JSON.stringify(env) %> }; </script>
+	<script>window.env = <%= JSON.stringify(env) %>; </script>
 	<script src="<%= CLIENT_DOMAIN %>/public/bundle.js"></script>
 </body>
 </html>
