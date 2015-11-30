@@ -9,6 +9,7 @@ import UserService from '../domain/UserService';
 const app = express();
 
 const getUserState = async function getUserState(request, response) {
+	console.log(1)
 	const {token} = request.query;
 	const client = new Client(token);
 
@@ -35,12 +36,14 @@ const getUserState = async function getUserState(request, response) {
 
 	let modules = await mysql(query);
 
+	console.log(13);
+
 	for (let module of modules) {
 		let {name, id, index} = module;
 		db.modules[id] = {name, id, steps: []};
 		state.modules.splice(index, 0, id);
 	}
-
+	console.log(11);
 	query = squel.select().from('Step').order('createdAt');
 	let steps = await mysql(query);
 	for (let step of steps) {
@@ -56,10 +59,31 @@ const getUserState = async function getUserState(request, response) {
 		db.steps[Step_id].directoryName = directoryName;
 		db.directoryNameToStep[directoryName] = Step_id;  // eslint-disable-line camelcase
 	}
+	console.log(12);
+
+	query = squel.select().from('Step_commit').order('committedAt')
+		.where(`User_id = ${id}`)
+		.field('Step_id')
+		.field('success');
+
+	let commits = await mysql(query);
+	for (let commit of commits) {
+		let {Step_id, success} = commit;
+		let step = db.steps[Step_id];
+		step.commit = true;
+		if (success) {
+			step.success = true;
+		} else {
+			step.failure = true;
+		}
+	}
+
+	console.log(14);
 
 	if (state.currentStep === null) {
 		state.currentStep = db.modules[state.modules[0]].steps[0];
 	}
+	console.log(10)
 
 	response.status(200).send(state);
 };

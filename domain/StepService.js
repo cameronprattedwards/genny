@@ -13,4 +13,14 @@ export default {
 		
 		return mysql(query);
 	},
+
+	commit(userId, stepId, success) {
+		let query = squel.insert().into('Step_commit')
+			.set('Step_id', stepId)
+			.set('User_id', userId)
+			.set('success', success)
+			.set('committedAt', new Date().getTime());
+
+		return mysql(query);
+	}
 };
