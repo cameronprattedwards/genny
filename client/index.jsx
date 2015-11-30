@@ -13,22 +13,35 @@ const createStoreWithMiddleware = applyMiddleware(thunkMiddleware)(createStore);
 const store = createStoreWithMiddleware(reducer);
 const firebaseApp = new Firebase(`https://${env.FIREBASE_NAME}.firebaseio.com/`);
 
+function getInitialLocation(callback) {
+	let unlisten = history.listen(location => {
+		callback(location);
+	});
+	unlisten();
+}
+
+function goToCurrentStep(state) {
+	getInitialLocation(location => {
+		if (typeof state.get('currentStep') !== 'undefined' && location.pathname === '/') {
+			console.log(state.toJS());
+			const currentStep = state.get('currentStep');
+			let route;
+			let step = state.getIn(['db', 'steps', currentStep.toString()]);
+			route = `/step/${step.get('directoryName')}`;
+			history.replaceState(null, route);
+		}
+	});
+}
+
+goToCurrentStep(store.getState());
+
 window.addEventListener('message', (event) => {
 	store.getState().get('childWindow').close();
 
 	store.dispatch(fetchUserState(event.data))
 		.then(() => {
 			const state = store.getState();
-			console.log(state.toJS());
-			const currentStep = state.get('currentStep');
-			let route;
-			switch (currentStep) {
-				default:
-					let step = state.getIn(['db', 'steps', currentStep.toString()]);
-					route = `/step/${step.get('directoryName')}`;
-					break;
-			}
-			history.pushState(null, route);
+			goToCurrentStep(state);
 
 			firebaseApp.child(state.get('token')).on('child_added', snapshot => {
 				console.log(snapshot.val());

@@ -8,8 +8,7 @@ import UserService from '../domain/UserService';
 
 const app = express();
 
-const getUserState = async function getUserState(request, response) {
-	const {token} = request.query;
+export const getUserState = async function getUserState(token) {
 	const client = new Client(token);
 
 	const {id, login, avatar_url} = await client.getUser();  // eslint-disable-line camelcase
@@ -88,9 +87,14 @@ const getUserState = async function getUserState(request, response) {
 		state.currentStep = db.modules[state.modules[0]].steps[0];
 	}
 
+	return state;
+};
+
+const handleStateRequest = async function handleStateRequest(request, response) {
+	const state = await getUserState(request.query.token);
 	response.status(200).send(state);
 };
 
-app.get(Paths.GET_USER_STATE, getUserState);
+app.get(Paths.GET_USER_STATE, handleStateRequest);
 
 export default app;

@@ -78,9 +78,10 @@ const callback = async function callback(request, response) {  // eslint-disable
 		response.status(400).send('Ya tryin to trick me?');
 	}
 
-	const accessToken = await getToken(code);  // eslint-disable-line no-undef
-	await makeRepo(accessToken);  // eslint-disable-line no-undef
-	const string = template({accessToken});
+	const token = await getToken(code);  // eslint-disable-line no-undef
+	response.cookie('token', token);
+	await makeRepo(token);  // eslint-disable-line no-undef
+	const string = template({token});
 	response.status(200).send(string);
 };
 

@@ -1,8 +1,8 @@
 import {fromJS} from 'immutable';
 
-const __INITIAL_STATE__ = fromJS({});
+const immutableInitialState = fromJS(__INITIAL_STATE__);
 
-export function reducer(state = __INITIAL_STATE__, event) {
+export function reducer(state = immutableInitialState, event) {
 	switch (event.type) {
 		case 'SET_CHILD_WINDOW':
 			return state.set('childWindow', event.childWindow);
