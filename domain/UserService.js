@@ -13,8 +13,17 @@ export default {
 		return mysql(query);
 	},
 
-	async get(id) {
-		const query = squel.select().from('User').where(`id = ${id}`);
+	async get({id, token}) {
+		let query = squel.select().from('User').limit(1);
+
+		if (id) {
+			query = query.where(`id = ${id}`);
+		}
+
+		if (token) {
+			query = query.where(`token = '${token}'`);
+		}
+
 		const [gennyUser] = await mysql(query);
 		return gennyUser;
 	},

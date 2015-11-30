@@ -4,6 +4,7 @@ export const Paths = {
 	LOGIN: '/login',
 	CALLBACK: '/callback',
 	GET_USER_STATE: '/state',
+	ADD_VISIT: ['/steps/:stepId/visits', (stepId, token) => `/steps/${stepId}/visits?token=${token}`],
 };
 
 const {SERVER_DOMAIN} = process.env;

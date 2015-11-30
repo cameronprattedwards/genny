@@ -22,5 +22,5 @@ export default {
 			.set('committedAt', new Date().getTime());
 
 		return mysql(query);
-	}
+	},
 };

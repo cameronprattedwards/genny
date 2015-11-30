@@ -9,12 +9,11 @@ import UserService from '../domain/UserService';
 const app = express();
 
 const getUserState = async function getUserState(request, response) {
-	console.log(1)
 	const {token} = request.query;
 	const client = new Client(token);
 
 	const {id, login, avatar_url} = await client.getUser();  // eslint-disable-line camelcase
-	const {repoName} = await UserService.get(id);
+	const {repoName} = await UserService.get({id});
 	let db = {
 		steps: {},
 		modules: {},
@@ -36,14 +35,12 @@ const getUserState = async function getUserState(request, response) {
 
 	let modules = await mysql(query);
 
-	console.log(13);
-
 	for (let module of modules) {
 		let {name, id, index} = module;
 		db.modules[id] = {name, id, steps: []};
 		state.modules.splice(index, 0, id);
 	}
-	console.log(11);
+
 	query = squel.select().from('Step').order('createdAt');
 	let steps = await mysql(query);
 	for (let step of steps) {
@@ -59,7 +56,6 @@ const getUserState = async function getUserState(request, response) {
 		db.steps[Step_id].directoryName = directoryName;
 		db.directoryNameToStep[directoryName] = Step_id;  // eslint-disable-line camelcase
 	}
-	console.log(12);
 
 	query = squel.select().from('Step_commit').order('committedAt')
 		.where(`User_id = ${id}`)
@@ -68,8 +64,8 @@ const getUserState = async function getUserState(request, response) {
 
 	let commits = await mysql(query);
 	for (let commit of commits) {
-		let {Step_id, success} = commit;
-		let step = db.steps[Step_id];
+		let {Step_id, success} = commit;  // eslint-disable-line camelcase
+		let step = db.steps[Step_id];  // eslint-disable-line camelcase
 		step.commit = true;
 		if (success) {
 			step.success = true;
@@ -78,12 +74,19 @@ const getUserState = async function getUserState(request, response) {
 		}
 	}
 
-	console.log(14);
+	query = squel.select().from('Step_visit').order('visitedAt', false)
+		.where(`User_id = ${id}`)
+		.limit(1);
+
+	let [visit] = await mysql(query);
+
+	if (visit) {
+		state.currentStep = visit.Step_id;
+	}
 
 	if (state.currentStep === null) {
 		state.currentStep = db.modules[state.modules[0]].steps[0];
 	}
-	console.log(10)
 
 	response.status(200).send(state);
 };

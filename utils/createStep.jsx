@@ -1,6 +1,14 @@
 import React from 'react';
+import {Paths, BASE_PATH} from '../api/paths';
+import fetch from 'isomorphic-fetch';
 
 const baseConfig = {
+	componentDidMount() {
+		const {step, token} = this.props;
+		const path = BASE_PATH + Paths.ADD_VISIT[1](step.get('id'), token);
+		fetch(path, {method: 'POST'});
+	},
+
 	next() {
 		const {step, db, modules} = this.props;
 		const currentStepId = step.get('id');

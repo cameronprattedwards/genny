@@ -22,7 +22,7 @@ const hookFn = async function hookFn(request, response) {
 	console.log(2);
 	const {userId} = request.params;
 	console.log(3);
-	const {webhookSecret, token} = await UserService.get(userId);
+	const {webhookSecret, token} = await UserService.get({id: userId});
 	console.log(4);
 	const calculatedSignature = getHookSignature(JSON.stringify(request.body), webhookSecret).toString();
 	console.log(5);

@@ -50,7 +50,7 @@ const getToken = async function getToken(code) {  // eslint-disable-line no-unus
 const makeRepo = async function makeRepo(accessToken) {  // eslint-disable-line no-unused-vars
 	const client = new github.Client(accessToken);
 	const {id, login} = await client.getUser();
-	const gennyUser = await UserService.get(id);
+	const gennyUser = await UserService.get({id});
 
 	if (!gennyUser) {
 		const repoService = new RepoService(accessToken, {id, login});
