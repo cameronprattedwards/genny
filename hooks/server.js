@@ -18,47 +18,28 @@ app.use(bodyParser.json());
 
 const hookFn = async function hookFn(request, response) {
 	response.status(200).send('');
+	const hook = request.body;
 	const {userId} = request.params;
 	const {webhookSecret, token} = await UserService.get({id: userId});
-	const calculatedSignature = getHookSignature(JSON.stringify(request.body), webhookSecret).toString();
+	const calculatedSignature = getHookSignature(JSON.stringify(hook), webhookSecret).toString();
 	const isSecure = request.get('X-Hub-Signature') === `sha1=${calculatedSignature}`;
 
 	if (!isSecure) {
 		return;
 	}
 
-	const steps = {};
+	const [, branchName] = /refs\/heads\/(.*)/.exec(hook.ref);
+	const step = await StepService.get({branchName});
 
-	for (let file of request.body.head_commit.added) {
-		const [branchName] = file.split('/');
-		let step;
-		if (steps[branchName]) {
-			step = steps[branchName];
-		} else {
-			[step] = await StepService.get({branchName});
-
-			if (!step) {
-				continue;
-			}
-
-			steps[branchName] = step;
-		}
-
-		let success;
-
-		notify(token, step.id, 'commit');
-		if (testMapping[branchName](request.body)) {
-			notify(token, step.id, 'success');
-			success = true;
-		} else {
-			notify(token, step.id, 'failure');
-			success = false;
-		}
-
-		StepService.commit(userId, step.id, success);
+	if (!step) {
+		return;
 	}
-};
 
+	notify(token, step.id, 'commit');
+	let success = testMapping[branchName](hook);
+	notify(token, step.id, success ? 'success' : 'failure');
+	StepService.commit(userId, step.id, success);
+};
 
 function notify(token, stepId, event) {
 	let child = firebaseApp.child(token).child(stepId).child(event);

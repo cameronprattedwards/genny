@@ -23,7 +23,7 @@ const TerminalBasicsStep = createStep({
 			<p>To get started, run:</p>
 			<p>
 				<code>
-					git clone {cloneUrl} && mkdir {repoName}/terminal-basics && cd {repoName}/terminal-basics
+					git clone {cloneUrl} && cd {repoName} && git checkout terminal-basics
 				</code>
 			</p>
 			<p><code>touch test-file.txt</code></p>

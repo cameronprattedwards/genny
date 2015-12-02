@@ -6,6 +6,6 @@ INSERT INTO migrations (id, description, action) VALUES (9, 'Rename directoryNam
 
 RENAME TABLE Step_directoryName_update TO Step_branchName_update;
 
-ALTER TABLE Step_directoryName_update CHANGE COLUMN `directoryName` `branchName` VARCHAR(255) NOT NULL;
+ALTER TABLE Step_branchName_update CHANGE COLUMN `directoryName` `branchName` VARCHAR(255) NOT NULL;
 
 COMMIT;
