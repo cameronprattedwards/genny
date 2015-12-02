@@ -30,7 +30,7 @@ const baseConfig = {
 			nextStepId = module.getIn(['steps', currentStepIndex + 1]);
 		}
 		const nextStep = db.getIn(['steps', nextStepId.toString()]);
-		return `/step/${nextStep.get('directoryName')}`;
+		return `/step/${nextStep.get('branchName')}`;
 	},
 };
 

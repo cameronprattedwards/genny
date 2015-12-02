@@ -2,14 +2,14 @@ import squel from 'squel';
 import mysql from '../utils/mysql';
 
 export default {
-	get({directoryName}) {
+	get({branchName}) {
 		let query = squel.select().from('Step').join(
-			squel.select().from('Step_directoryName_update')
+			squel.select().from('Step_branchName_update')
 				.order('updatedAt', false)
-				.field('Step_id').field('directoryName'),
+				.field('Step_id').field('branchName'),
 			'dir',
 			'Step.id = dir.Step_id'
-		).where(`directoryName = '${directoryName}'`);
+		).where(`branchName = '${branchName}'`);
 		
 		return mysql(query);
 	},

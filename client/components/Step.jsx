@@ -21,7 +21,7 @@ export const Step = React.createClass({
 			params: {stepName},
 		} = this.props;
 
-		const step = db.getIn(['steps', db.getIn(['directoryNameToStep', stepName]).toString()]);
+		const step = db.getIn(['steps', db.getIn(['branchNameToStep', stepName]).toString()]);
 
 		const StepContent = stepsMapping[stepName];
 

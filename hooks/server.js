@@ -17,17 +17,11 @@ const app = express();
 app.use(bodyParser.json());
 
 const hookFn = async function hookFn(request, response) {
-	console.log(1);
 	response.status(200).send('');
-	console.log(2);
 	const {userId} = request.params;
-	console.log(3);
 	const {webhookSecret, token} = await UserService.get({id: userId});
-	console.log(4);
 	const calculatedSignature = getHookSignature(JSON.stringify(request.body), webhookSecret).toString();
-	console.log(5);
 	const isSecure = request.get('X-Hub-Signature') === `sha1=${calculatedSignature}`;
-	console.log(6);
 
 	if (!isSecure) {
 		return;
@@ -36,43 +30,31 @@ const hookFn = async function hookFn(request, response) {
 	const steps = {};
 
 	for (let file of request.body.head_commit.added) {
-		console.log(7);
-		const [directoryName] = file.split('/');
-		console.log(8);
+		const [branchName] = file.split('/');
 		let step;
-		if (steps[directoryName]) {
-			console.log(9);
-			step = steps[directoryName];
+		if (steps[branchName]) {
+			step = steps[branchName];
 		} else {
-			console.log(10);
-			[step] = await StepService.get({directoryName});
-			console.log(11);
+			[step] = await StepService.get({branchName});
 
 			if (!step) {
 				continue;
 			}
 
-			steps[directoryName] = step;
+			steps[branchName] = step;
 		}
 
 		let success;
 
-		console.log(12);
 		notify(token, step.id, 'commit');
-		console.log(13);
-		if (testMapping[directoryName](request.body)) {
-			console.log(14);
+		if (testMapping[branchName](request.body)) {
 			notify(token, step.id, 'success');
-			console.log(15);
 			success = true;
 		} else {
-			console.log(16);
 			notify(token, step.id, 'failure');
-			console.log(17);
 			success = false;
 		}
 
-		console.log(18);
 		StepService.commit(userId, step.id, success);
 	}
 };

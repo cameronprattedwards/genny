@@ -27,7 +27,7 @@ function goToCurrentStep(state) {
 			const currentStep = state.get('currentStep');
 			let route;
 			let step = state.getIn(['db', 'steps', currentStep.toString()]);
-			route = `/step/${step.get('directoryName')}`;
+			route = `/step/${step.get('branchName')}`;
 			history.replaceState(null, route);
 		}
 	});

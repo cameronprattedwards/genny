@@ -16,7 +16,7 @@ export const getUserState = async function getUserState(token) {
 	let db = {
 		steps: {},
 		modules: {},
-		directoryNameToStep: {},
+		branchNameToStep: {},
 	};
 
 	let state = {
@@ -48,12 +48,12 @@ export const getUserState = async function getUserState(token) {
 		db.modules[Module_id].steps.splice(index, 0, id);
 	}
 
-	query = squel.select().from('Step_directoryName_update').order('updatedAt');
+	query = squel.select().from('Step_branchName_update').order('updatedAt');
 	let updates = await mysql(query);
 	for (let update of updates) {
-		let {Step_id, directoryName} = update;  // eslint-disable-line camelcase
-		db.steps[Step_id].directoryName = directoryName;
-		db.directoryNameToStep[directoryName] = Step_id;  // eslint-disable-line camelcase
+		let {Step_id, branchName} = update;  // eslint-disable-line camelcase
+		db.steps[Step_id].branchName = branchName;
+		db.branchNameToStep[branchName] = Step_id;  // eslint-disable-line camelcase
 	}
 
 	query = squel.select().from('Step_commit').order('committedAt')
