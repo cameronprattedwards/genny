@@ -1,4 +1,5 @@
 var webpack = require('webpack');
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
   entry: [
@@ -12,11 +13,15 @@ module.exports = {
         test: /\.jsx?$/,
         exclude: /node_modules/,
         loader: 'react-hot-loader!babel?presets[]=react,presets[]=es2015'
-      }
+      },
+      { 
+        test: /\.css$/, 
+        loader: ExtractTextPlugin.extract('style-loader', 'css-loader?modules'),
+      },
     ],
   },
   resolve: {
-    extensions: ['', '.js', '.jsx']
+    extensions: ['', '.js', '.jsx', '.css']
   },
   output: {
     path: __dirname + '/client/dist',
@@ -29,5 +34,6 @@ module.exports = {
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
+    new ExtractTextPlugin('bundle.css', {allChunks: true})
   ]
 };

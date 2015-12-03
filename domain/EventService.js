@@ -24,8 +24,6 @@ export class EventService {
 		let stepCommits = await this._getStepCommits();
 		let stepVisits = await this._getStepVisits();
 		let stepDeletions = await this._getStepDeletions();
-		console.log('stepdeletions!');
-		console.log(stepDeletions);
 
 		let events = [
 			...moduleCreations,

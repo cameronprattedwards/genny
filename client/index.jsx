@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {routes, history} from './routes';
+import {routes} from './routes';
 import {createStore, applyMiddleware} from 'redux';
 import {reducer} from './reducers';
 import {Provider} from 'react-redux';
@@ -8,10 +8,14 @@ import {fetchUserState, stepUpdate} from './actionCreators';
 import thunkMiddleware from 'redux-thunk';
 import Firebase from 'firebase';
 import _ from 'lodash';
+import createBrowserHistory from 'history/lib/createBrowserHistory';
+import {Router} from 'react-router';
 
 const createStoreWithMiddleware = applyMiddleware(thunkMiddleware)(createStore);
 const store = createStoreWithMiddleware(reducer);
 const firebaseApp = new Firebase(`https://${env.FIREBASE_NAME}.firebaseio.com/`);
+
+let history = createBrowserHistory();
 
 function getInitialLocation(callback) {
 	let unlisten = history.listen(location => {
@@ -53,5 +57,6 @@ window.addEventListener('message', (event) => {
 		});
 });
 
+let app = (<Provider store={store}><Router history={history}>{routes}</Router></Provider>);
 
-ReactDOM.render(<Provider store={store}>{routes}</Provider>, document.getElementById('app'));
+ReactDOM.render(app, document.getElementById('app'));

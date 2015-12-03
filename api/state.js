@@ -42,8 +42,6 @@ export const getUserState = async function getUserState(token) {
 
 	let eventService = new EventService(id);
 	let events = await eventService.getEventsForUser();
-	console.log('events!');
-	console.log(events);
 	events.forEach(reducer);
 
 	if (state.currentStep === null) {
