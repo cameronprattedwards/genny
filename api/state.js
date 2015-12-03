@@ -5,13 +5,23 @@ import mysql from '../utils/mysql';
 import {Paths} from './paths';
 import {Client} from '../utils/github';
 import UserService from '../domain/UserService';
+import {
+	EVENT_TYPE_KEY,
+	MODULE_CREATE,
+	STEP_CREATE,
+	STEP_BRANCH_NAME_UPDATE,
+	STEP_COMMIT,
+	STEP_VISIT,
+	STEP_DELETE,
+	EventService,
+} from '../domain/EventService';
 
 const app = express();
 
 export const getUserState = async function getUserState(token) {
 	const client = new Client(token);
 
-	const {id, login, avatar_url} = await client.getUser();  // eslint-disable-line camelcase
+	let {id, login, avatar_url} = await client.getUser();  // eslint-disable-line camelcase
 	const {repoName} = await UserService.get({id});
 	let db = {
 		steps: {},
@@ -30,64 +40,78 @@ export const getUserState = async function getUserState(token) {
 		modules: [],
 	};
 
-	let query = squel.select().from('Module').order('createdAt');
-
-	let modules = await mysql(query);
-
-	for (let module of modules) {
-		let {name, id, index} = module;
-		db.modules[id] = {name, id, steps: []};
-		state.modules.splice(index, 0, id);
-	}
-
-	query = squel.select().from('Step').order('createdAt');
-	let steps = await mysql(query);
-	for (let step of steps) {
-		let {name, id, index, Module_id} = step;  // eslint-disable-line camelcase
-		db.steps[id] = {name, id, module: Module_id};  // eslint-disable-line camelcase
-		db.modules[Module_id].steps.splice(index, 0, id);
-	}
-
-	query = squel.select().from('Step_branchName_update').order('updatedAt');
-	let updates = await mysql(query);
-	for (let update of updates) {
-		let {Step_id, branchName} = update;  // eslint-disable-line camelcase
-		db.steps[Step_id].branchName = branchName;
-		db.branchNameToStep[branchName] = Step_id;  // eslint-disable-line camelcase
-	}
-
-	query = squel.select().from('Step_commit').order('committedAt')
-		.where(`User_id = ${id}`)
-		.field('Step_id')
-		.field('success');
-
-	let commits = await mysql(query);
-	for (let commit of commits) {
-		let {Step_id, success} = commit;  // eslint-disable-line camelcase
-		let step = db.steps[Step_id];  // eslint-disable-line camelcase
-		step.commit = true;
-		if (success) {
-			step.success = true;
-		} else {
-			step.failure = true;
-		}
-	}
-
-	query = squel.select().from('Step_visit').order('visitedAt', false)
-		.where(`User_id = ${id}`)
-		.limit(1);
-
-	let [visit] = await mysql(query);
-
-	if (visit) {
-		state.currentStep = visit.Step_id;
-	}
+	let eventService = new EventService(id);
+	let events = await eventService.getEventsForUser();
+	console.log('events!');
+	console.log(events);
+	events.forEach(reducer);
 
 	if (state.currentStep === null) {
 		state.currentStep = db.modules[state.modules[0]].steps[0];
 	}
 
 	return state;
+
+	function moduleCreateReducer({name, id, index}) {
+		db.modules[id] = {name, id, steps: []};
+		state.modules.splice(index, 0, id);
+	}
+
+	function stepCreateReducer({name, id, index, module}) {
+		db.steps[id] = {name, id, module};
+		db.modules[module].steps.splice(index, 0, id);
+	}
+
+	function stepBranchNameUpdateReducer({step, branchName}) {
+		db.steps[step].branchName = branchName;
+		db.branchNameToStep[branchName] = step;
+	}
+
+	function stepCommitReducer({step, success}) {
+		let status = success ? 'success': 'failure';
+		db.steps[step].commit = true;
+		db.steps[step][status] = true;
+	}
+
+	function stepVisitReducer({step}) {
+		if (db.steps[step]) {
+			state.currentStep = step;
+		}
+	}
+
+	function stepDeleteReducer({step}) {
+		let {module} = db.steps[step];
+		let moduleObject = db.modules[module];
+		moduleObject.steps.splice(moduleObject.steps.indexOf(step), 1);
+		delete db.steps[step];
+
+		if (state.currentStep === step) {
+			state.currentStep = null;
+		}
+	}
+
+	function reducer(event) {
+		switch (event[EVENT_TYPE_KEY]) {
+			case MODULE_CREATE:
+				moduleCreateReducer(event);
+				break;
+			case STEP_CREATE:
+				stepCreateReducer(event);
+				break;
+			case STEP_BRANCH_NAME_UPDATE:
+				stepBranchNameUpdateReducer(event);
+				break;
+			case STEP_COMMIT:
+				stepCommitReducer(event);
+				break;
+			case STEP_VISIT:
+				stepVisitReducer(event);
+				break;
+			case STEP_DELETE:
+				stepDeleteReducer(event);
+				break;
+		}
+	}	
 };
 
 const handleStateRequest = async function handleStateRequest(request, response) {
