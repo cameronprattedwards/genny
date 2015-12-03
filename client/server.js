@@ -20,13 +20,18 @@ app.use(BASE_PATH, api);
 app.use('/public', express.static(path.join(__dirname, 'dist')));
 
 const handleDefaultRequest = async function handleDefaultRequest(request, response) {
-	const {token} = request.cookies;
-	let state = {};
-	if (token) {
-		state = await getUserState(token);
+	try {
+		const {token} = request.cookies;
+		let state = {};
+		if (token) {
+			state = await getUserState(token);
+		}
+		const string = indexTemplate({env: {FIREBASE_NAME}, CLIENT_DOMAIN, state});
+		response.send(string);
+	} catch (e) {
+		console.log(e);
+		response.status(500).send(JSON.stringify(e));
 	}
-	const string = indexTemplate({env: {FIREBASE_NAME}, CLIENT_DOMAIN, state});
-	response.send(string);
 };
 
 app.get('/*', handleDefaultRequest);

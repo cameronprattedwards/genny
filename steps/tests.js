@@ -1,7 +1,9 @@
-import terminalBasics from './terminal-basics/__test__';
-import htmlBasics from './html-basics/__test__';
+import branchNames from './branchNames';
 
-export default {
-	'terminal-basics': terminalBasics,
-	'html-basics': htmlBasics,
-};
+let mapping = {};
+
+for (let branchName of branchNames) {
+	mapping[branchName] = require(`./${branchName}/test`).default;
+}
+
+export default mapping;
