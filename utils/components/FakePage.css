@@ -3,4 +3,5 @@
 	-moz-box-shadow: 0 8px 6px -6px black;
 	box-shadow: 0 8px 6px -6px black;
 	border: 1px #cccccc solid;
+	padding: 10px;
 }

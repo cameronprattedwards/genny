@@ -1,5 +1,20 @@
 var webpack = require('webpack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var cssLoaders;
+var plugins;
+
+// if (process.env.CLIENT_DOMAIN == 'http://localhost:8080') {
+//   cssLoaders = 'style-loader!css-loader?modules';
+//   plugins = [
+//     new webpack.HotModuleReplacementPlugin(),
+//   ];
+// } else {
+  cssLoaders = ExtractTextPlugin.extract('style-loader', 'css-loader?modules');
+  plugins = [
+    new webpack.HotModuleReplacementPlugin(),
+    new ExtractTextPlugin('bundle.css', {allChunks: true})
+  ];
+// }
 
 module.exports = {
   entry: [
@@ -16,7 +31,8 @@ module.exports = {
       },
       { 
         test: /\.css$/, 
-        loader: ExtractTextPlugin.extract('style-loader', 'css-loader?modules'),
+        exclude: /node_modules/,
+        loader: cssLoaders
       },
     ],
   },
@@ -32,8 +48,5 @@ module.exports = {
     contentBase: './client/dist',
     hot: true,
   },
-  plugins: [
-    new webpack.HotModuleReplacementPlugin(),
-    new ExtractTextPlugin('bundle.css', {allChunks: true})
-  ]
+  plugins: plugins
 };

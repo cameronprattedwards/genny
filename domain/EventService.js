@@ -18,21 +18,18 @@ export class EventService {
 	}
 
 	async getEventsForUser() {
-		let moduleCreations = await this._getModuleCreations();
-		let stepCreations = await this._getStepCreations();
-		let stepBranchNameUpdates = await this._getStepBranchNameUpdates();
-		let stepCommits = await this._getStepCommits();
-		let stepVisits = await this._getStepVisits();
-		let stepDeletions = await this._getStepDeletions();
-
-		let events = [
-			...moduleCreations,
-			...stepCreations,
-			...stepBranchNameUpdates,
-			...stepCommits,
-			...stepVisits,
-			...stepDeletions,
+		let allPromises = [
+			this._getModuleCreations(),
+			this._getStepCreations(),
+			this._getStepBranchNameUpdates(),
+			this._getStepCommits(),
+			this._getStepVisits(),
+			this._getStepDeletions(),
 		];
+
+		let allEventArrays = await Promise.all(allPromises);
+
+		let events = allEventArrays.reduce((previousValue, currentValue) => previousValue.concat(currentValue));
 
 		return _.sortBy(events, TIME_KEY);
 	}

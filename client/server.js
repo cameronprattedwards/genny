@@ -24,6 +24,7 @@ const indexTemplate = _.template(indexHtml);
 
 app.use(BASE_PATH, api);
 
+app.use('/public/themes', express.static(path.join(__dirname, '../node_modules/highlight.js/styles')));
 app.use('/public', express.static(path.join(__dirname, 'dist')));
 
 const handleDefaultRequest = async function handleDefaultRequest(request, response) {
