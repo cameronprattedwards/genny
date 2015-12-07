@@ -2,8 +2,8 @@ import React from 'react';
 import Highlight from 'react-highlight';
 import {renderToString} from 'react-dom/server';
 
-import {FakePage} from '../../utils/components/FakePage';
-import {Bash} from '../../utils/components/Bash';
+import {FakePage} from '../../../utils/components/FakePage';
+import {Bash} from '../../../utils/components/Bash';
 
 const Content = React.createClass({
 	render() {

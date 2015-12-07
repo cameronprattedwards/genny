@@ -36,7 +36,7 @@ function mapStateToProps(state) {
 		token: state.get('token'),
 		login: state.get('login'),
 		db: state.get('db'),
-		modules: state.get('modules'),
+		moduleOrder: state.getIn('moduleOrder'),
 	};
 }
 

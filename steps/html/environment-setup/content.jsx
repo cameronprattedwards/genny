@@ -1,5 +1,5 @@
 import React from 'react';
-import {Bash} from '../../utils/components/Bash';
+import {Bash} from '../../../utils/components/Bash';
 
 const Content = React.createClass({
 	render() {

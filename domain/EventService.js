@@ -19,12 +19,8 @@ export class EventService {
 
 	async getEventsForUser() {
 		let allPromises = [
-			this._getModuleCreations(),
-			this._getStepCreations(),
-			this._getStepBranchNameUpdates(),
 			this._getStepCommits(),
 			this._getStepVisits(),
-			this._getStepDeletions(),
 		];
 
 		let allEventArrays = await Promise.all(allPromises);
@@ -32,48 +28,6 @@ export class EventService {
 		let events = allEventArrays.reduce((previousValue, currentValue) => previousValue.concat(currentValue));
 
 		return _.sortBy(events, TIME_KEY);
-	}
-
-	_getModuleCreations() {
-		let query = squel.select().from('Module').order('createdAt')
-			.field('name')
-			.field('id')
-			.field('`index`')
-			.field('createdAt', TIME_KEY)
-			.field(`'${MODULE_CREATE}'`, EVENT_TYPE_KEY);
-
-		return mysql(query);
-	}
-
-	_getStepCreations() {
-		let query = squel.select().from('Step').order('createdAt')
-			.field('name')
-			.field('id')
-			.field('`index`')
-			.field('Module_id', 'module')
-			.field('createdAt', TIME_KEY)
-			.field(`'${STEP_CREATE}'`, EVENT_TYPE_KEY);
-
-		return mysql(query);
-	}
-
-	_getStepDeletions() {
-		let query = squel.select().from('Step_delete').order('deletedAt')
-			.field('Step_id', 'step')
-			.field('deletedAt', TIME_KEY)
-			.field(`'${STEP_DELETE}'`, EVENT_TYPE_KEY);
-
-		return mysql(query);
-	}
-
-	_getStepBranchNameUpdates() {
-		let query = squel.select().from('Step_branchName_update').order('updatedAt')
-			.field('Step_id', 'step')
-			.field('branchName')
-			.field('updatedAt', TIME_KEY)
-			.field(`'${STEP_BRANCH_NAME_UPDATE}'`, EVENT_TYPE_KEY);
-
-		return mysql(query);
 	}
 
 	_getStepCommits() {
