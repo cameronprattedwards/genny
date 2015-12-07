@@ -29,7 +29,6 @@ const baseConfig = {
 		} else {
 			nextStepId = module.getIn(['steps', currentStepIndex + 1]);
 		}
-		const nextStep = db.getIn(['steps', nextStepId.toString()]);
 		return `/step/${nextStepId}`;
 	},
 };

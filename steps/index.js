@@ -24,7 +24,7 @@ let modules = {
 let state = {
 	steps,
 	modules,
-	moduleOrder: [HTML]
+	moduleOrder: [HTML],
 };
 
 console.log(state);

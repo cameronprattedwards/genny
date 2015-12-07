@@ -1,6 +1,5 @@
 import React from 'react';
 import Highlight from 'react-highlight';
-import {renderToString} from 'react-dom/server';
 
 import {FakePage} from '../../../utils/components/FakePage';
 import {Bash} from '../../../utils/components/Bash';
@@ -53,16 +52,22 @@ const Content = React.createClass({
 
 				<Bash>touch my-first-html.html && subl my-first-html.html</Bash>
 
-				<p>Copy and paste the code above into your file, press Command+S to save, and to take a look at your handiwork in a browser, type:</p>
+				<p>
+					Copy and paste the code above into your file, press Command+S to save, and 
+					{' '} to take a look at your handiwork in a browser, type:
+				</p>
 
 				<Bash>open my-first-html.html</Bash>
 
-				<p>Check that out. You just created your first webpage! Nicely done. To move on to the next step, just push your code to your remote repository!</p>
+				<p>
+					Check that out. You just created your first webpage! Nicely done. 
+					{' '} To move on to the next step, just push your code to your remote repository!
+				</p>
 
 				<Bash>git push -u origin {branchName}</Bash>
 			</div>
 		);
-	}
+	},
 });
 
 export default Content;

@@ -6,7 +6,7 @@ const Content = React.createClass({
 			<div>
 			</div>
 		);
-	}
+	},
 });
 
 export default Content;

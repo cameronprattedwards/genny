@@ -8,7 +8,7 @@ import {End} from './components/End';
 const App = React.createClass({
 	render() {
 		return <div>{this.props.children}</div>;
-	}
+	},
 });
 
 export const routes = (

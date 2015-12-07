@@ -6,6 +6,6 @@ import cx from 'classnames';
 export const Bash = React.createClass({
 	render() {
 		const classNames = cx('bash', styles.bash);
-		return <Highlight className={classNames}>{this.props.children}</Highlight>
-	}
+		return <Highlight className={classNames}>{this.props.children}</Highlight>;
+	},
 });

@@ -1,8 +1,6 @@
 import express from 'express';
-import squel from 'squel';
 import {fromJS} from 'immutable';
 
-import mysql from '../utils/mysql';
 import {Paths} from './paths';
 import {Client} from '../utils/github';
 import UserService from '../domain/UserService';
@@ -28,9 +26,9 @@ export const getUserState = async function getUserState(token) {
 		token,
 		login,
 		repoName,
-		avatar: avatar_url,
+		avatar: avatar_url,  // eslint-disable-line camelcase
 		currentStep: db.modules[db.moduleOrder[0]].steps[0],
-		db
+		db,
 	});
 
 	let eventService = new EventService(id);
@@ -41,7 +39,7 @@ export const getUserState = async function getUserState(token) {
 	return state;
 
 	function stepCommitReducer(state, {step, success}) {
-		let status = success ? 'success': 'failure';
+		let status = success ? 'success' : 'failure';
 		state = state.setIn(['db', 'steps', step, 'commit'], true);
 		return state.setIn(['db', 'steps', step, status], true);
 	}

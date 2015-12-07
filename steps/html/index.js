@@ -11,5 +11,5 @@ export default {
 		'self-closing-tags',
 		'accessibility',
 		'meta-tags',
-	]
+	],
 };

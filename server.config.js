@@ -1,3 +1,5 @@
+/* eslint-disable no-var */
+
 var webpack = require('webpack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
@@ -9,19 +11,19 @@ module.exports = {
   externals: /^[a-z][a-z\.\-0-9]*$/,
 
   resolve: {
-    extensions: ['', '.js', '.jsx', '.css']
+    extensions: ['', '.js', '.jsx', '.css'],
   },
 
   output: {
     path: './client/dist',
     filename: 'server.js',
-    libraryTarget: 'commonjs2'
+    libraryTarget: 'commonjs2',
   },
 
   node: {
     __filename: true,
     __dirname: true,
-    console: true
+    console: true,
   },
 
   module: {
@@ -29,13 +31,13 @@ module.exports = {
       { test: /\.jsx?$/, exclude: /node_modules/, loader: 'babel?presets[]=react,presets[]=es2015' },
       { 
         test: /\.css$/, exclude: /node_modules/, 
-        loader: ExtractTextPlugin.extract('style-loader', 'css-loader?modules')
-      }
-    ]
+        loader: ExtractTextPlugin.extract('style-loader', 'css-loader?modules'),
+      },
+    ],
   },
 
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
-    new ExtractTextPlugin('server.css', {allChunks: true})
-  ]
+    new ExtractTextPlugin('server.css', {allChunks: true}),
+  ],
 };
