@@ -9,6 +9,7 @@ import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import React from 'react';
 
+import {UnauthorizedError} from '../utils/errors';
 import {routes} from '../client/dist/server';
 import {BASE_PATH} from '../api/paths';
 import api from '../api/server';
@@ -53,8 +54,11 @@ const handleDefaultRequest = async function handleDefaultRequest(request, respon
 			}
 		});
 	} catch (e) {
-		console.log(e);
-		response.status(500).send(JSON.stringify(e));
+		console.log(e.stack);
+		if (e instanceof UnauthorizedError) {
+			response.cookie('token', '', {expires: new Date(0)});
+		}
+		response.status(e.status ? e.status : 500).send(e.message);
 	}
 };
 

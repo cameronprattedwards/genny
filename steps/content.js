@@ -1,16 +1,14 @@
-import fs from 'fs';
-import path from 'path';
+import dirs from './files';
+
 import _ from 'lodash';
 
 let mapping = {};
 
-let dirs = fs.readdirSync(path.join(__dirname, 'html'));
+let blacklist = ['.', '..', 'index.js'];
 
-let blacklist = ['.', '..', 'state.js'];
+let difference = _.difference(dirs, blacklist);
 
-dirs = _.difference(dirs, blacklist);
-
-for (let dir of dirs) {
+for (let dir of difference) {
 	mapping[dir] = require(`./html/${dir}/content`).default;
 }
 

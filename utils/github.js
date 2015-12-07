@@ -1,6 +1,7 @@
 import 'isomorphic-fetch';
 import HmacSHA1 from 'crypto-js/hmac-sha1';
 import qs from 'qs';
+import {UnauthorizedError} from './errors';
 
 export const request = async function request(url, accessToken, options = {}) {
 	const headers = {
@@ -22,7 +23,12 @@ export const request = async function request(url, accessToken, options = {}) {
 	}
 
 	const response = await fetch(url, options);
-	return response.json();
+
+	let json = await response.json();
+	if (response.status === 401) {
+		throw new UnauthorizedError(json.message);
+	}
+	return json;
 };
 
 export const Paths = {

@@ -13,7 +13,7 @@ export const Step = React.createClass({
 			params: {stepName},
 		} = this.props;
 
-		const step = db.getIn(['steps', db.getIn(['branchNameToStep', stepName]).toString()]);
+		const step = db.getIn(['steps', stepName]);
 
 		if (!step) {
 			let err = new Error(`No step with branch name ${stepName}`);

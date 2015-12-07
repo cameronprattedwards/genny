@@ -1,3 +1,5 @@
 node_modules
 .vagrant
 client/dist
+steps/files.js
+npm-debug.log

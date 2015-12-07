@@ -3,8 +3,9 @@ import {fromJS} from 'immutable';
 
 import {Paths} from './paths';
 import {Client} from '../utils/github';
+import {NotFoundError} from '../utils/errors';
 import UserService from '../domain/UserService';
-import db from './steps';
+import db from '../steps';
 import {
 	EVENT_TYPE_KEY,
 	STEP_COMMIT,
@@ -12,14 +13,21 @@ import {
 	EventService,
 } from '../domain/EventService';
 
-
 const app = express();
 
 export const getUserState = async function getUserState(token) {
 	const client = new Client(token);
 
 	let {id, login, avatar_url} = await client.getUser();  // eslint-disable-line camelcase
-	const {repoName} = await UserService.get({id});
+	let repoName;
+	try {
+		 ({repoName} = await UserService.get({id}));
+	} catch (e) {
+		if (e instanceof TypeError) {
+			throw new NotFoundError(`Cannot find user with ID ${id}`);
+		}
+		throw e;
+	}
 
 	let state = fromJS({
 		id,
