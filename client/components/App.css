@@ -1,0 +1,16 @@
+.header {
+    position: fixed;
+    top: 0;
+    color: white;
+    background-color: blue;
+    left: 0;
+    width: 100%;
+    margin: 0;
+    padding-left: 8px;
+    font-family: Helvetica;
+}
+
+.body {
+	margin-top: 45px;
+    font-family: Helvetica;
+}

@@ -3,9 +3,11 @@ export default {
 	steps: [
 		'environment-setup',
 		'empty-html-page',
-		'head-tag',
+		'html-from-scratch',
 		'body-tag',
-		'images-and-links',
+		'head-tag',
+		'images',
+		'links',
 		'inline-tags',
 		'more-content',
 		'self-closing-tags',

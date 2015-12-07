@@ -22,7 +22,7 @@ function getInitialLocation(callback) {
 		callback(location);
 	});
 	unlisten();
-}
+}			
 
 function goToCurrentStep(state) {
 	getInitialLocation(location => {
@@ -40,21 +40,24 @@ function goToCurrentStep(state) {
 goToCurrentStep(store.getState());
 
 window.addEventListener('message', (event) => {
-	store.getState().get('childWindow').close();
+	let childWindow = store.getState().get('childWindow');
+	if (event.source === childWindow) {
+		store.getState().get('childWindow').close();
 
-	store.dispatch(fetchUserState(event.data))
-		.then(() => {
-			const state = store.getState();
-			goToCurrentStep(state);
+		store.dispatch(fetchUserState(event.data))
+			.then(() => {
+				const state = store.getState();
+				goToCurrentStep(state);
 
-			firebaseApp.child(state.get('token')).on('child_added', snapshot => {
-				console.log(snapshot.val());
-				const stepId = snapshot.key();
-				_.each(snapshot.val(), (value, event) => {
-					store.dispatch(stepUpdate(event, stepId));
+				firebaseApp.child(state.get('token')).on('child_added', snapshot => {
+					console.log(snapshot.val());
+					const stepId = snapshot.key();
+					_.each(snapshot.val(), (value, event) => {
+						store.dispatch(stepUpdate(event, stepId));
+					});
 				});
 			});
-		});
+	}
 });
 
 let app = (<Provider store={store}><Router history={history}>{routes}</Router></Provider>);

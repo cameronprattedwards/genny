@@ -4,12 +4,7 @@ import {Route, IndexRoute} from 'react-router';
 import {HomeContainer} from './components/Home';
 import {StepContainer} from './components/Step';
 import {End} from './components/End';
-
-const App = React.createClass({
-	render() {
-		return <div>{this.props.children}</div>;
-	},
-});
+import {App} from './components/App';
 
 export const routes = (
 	<Route path="/" component={App}>

@@ -1,2 +1,3 @@
 client/dist
 webpack.config.js
+steps/files.js

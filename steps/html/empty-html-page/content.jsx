@@ -1,6 +1,6 @@
 import React from 'react';
-import Highlight from 'react-highlight';
 
+import {Html} from '../../../utils/components/Html';
 import {FakePage} from '../../../utils/components/FakePage';
 import {Bash} from '../../../utils/components/Bash';
 
@@ -17,7 +17,7 @@ const Content = React.createClass({
 
 				<p>For example, if you write the following HTML:</p>
 
-				<Highlight className="html">
+				<Html>
 				{`<!DOCTYPE html>
 <html>
 <head>
@@ -30,7 +30,7 @@ const Content = React.createClass({
 	<p>This is a new paragraph.</p>	
 </body>
 </html>`}
-				</Highlight>
+				</Html>
 
 				<p>Your web browser will display it like this:</p>
 

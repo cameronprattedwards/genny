@@ -4,4 +4,7 @@
 	box-shadow: 0 8px 6px -6px black;
 	border: 1px #cccccc solid;
 	padding: 10px;
+	font-family: initial;
+	max-height: 300px;
+	overflow: auto;
 }
