@@ -12,7 +12,5 @@ export default {
 		'lists',
 		'self-closing-tags',
 		'more-content',
-		'accessibility',
-		'meta-tags',
 	],
 };
