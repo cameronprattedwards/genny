@@ -8,7 +8,7 @@
     "test": "mocha --compilers js:babel-core/register --require ./test/test_helper.js 'test/**/*.@(js|jsx)'",
     "test:watch": "npm run test -- --watch",
     "dev": ". ./env && nodemon client/entry.js",
-    "webpack": "./build.sh && . ./env && webpack-dev-server --host 0.0.0.0 & webpack -w --config server.config.js",
+    "webpack": "./scripts/build.sh && . ./env && webpack-dev-server --host 0.0.0.0 & webpack -w --config server.config.js",
     "lint": "eslint . --ext .js,.jsx",
     "hooks": ". ./env && nodemon hooks/entry.js"
   },
@@ -69,6 +69,7 @@
     "redux-thunk": "^1.0.0",
     "squel": "^4.2.2",
     "style-loader": "^0.13.0",
-    "webpack": "^1.12.9"
+    "webpack": "^1.12.9",
+    "yargs": "^3.31.0"
   }
 }
