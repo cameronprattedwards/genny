@@ -5,13 +5,13 @@ import {IMG_URL} from '../images/content';
 import {Html} from '../../../utils/components/Html';
 import {NoSelect} from '../../../utils/components/NoSelect';
 import {Bash} from '../../../utils/components/Bash';
-import {FakePage} from '../../../utils/components/FakePage';
 import {Sidebar} from '../../../utils/components/Sidebar';
 
 const GOOGLE_LINK_TEXT = 'Go to Google';
 const GOOGLE_URL = 'http://google.com';
 export const YOUTUBE_LINK = 'https://www.youtube.com/watch?v=RY9FRdl7dq0';
 export const YOUTUBE_TEXT = 'This is the sound a penguin makes.';
+const COMMIT_MESSAGE = 'Add a link to hear penguin sounds';
 
 const Content = React.createClass({
 render() {
@@ -28,13 +28,17 @@ render() {
 
 			<p>
 				Links are made with an <code>a</code> tag. <code>a</code> stands for "anchor." 
-				It's kind of a weird name - <a target="_blank" href="https://www.quora.com/Why-are-they-called-anchor-tags">here's some more info</a>
+				It's kind of a weird name - 
+				{' '}<a target="_blank" href="https://www.quora.com/Why-are-they-called-anchor-tags">
+					here's some more info
+				</a>
 				{' '}on why they're called that.
 			</p>
 
 			<p>
 				To specify the URL that you want the link to point to, just provide an <code>href</code> attribute. 
-				For example, if you wanted to link to {GOOGLE_URL}, and you wanted the clickable text to be "{GOOGLE_LINK_TEXT}," your link would look like this:
+				For example, if you wanted to link to {GOOGLE_URL}, and you wanted the clickable text to be 
+				"{GOOGLE_LINK_TEXT}," your link would look like this:
 			</p>
 
 			<Sidebar>
@@ -49,7 +53,12 @@ render() {
 
 			<Html>{`<a href="http://memebase.cheezburger.com/pictureisunrelated">This Picture is Unrelated</a>`}</Html>
 
-			<p>The browser would render it like this: <a target="_blank" href="http://memebase.cheezburger.com/pictureisunrelated">This Picture is Unrelated</a></p>
+			<p>
+				The browser would render it like this: 
+				{' '}<a target="_blank" href="http://memebase.cheezburger.com/pictureisunrelated">
+					This Picture is Unrelated
+				</a>
+			</p>
 
 			<p>Ready to add a link to your page? Great! First, checkout a new branch:</p>
 
@@ -85,7 +94,7 @@ render() {
 
 			<p>When you're done, push your code up to the remote repository to move on to the next step.</p>
 
-			<Bash>git add . && git commit -m "Add a link to hear penguin sounds" && git push -u origin {branchName}</Bash>
+			<Bash>git add . && git commit -m "{COMMIT_MESSAGE}" && git push -u origin {branchName}</Bash>
 		</div>
 	);
 },

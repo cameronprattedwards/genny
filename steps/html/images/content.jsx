@@ -6,7 +6,7 @@ import {NoSelect} from '../../../utils/components/NoSelect';
 import {Bash} from '../../../utils/components/Bash';
 import {FakePage} from '../../../utils/components/FakePage';
 
-export const IMG_URL = 'http://images.mentalfloss.com/sites/default/files/styles/insert_main_wide_image/public/92893070.jpg';
+export const IMG_URL = 'http://images.mentalfloss.com/sites/default/files/styles/insert_main_wide_image/public/92893070.jpg';  // eslint-disable-line max-len
 
 const Content = React.createClass({
 render() {

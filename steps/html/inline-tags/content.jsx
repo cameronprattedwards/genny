@@ -16,13 +16,20 @@ const STRONGIFY_HTML = <span>In some species, it is the <strong>male</strong> pe
 
 const EMIFY = `pudgy males — with enough fat storage to survive weeks without eating — are <em>most desirable</em>.`;
 
-const EMIFY_HTML = <span>pudgy males — with enough fat storage to survive weeks without eating — are <em>most desirable</em>.</span>
+const EMIFY_HTML = (<span>
+	pudgy males — with enough fat storage to survive weeks without eating — 
+	are <em>most desirable</em>.
+</span>);
 
 export const PARAGRAPH = `${STRONGIFY}
 			while females leave to hunt for weeks at a time.
 			Because of this, ${EMIFY}`;
 
-export const PARAGRAPH_HTML = <span>{STRONGIFY_HTML} while females leave to hunt for weeks at a time. Because of this, {EMIFY_HTML}</span>
+export const PARAGRAPH_HTML = (<span>
+	{STRONGIFY_HTML} while females leave to hunt for weeks at a time. Because of this, {EMIFY_HTML}
+</span>);
+
+const COMMIT_MESSAGE = 'Add some formatting for extra meaning';
 
 const Content = React.createClass({
 render() {
@@ -32,7 +39,8 @@ render() {
 	return (
 		<div>
 			<p>
-				Cool. Now that our page has a link on it, let's try adding some more tags that give extra meaning to our content.
+				Cool. Now that our page has a link on it, 
+				let's try adding some more tags that give extra meaning to our content.
 			</p>
 
 			<p>
@@ -95,9 +103,15 @@ render() {
 
 			<blockquote>E = MC<sup>2</sup></blockquote>
 
-			<p>Feel free to experiment with all of these different tags. Try creating some new HTML pages and adding some sweet new formatting to them.</p>
+			<p>
+				Feel free to experiment with all of these different tags. 
+				Try creating some new HTML pages and adding some sweet new formatting to them.
+			</p>
 
-			<p>To move on to the next step, let's just add a little extra formatting to our penguins page. First, checkout a new branch:</p>
+			<p>
+				To move on to the next step, let's just add a little extra formatting to our penguins page. 
+				First, checkout a new branch:
+			</p>
 
 			<Bash>git checkout -b {branchName}</Bash>
 
@@ -125,7 +139,10 @@ render() {
 	</body>
 </html>`}</Html></NoSelect>
 
-			<p>Now, open up {FILENAME} in your browser (if you already have it open, you can just refresh the page):</p>
+			<p>
+				Now, open up {FILENAME} in your browser 
+				(if you already have it open, you can just refresh the page):
+			</p>
 
 			<Bash>open {FILENAME}</Bash>
 
@@ -144,7 +161,7 @@ render() {
 
 			<p>To wrap up, just push your HTML code up to our shared GitHub repository:</p>
 
-			<Bash>git add . && git commit -m "Add some formatting for extra meaning" && git push -u origin {branchName}</Bash>
+			<Bash>git add . && git commit -m "{COMMIT_MESSAGE}" && git push -u origin {branchName}</Bash>
 		</div>
 	);
 },

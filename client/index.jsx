@@ -37,8 +37,6 @@ function goToCurrentStep(state) {
 	});
 }
 
-goToCurrentStep(store.getState());
-
 window.addEventListener('message', (event) => {
 	let childWindow = store.getState().get('childWindow');
 	if (event.source === childWindow) {

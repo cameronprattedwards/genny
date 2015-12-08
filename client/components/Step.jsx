@@ -25,7 +25,7 @@ export const Step = React.createClass({
 		const StepContent = stepsMapping[stepName];
 
 		return <div className={styles.step}>
-			<p>Step {step.get('name')}!</p>
+			<h2 className={styles.stepName}>{step.get('name')}!</h2>
 			<StepContent {...this.props} stepName={stepName} step={step} />
 		</div>;
 	},

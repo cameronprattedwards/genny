@@ -1,12 +1,46 @@
 import React from 'react';
+import {Html} from '../../../utils/components/Html';
+import {NoSelect} from '../../../utils/components/NoSelect';
+import {Bash} from '../../../utils/components/Bash';
+import {IMG_URL} from '../images/content';
+import {Sidebar} from '../../../utils/components/Sidebar';
 
 const Content = React.createClass({
-	render() {
-		return (
-			<div>
-			</div>
-		);
-	},
+render() {
+	const {step} = this.props;
+	const branchName = step.get('branchName');
+
+	return (
+		<div>
+			<p>
+				Here's a handy trick. If a tag cannot contain any content, then it should be self-closing. 
+				A self-closing tag looks like this:
+			</p>
+			<Html>{`<tagName attribute="attribute value" />`}</Html>
+			<p>
+				The only tag we've talked about so far that can be self-closing is the <code>img</code> tag. 
+				It wouldn't make any sense for an image to have content, right? 
+				To finish this step, let's make the <code>img</code> tag for our penguin image self closing. 
+			</p>
+			<p>Before you make the change, make sure to checkout a new branch:</p>
+			<Bash>git checkout -b {branchName}</Bash>
+			<p>Now change the <code>img</code> tag to look like this:</p>
+			<NoSelect>
+				<Html>{`<img src="${IMG_URL}" />`}</Html>
+			</NoSelect>
+			<p>Easy peasy. Now just push the code to our shared repository:</p>
+			<Bash>git add . && git commit -m "Make img tag self-closing" && git push -u origin {branchName}</Bash>
+			<Sidebar>
+				There are a handful of tags that are self-closing, 
+				but the one you'll use most often is <code>img</code>. 
+				Here's a complete list of self-closing tags: 
+				<code>
+					{' '}area, base, br, col, command, embed, hr, img, input, keygen, link, meta, param, source, track,
+				</code> and <code>wbr</code>.
+			</Sidebar>
+		</div>
+	);
+},
 });
 
 export default Content;
