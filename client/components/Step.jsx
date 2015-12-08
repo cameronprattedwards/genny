@@ -1,6 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import stepsMapping from '../../steps/content';
+import styles from './Step.css';
 
 export const Step = React.createClass({
 	render() {
@@ -23,7 +24,7 @@ export const Step = React.createClass({
 
 		const StepContent = stepsMapping[stepName];
 
-		return <div>
+		return <div className={styles.step}>
 			<p>Step {step.get('name')}!</p>
 			<StepContent {...this.props} stepName={stepName} step={step} />
 		</div>;
