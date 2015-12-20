@@ -13,22 +13,22 @@ const Content = React.createClass({
 
 				<p>
 					We're going to start writing some HTML in the next step, but first we're going to need 
-					{' '} to set up your computer so you can work like a real coder. 
-					{' '} This should take just a couple of minutes.
+					to set up your computer so you can work like a real coder. 
+					This should take just a couple of minutes.
 				</p>
 
 				<p>
 					First, open up your terminal. You can do that by pressing Command+Spacebar and typing in 
-					{' '} "Terminal", then pressing enter. The terminal is a program that allows you to type in 
-					{' '} commands to your computer. It's pretty handy.
+					"Terminal", then pressing enter. The terminal is a program that allows you to type in 
+					commands to your computer. It's pretty handy.
 				</p>
 
 				<p>
 					Now we're going to set you up with a text editor so you can write code easily. 
-					{' '} We'll do that with Sublime Text. First, we'll install a package manager called "Brew". 
-					{' '} Brew will come in handy for installing Sublime Text, and for a lot of other packages later. 
-					{' '} To install Brew, type the following. (But don't type the "> " at the beginning. 
-					{' '} That just means this is something you should run in the terminal.)
+					We'll do that with Sublime Text. First, we'll install a package manager called "Brew". 
+					Brew will come in handy for installing Sublime Text, and for a lot of other packages later. 
+					To install Brew, type the following. (But don't type the "> " at the beginning. 
+					That just means this is something you should run in the terminal.)
 				</p>
 
 				<Bash>ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"</Bash>

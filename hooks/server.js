@@ -1,6 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import Firebase from 'firebase';
+import AssertionError from 'assertion-error';
 
 import {Paths} from './paths';
 import UserService from '../domain/UserService';
@@ -29,16 +30,31 @@ const hookFn = async function hookFn(request, response) {
 	}
 
 	const [, branchName] = /refs\/heads\/(.*)/.exec(hook.ref);
-	const step = await StepService.get({branchName});
 
-	if (!step) {
+	const lastCommit = await StepService.getLastCommit(userId, branchName);
+
+	if (lastCommit && lastCommit.success) {
 		return;
 	}
 
-	notify(token, step.id, 'commit');
-	let success = testMapping[branchName](hook);
-	notify(token, step.id, success ? 'success' : 'failure');
-	StepService.commit(userId, step.id, success);
+	notify(token, branchName, 'commit');
+	let success;
+
+	try {
+		await testMapping[branchName](hook);
+		success = true;
+	} catch (e) {
+		console.log(e.message);
+		console.log(e.stack);
+		if (e instanceof AssertionError) {
+			success = false;
+		} else {
+			throw e;
+		}
+	}
+
+	notify(token, branchName, success ? 'success' : 'failure');
+	StepService.commit(userId, branchName, success);
 };
 
 function notify(token, stepId, event) {

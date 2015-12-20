@@ -1,26 +1,46 @@
 import squel from 'squel';
 import mysql from '../utils/mysql';
 
-export default {
-	get({branchName}) {
-		let query = squel.select().from('Step').join(
+const queries = {
+	get(branchName) {
+		return squel.select().from('Step').join(
 			squel.select().from('Step_branchName_update')
 				.order('updatedAt', false)
 				.field('Step_id').field('branchName'),
 			'dir',
 			'Step.id = dir.Step_id'
 		).where(`branchName = '${branchName}'`);
-		
-		return mysql(query);
+	},
+
+	getLastCommit(userId, stepId) {
+		return squel.select().from('Step_commit')
+			.order('committedAt', false)
+			.where(`User_id = ${userId}`)
+			.where(`Step_id = '${stepId}'`)
+			.limit(1);
 	},
 
 	commit(userId, stepId, success) {
-		let query = squel.insert().into('Step_commit')
+		return squel.insert().into('Step_commit')
 			.set('Step_id', stepId)
 			.set('User_id', userId)
 			.set('success', success)
 			.set('committedAt', new Date().getTime());
+	},
+};
 
-		return mysql(query);
+export default {
+	get({branchName}) {
+		return mysql(queries.get(branchName));
+	},
+
+	async getLastCommit(userId, stepId) {
+		const query = queries.getLastCommit(userId, stepId);
+		let [commit] = await mysql(query);
+		return commit;
+	},
+
+	commit(userId, stepId, success) {
+		return mysql(queries.commit(userId, stepId, success));
 	},
 };

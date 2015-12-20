@@ -6,7 +6,7 @@ let mapping = {};
 
 let dirs = fs.readdirSync(path.join(__dirname, 'html'));
 
-let blacklist = ['.', '..', 'state.js'];
+let blacklist = ['.', '..', 'state.js', 'index.js'];
 
 dirs = _.difference(dirs, blacklist);
 
