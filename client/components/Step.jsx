@@ -53,13 +53,18 @@ export const Step = React.createClass({
 		if (step.get('commit')) {
 			if (step.get('success')) {
 				let nextUrl = next(stepName, step, db, moduleOrder);
-				statusLink = <span>You did it! <Link href={nextUrl} to={nextUrl}>
-					Move on to the next step.
-				</Link></span>;
+				statusLink = (
+					<div className={styles.success}>
+						You did it! 
+						{' '}<Link className={styles.link} href={nextUrl} to={nextUrl}>
+							Move on to the next step.
+						</Link>
+					</div>
+				);
 			} else if (step.get('failure')) {
-				statusLink = <span>Oops. Looks like something went wrong.</span>;
+				statusLink = <div className={styles.failure}>Oops. Looks like something went wrong.</div>;
 			} else {
-				statusLink = <span>We got your code and we're running some tests.</span>;
+				statusLink = <div className={styles.loading}>We got your code and we're running some tests.</div>;
 			}
 		}
 

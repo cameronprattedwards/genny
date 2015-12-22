@@ -25,7 +25,7 @@ const Content = React.createClass({
 export default Content;
 `;
 
-const test = `const test = async function test() {
+const test = `const test = async function test(hook) {
 
 };
 

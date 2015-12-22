@@ -48,8 +48,10 @@ export const getUserState = async function getUserState(token) {
 
 	function stepCommitReducer(state, {step, success}) {
 		let status = success ? 'success' : 'failure';
+		let notStatus = success ? 'failure' : 'success';
 		state = state.setIn(['db', 'steps', step, 'commit'], true);
-		return state.setIn(['db', 'steps', step, status], true);
+		state = state.setIn(['db', 'steps', step, status], true);
+		return state.setIn(['db', 'steps', step, notStatus], false);
 	}
 
 	function stepVisitReducer(state, {step}) {

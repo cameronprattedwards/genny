@@ -13,8 +13,11 @@ let blacklist = ['.', '..', 'index.js'];
 dirs = _.difference(dirs, blacklist);
 
 for (let dir of dirs) {
-	let {branchName, name} = require(`./${HTML}/${dir}`).default;
-	steps[dir] = {branchName, name, module: HTML};
+	let step = require(`./${HTML}/${dir}`).default;
+	steps[dir] = {
+		...step,
+		module: HTML,
+	};
 }
 
 let modules = {

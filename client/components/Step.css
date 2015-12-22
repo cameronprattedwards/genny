@@ -6,3 +6,27 @@
 .stepName {
 	text-align: center;
 }
+
+.success,
+.failure,
+.loading {
+	padding: 10px;
+}
+
+.success {
+	background-color: green;
+	color: white;
+}
+
+.failure {
+	background-color: red;
+	color: white;
+}
+
+.loading {
+	font-style: italic;
+}
+
+.link {
+	color: white;
+}

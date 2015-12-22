@@ -6,11 +6,12 @@ import {Html} from '../../../utils/components/Html';
 import {NoSelect} from '../../../utils/components/NoSelect';
 import {Bash} from '../../../utils/components/Bash';
 import {Sidebar} from '../../../utils/components/Sidebar';
+import config from './index';
 
 const GOOGLE_LINK_TEXT = 'Go to Google';
 const GOOGLE_URL = 'http://google.com';
-export const YOUTUBE_LINK = 'https://www.youtube.com/watch?v=RY9FRdl7dq0';
-export const YOUTUBE_TEXT = 'This is the sound a penguin makes.';
+export const YOUTUBE_LINK = config.youTubeLink;
+export const YOUTUBE_TEXT = config.youTubeText;
 const COMMIT_MESSAGE = 'Add a link to hear penguin sounds';
 
 const Content = React.createClass({

@@ -13,3 +13,4 @@ export VAGRANT_SHARE_NAME=cameron-edwards-4598
 export WEBHOOK_DOMAIN=http://`printenv VAGRANT_SHARE_NAME`.vagrantshare.com
 export WEBHOOK_PORT=8082
 export FIREBASE_NAME=gennydev
+export NODE_PATH=`pwd`

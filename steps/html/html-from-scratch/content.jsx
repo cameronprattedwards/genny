@@ -3,9 +3,10 @@ import {Html} from '../../../utils/components/Html';
 import {Bash} from '../../../utils/components/Bash';
 import {Sidebar} from '../../../utils/components/Sidebar';
 import {NoSelect} from '../../../utils/components/NoSelect';
+import config from './index';
 
 export const DOCTYPE = '<!DOCTYPE html>';
-export const FILENAME = 'html-from-scratch.html';
+export const FILENAME = config.fileName;
 
 const Content = React.createClass({
 	render() {
@@ -57,7 +58,7 @@ const Content = React.createClass({
 
 				<p>To finish this step, checkout a new branch - </p>
 
-				<Bash>git checkout master && git checkout -b {branchName}</Bash>
+				<Bash>git checkout -b {branchName}</Bash>
 
 				<p>Then create a new HTML document called <code>{FILENAME}</code> and open it up in Sublime Text:</p>
 

@@ -9,7 +9,7 @@ export const HEADER = 'Interesting Penguin Facts';
 
 export const PARAGRAPH = `In some species, it is the male penguin which incubates the eggs
 			while females leave to hunt for weeks at a time.
-			Because of this, pudgy males — with enough fat storage to survive weeks without eating —
+			Because of this, pudgy males - with enough fat storage to survive weeks without eating -
 			are most desirable.`;
 
 const Content = React.createClass({
@@ -62,7 +62,7 @@ const Content = React.createClass({
 </html>`}</Html></NoSelect>
 				<p>
 					Nicely done. Now, add some paragraph content. 
-					<strong>After</strong> the <code>h1</code> tag, <strong>inside</strong> the <code>body</code> tag, 
+					<strong> After</strong> the <code>h1</code> tag, <strong>inside</strong> the <code>body</code> tag, 
 					add a <code>p</code> tag 
 					with the content "{PARAGRAPH}"
 				</p>

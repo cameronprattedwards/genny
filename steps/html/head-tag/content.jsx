@@ -9,15 +9,15 @@ const TITLE = 'Awesome Penguin Facts';
 
 const Content = React.createClass({
 	render() {
-		const {step, login, repoName} = this.props;
+		const {step} = this.props;
 		const branchName = step.get('branchName');
 
 		return (
 			<div>
 				<p>
 					Let's add just one more adjustment to make our HTML page even better. 
-					Right now, if you looks up in the tab above the browser window, you'll see an ugly title like 
-					<code> file:///Users/{login}/{repoName}/html-from-scratch.html</code>. 
+					Right now, if you looks up in the tab above the browser window, it just says the filename - 
+					<code> {FILENAME}</code>. 
 					If you add a <code>title</code> tag inside your <code>head</code> tag, a nice, pretty 
 					title will appear in the tabs sitting on top of your browser.
 				</p>

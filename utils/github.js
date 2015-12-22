@@ -1,4 +1,4 @@
-import 'isomorphic-fetch';
+import fetch from 'isomorphic-fetch';
 import HmacSHA1 from 'crypto-js/hmac-sha1';
 import qs from 'qs';
 import {UnauthorizedError} from './errors';
@@ -90,6 +90,17 @@ function signHookRequest(body, secret) {
 export function getHookSignature(string, key) {
 	return HmacSHA1(string, key); // eslint-disable-line new-cap
 }
+
+export const getRawFile = async function getRawFile(hook, branchName, fileName) {
+	let {
+		sender: {login},
+		repository: {name},
+	} = hook;
+
+	let docUrl = `https://raw.githubusercontent.com/${login}/${name}/${branchName}/${fileName}`;
+	let markupResponse = await fetch(docUrl);
+	return markupResponse.text();
+};
 
 export default {
 	request,

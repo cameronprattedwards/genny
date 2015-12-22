@@ -8,6 +8,8 @@ const Content = React.createClass({
 	render() {
 		const {repoName, step} = this.props;
 		const branchName = step.get('branchName');
+		const fileName = step.get('fileName');
+		const fileContents = step.get('fileContents');
 
 		return (
 			<div>
@@ -17,20 +19,7 @@ const Content = React.createClass({
 
 				<p>For example, if you write the following HTML:</p>
 
-				<Html>
-				{`<!DOCTYPE html>
-<html>
-<head>
-	<title>My HTML Page</title>
-</head>
-<body>
-	<div>
-	    This is regular text. <strong>This is bold.</strong> <em>This is italic.</em>
-	</div>
-	<p>This is a new paragraph.</p>	
-</body>
-</html>`}
-				</Html>
+				<Html>{fileContents}</Html>
 
 				<p>Your web browser will display it like this:</p>
 
@@ -50,21 +39,21 @@ const Content = React.createClass({
 
 				<p>Then, create a new file with a .html extension and open it up in Sublime:</p>
 
-				<Bash>touch my-first-html.html && subl my-first-html.html</Bash>
+				<Bash>touch {fileName} && subl {fileName}</Bash>
 
 				<p>
 					Copy and paste the code above into your file, press Command+S to save, and 
 					{' '} to take a look at your handiwork in a browser, type:
 				</p>
 
-				<Bash>open my-first-html.html</Bash>
+				<Bash>open {fileName}</Bash>
 
 				<p>
 					Check that out. You just created your first webpage! Nicely done. 
 					{' '} To move on to the next step, just push your code to your remote repository!
 				</p>
 
-				<Bash>git push -u origin {branchName}</Bash>
+				<Bash>git add . && git commit -m "Create my first HTML page" && git push -u origin {branchName}</Bash>
 			</div>
 		);
 	},
