@@ -5,14 +5,17 @@ import {assertValid} from 'utils/test/validateHtml';
 import {gennyDom, hasTag} from 'utils/test/gennyDom';
 import {getRawFile} from 'utils/github';
 
-import {branchName} from './index';
-import {fileName} from 'steps/html/html-from-scratch';
+import config from './index';
+import fromScratchConfig from 'steps/html/html-from-scratch';
+
+const {branchName} = config;
+const {fileName} = fromScratchConfig;
 
 const test = async function test(hook) {
 	assertHasFile(hook, fileName);
 	let markup = await getRawFile(hook, branchName, fileName);
 
-	await assertValid(markup);
+	await assertValid(markup, 2);
 
 	let {document} = await gennyDom(markup);
 	hasTag(document, 'ul');

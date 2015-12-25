@@ -3,7 +3,9 @@ import {expect} from 'chai';
 import {assertHasFile} from '../../../utils/test/hasFile';
 import {getRawFile} from '../../../utils/github';
 import {assertValid} from '../../../utils/test/validateHtml';
-import {fileName, branchName} from './index';
+import config from './index';
+
+let {fileName, branchName} = config;
 
 const test = async function test(hook) {
 	assertHasFile(hook, fileName);

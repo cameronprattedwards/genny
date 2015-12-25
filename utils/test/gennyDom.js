@@ -18,12 +18,15 @@ export function gennyDom(markup) {
 export function hasTag(document, tagName, innerText = null, innerErrorMessage = null) {
 	let [tag] = document.getElementsByTagName(tagName);
 	expect(tag).to.not.equal(undefined, `Add a ${tagName} tag to your HTML.`);
+	console.log(tag);
+	console.log(tag.innerText);
+
 
 	if (innerText) {
 		if (!innerErrorMessage) {
 			innerErrorMessage = `Wrap your ${tagName} tag around the words '${innerText}'`;
 		}
-		let tagText = tag.innerText && tag.innerText.trim();
+		let tagText = tag.firstChild && tag.firstChild.nodeValue && tag.firstChild.nodeValue.trim();
 		expect(tagText).to.equal(innerText, innerErrorMessage);
 	}
 

@@ -2,11 +2,14 @@ import {getRawFile} from '../../../utils/github';
 import {assertHasFile} from '../../../utils/test/hasFile';
 import {assertValid} from '../../../utils/test/validateHtml';
 
-import {fileName} from '../html-from-scratch';
-import {branchName} from './index';
+import fromScratchConfig from '../html-from-scratch';
+import config from './index';
+
+const {fileName} = fromScratchConfig;
+const {branchName} = config;
 
 const validate = async function validate(markup) {
-	return assertValid(markup, 0, `Looks like your markup isn't validating. 
+	return assertValid(markup, 0, `Looks like your HTML isn't validating. 
 		Did you add a title tag? Are you closing all your tags?`);
 };
 

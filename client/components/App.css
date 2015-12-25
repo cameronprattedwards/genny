@@ -10,6 +10,11 @@
     font-family: Helvetica;
 }
 
+.link {
+    color: white;
+    text-decoration: none;
+}
+
 .body {
 	margin-top: 45px;
     font-family: Helvetica;

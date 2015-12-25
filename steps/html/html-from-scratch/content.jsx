@@ -62,7 +62,7 @@ const Content = React.createClass({
 
 				<p>Then create a new HTML document called <code>{FILENAME}</code> and open it up in Sublime Text:</p>
 
-				<Bash>cd ~/{repoName} && touch {FILENAME} && subl {FILENAME}</Bash>
+				<Bash>touch {FILENAME} && subl {FILENAME}</Bash>
 
 				<p>
 					Add a DOCTYPE to the top of your document on line 1. 

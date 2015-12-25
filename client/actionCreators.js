@@ -52,9 +52,10 @@ export function stepFailure(stepId) {
 	};
 }
 
-export function stepUpdate(type, stepId) {
+export function stepUpdate(type, stepId, value) {
 	return {
 		type: `STEP_${type.toUpperCase()}`,
 		stepId,
+		value,
 	};
 }

@@ -15,6 +15,11 @@ const createStoreWithMiddleware = applyMiddleware(thunkMiddleware)(createStore);
 const store = createStoreWithMiddleware(reducer);
 const firebaseApp = new Firebase(`https://${env.FIREBASE_NAME}.firebaseio.com/`);
 
+
+if (store.getState().get('token')) {
+	listenToFirebase(store.getState());
+}
+
 let history = createBrowserHistory();
 
 function getInitialLocation(callback) {
@@ -37,6 +42,17 @@ function goToCurrentStep(state) {
 	});
 }
 
+function listenToFirebase(state) {
+	firebaseApp.child(state.get('token')).on('child_added', snapshot => {
+		console.log(snapshot.val());
+		const stepId = snapshot.key();
+		_.each(snapshot.val(), (value, event) => {
+			store.dispatch(stepUpdate(event, stepId, value));
+		});
+		window.scrollTo(0, document.body.offsetHeight);
+	});
+}
+
 window.addEventListener('message', (event) => {
 	let childWindow = store.getState().get('childWindow');
 	if (event.source === childWindow) {
@@ -46,14 +62,7 @@ window.addEventListener('message', (event) => {
 			.then(() => {
 				const state = store.getState();
 				goToCurrentStep(state);
-
-				firebaseApp.child(state.get('token')).on('child_added', snapshot => {
-					console.log(snapshot.val());
-					const stepId = snapshot.key();
-					_.each(snapshot.val(), (value, event) => {
-						store.dispatch(stepUpdate(event, stepId));
-					});
-				});
+				listenToFirebase(state);
 			});
 	}
 });

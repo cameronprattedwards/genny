@@ -19,8 +19,8 @@ const test = async function test(hook) {
 	assertHasFile(hook, fileName);
 	let markup = await getRawFile(hook, branchName, fileName);
 
-	assertValid(markup);
-	testDom(markup);
+	await assertValid(markup, 2);
+	await testDom(markup);
 };
 
 export default test;

@@ -16,7 +16,7 @@ const Content = React.createClass({
 			<div>
 				<p>
 					Let's add just one more adjustment to make our HTML page even better. 
-					Right now, if you looks up in the tab above the browser window, it just says the filename - 
+					Right now, if you look up in the tab above the browser window, it just says the filename - 
 					<code> {FILENAME}</code>. 
 					If you add a <code>title</code> tag inside your <code>head</code> tag, a nice, pretty 
 					title will appear in the tabs sitting on top of your browser.

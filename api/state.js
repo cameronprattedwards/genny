@@ -46,11 +46,12 @@ export const getUserState = async function getUserState(token) {
 
 	return state;
 
-	function stepCommitReducer(state, {step, success}) {
+	function stepCommitReducer(state, {step, success, failureMessage}) {
+		failureMessage = failureMessage || true;
 		let status = success ? 'success' : 'failure';
 		let notStatus = success ? 'failure' : 'success';
 		state = state.setIn(['db', 'steps', step, 'commit'], true);
-		state = state.setIn(['db', 'steps', step, status], true);
+		state = state.setIn(['db', 'steps', step, status], failureMessage);
 		return state.setIn(['db', 'steps', step, notStatus], false);
 	}
 

@@ -5,8 +5,11 @@ import {assertHasFile} from '../../../utils/test/hasFile';
 import {gennyDom, hasTag} from '../../../utils/test/gennyDom';
 import {assertValid} from '../../../utils/test/validateHtml';
 
-import {fileName} from '../html-from-scratch';
-import {branchName, youTubeLink, youTubeText} from './index';
+import fromScratchConfig from '../html-from-scratch';
+import config from './index';
+
+const {fileName} = fromScratchConfig;
+const {branchName, youTubeLink, youTubeText} = config;
 
 const testDom = async function testDom(markup) {
 	let {document} = await gennyDom(markup);
@@ -18,7 +21,7 @@ const test = async function test(hook) {
 	assertHasFile(hook, fileName);
 	let markup = await getRawFile(hook, branchName, fileName);
 
-	await assertValid(markup);
+	await assertValid(markup, 2);
 	await testDom(markup);
 };
 

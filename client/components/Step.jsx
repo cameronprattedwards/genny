@@ -1,8 +1,12 @@
+import fetch from 'isomorphic-fetch';
 import React from 'react';
 import {connect} from 'react-redux';
+import {Link} from 'react-router';
+import cx from 'classnames';
+
 import stepsMapping from '../../steps/content';
 import styles from './Step.css';
-import {Link} from 'react-router';
+import {Paths, BASE_PATH} from '../../api/paths';
 
 function next(currentStepId, step, db, moduleOrder) {
 	const currentModuleId = step.get('module');
@@ -11,7 +15,7 @@ function next(currentStepId, step, db, moduleOrder) {
 	const finalStepInModule = currentStepIndex === module.get('steps').size - 1;
 	let nextStepId;
 	if (finalStepInModule) {
-		const currentModuleIndex = moduleOrder.indexOf(module.get('id'));
+		const currentModuleIndex = moduleOrder.indexOf(currentModuleId);
 		const isFinalModule = currentModuleIndex === moduleOrder.size - 1;
 		if (isFinalModule) {
 			return '/the-end';
@@ -25,8 +29,80 @@ function next(currentStepId, step, db, moduleOrder) {
 	return `/step/${nextStepId}`;
 }
 
+function getStep(db, stepName) {
+	console.log(db, stepName);
+	const step = db.getIn(['steps', stepName]);
+
+	if (!step) {
+		let err = new Error(`No step with branch name ${stepName}`);
+		err.status = 404;
+		throw err;
+	}
+
+	return step;
+}
+
+const Breadcrumb = React.createClass({
+	render() {
+		const {step, active, isLink} = this.props;
+		const success = step.get('success');
+		const successClasses = cx(styles.breadcrumbSuccess, 'fa', 'fa-check');
+		const classNames = cx({
+			[styles.breadcrumbActive]: active,
+		});
+		let content = step.get('name');
+
+		if (isLink) {
+			content = <Link to={`/step/${step.get('branchName')}`} className={styles.breadcrumbLink}>
+				{success && <i className={successClasses}></i>}
+				{content}
+			</Link>;
+		}
+
+		return (
+			<li className={classNames}>
+				{content}
+			</li>
+		);
+	}
+});
+
+const Breadcrumbs = React.createClass({
+	render() {
+		let {steps, active} = this.props;
+		let isLink = true;
+
+		return (
+			<ul className={styles.breadcrumbs}>
+				{steps.map(step => {
+					let makeActive = step.get('branchName') === active;
+					let el = <Breadcrumb key={step.get('branchName')} step={step} active={makeActive} isLink={isLink} />;
+					isLink = step.get('success');
+					return el;
+				})}
+			</ul>
+		);
+	}
+});
 
 export const Step = React.createClass({
+	postVisit(stepName) {
+		const {token, db} = this.props;
+		const step = getStep(db, stepName);
+		const path = BASE_PATH + Paths.ADD_VISIT[1](stepName, token);
+		fetch(path, {method: 'POST'});
+	},
+
+	componentDidMount() {
+		this.postVisit(this.props.params.stepName);
+	},
+
+	componentWillReceiveProps(nextProps) {
+		if (nextProps.params.stepName !== this.props.stepName) {
+			this.postVisit(nextProps.params.stepName);
+		}
+	},
+
 	render() {
 		if (!this.props.token) {
 			return null;
@@ -35,16 +111,11 @@ export const Step = React.createClass({
 		const {
 			db,
 			params: {stepName},
-			moduleOrder,
 		} = this.props;
 
-		const step = db.getIn(['steps', stepName]);
+		const moduleOrder = db.get('moduleOrder');
 
-		if (!step) {
-			let err = new Error(`No step with branch name ${stepName}`);
-			err.status = 404;
-			throw err;
-		}
+		const step = getStep(db, stepName);
 
 		const StepContent = stepsMapping[stepName];
 
@@ -62,16 +133,22 @@ export const Step = React.createClass({
 					</div>
 				);
 			} else if (step.get('failure')) {
-				statusLink = <div className={styles.failure}>Oops. Looks like something went wrong.</div>;
+				statusLink = <div className={styles.failure}>
+					<p>Oops. Looks like something went wrong.</p>
+					<p>{step.get('failure')}</p>
+				</div>;
 			} else {
 				statusLink = <div className={styles.loading}>We got your code and we're running some tests.</div>;
 			}
 		}
 
+		let steps = db.getIn(['modules', 'html', 'steps']).map(step => db.getIn(['steps', step]));
+
 		return <div className={styles.step}>
 			<h2 className={styles.stepName}>{step.get('name')}!</h2>
 			<StepContent {...this.props} stepName={stepName} step={step} />
 			{statusLink}
+			<Breadcrumbs steps={steps} active={stepName} />
 		</div>;
 	},
 });

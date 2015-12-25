@@ -5,8 +5,11 @@ import {getRawFile} from '../../../utils/github';
 import {hasFile} from '../../../utils/test/hasFile';
 import {TagAsserter} from '../../../utils/test/gennyDom';
 
-import {branchName} from './index';
-import {fileName} from '../html-from-scratch';
+import config from './index';
+import fromScratchConfig from '../html-from-scratch';
+
+const {branchName} = config;
+const {fileName} = fromScratchConfig;
 
 const testDom = async function testDom(markup) {
 	let asserter = await TagAsserter.instance(markup);

@@ -18,12 +18,14 @@ const app = express();
 app.use(bodyParser.json());
 
 const hookFn = async function hookFn(request, response) {
+	console.log(1);
 	response.status(200).send('');
 	const hook = request.body;
 	const {userId} = request.params;
 	const {webhookSecret, token} = await UserService.get({id: userId});
 	const calculatedSignature = getHookSignature(JSON.stringify(hook), webhookSecret).toString();
 	const isSecure = request.get('X-Hub-Signature') === `sha1=${calculatedSignature}`;
+	console.log(2);
 
 	if (!isSecure) {
 		return;
@@ -37,9 +39,12 @@ const hookFn = async function hookFn(request, response) {
 		return;
 	}
 
+	console.log(3);
 	notify(token, branchName, 'commit');
 	let success;
+	let failureMessage;
 
+	console.log(4);
 	try {
 		await testMapping[branchName](hook);
 		success = true;
@@ -47,19 +52,28 @@ const hookFn = async function hookFn(request, response) {
 		console.log(e.message);
 		console.log(e.stack);
 		if (e instanceof AssertionError) {
+			failureMessage = e.message;
 			success = false;
 		} else {
 			throw e;
 		}
 	}
 
-	notify(token, branchName, success ? 'success' : 'failure');
-	StepService.commit(userId, branchName, success);
+	console.log(5);
+	let event = success ? 'success' : 'failure';
+
+	let eventContent = failureMessage || true;
+	console.log(6);
+
+	notify(token, branchName, event, eventContent);
+	console.log(7);
+	StepService.commit(userId, branchName, success, failureMessage);
+	console.log(8);
 };
 
-function notify(token, stepId, event) {
+function notify(token, stepId, event, eventContent = true) {
 	let child = firebaseApp.child(token).child(stepId).child(event);
-	child.set(true);
+	child.set(eventContent);
 	child.remove();
 }
 

@@ -20,11 +20,12 @@ const queries = {
 			.limit(1);
 	},
 
-	commit(userId, stepId, success) {
+	commit(userId, stepId, success, failureMessage = null) {
 		return squel.insert().into('Step_commit')
 			.set('Step_id', stepId)
 			.set('User_id', userId)
 			.set('success', success)
+			.set('failureMessage', failureMessage)
 			.set('committedAt', new Date().getTime());
 	},
 };
@@ -40,7 +41,7 @@ export default {
 		return commit;
 	},
 
-	commit(userId, stepId, success) {
-		return mysql(queries.commit(userId, stepId, success));
+	commit(userId, stepId, success, failureMessage) {
+		return mysql(queries.commit(userId, stepId, success, failureMessage));
 	},
 };

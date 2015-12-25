@@ -3,18 +3,11 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var cssLoaders;
 var plugins;
 
-// if (process.env.CLIENT_DOMAIN == 'http://localhost:8080') {
-//   cssLoaders = 'style-loader!css-loader?modules';
-//   plugins = [
-//     new webpack.HotModuleReplacementPlugin(),
-//   ];
-// } else {
-  cssLoaders = ExtractTextPlugin.extract('style-loader', 'css-loader?modules');
-  plugins = [
-    new webpack.HotModuleReplacementPlugin(),
-    new ExtractTextPlugin('bundle.css', {allChunks: true})
-  ];
-// }
+cssLoaders = ExtractTextPlugin.extract('style-loader', 'css-loader?modules');
+plugins = [
+  new webpack.HotModuleReplacementPlugin(),
+  new ExtractTextPlugin('bundle.css', {allChunks: true})
+];
 
 module.exports = {
   entry: [

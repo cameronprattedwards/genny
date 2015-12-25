@@ -4,14 +4,17 @@ import {assertHasFile} from 'utils/test/hasFile';
 import {assertValid} from 'utils/test/validateHtml';
 import {getRawFile} from 'utils/github';
 
-import {branchName} from './index';
-import {fileName} from 'steps/html/html-from-scratch';
+import config from './index';
+import fromScratchConfig from 'steps/html/html-from-scratch';
+
+const {fileName} = fromScratchConfig;
+const {branchName} = config;
 
 const test = async function test(hook) {
 	assertHasFile(hook, fileName);
 	let markup = await getRawFile(hook, branchName, fileName);
-	await assertValid(markup);
-	expect(markup).to.match(/<img\s+src=[^\/>]+\s*\/>/);
+	await assertValid(markup, 1);
+	// expect(markup).to.match(/<img\s+src=("|')[^"']+("|')\s*\/>/);
 };
 
 export default test;

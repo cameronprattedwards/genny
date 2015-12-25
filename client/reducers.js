@@ -15,7 +15,7 @@ export function reducer(state = immutableInitialState, event) {
 		case 'STEP_SUCCESS':
 			return state.setIn(['db', 'steps', event.stepId.toString(), 'success'], true);
 		case 'STEP_FAILURE':
-			return state.setIn(['db', 'steps', event.stepId.toString(), 'failure'], true);
+			return state.setIn(['db', 'steps', event.stepId.toString(), 'failure'], event.value);
 		default:
 			return state;
 	}

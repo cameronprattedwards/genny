@@ -35,6 +35,7 @@ export class EventService {
 			.where(`User_id = ${this._userId}`)
 			.field('Step_id', 'step')
 			.field('success')
+			.field('failureMessage')
 			.field('committedAt', TIME_KEY)
 			.field(`'${STEP_COMMIT}'`, EVENT_TYPE_KEY);
 
