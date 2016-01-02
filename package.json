@@ -10,7 +10,8 @@
     "dev": ". ./env && nodemon client/entry.js",
     "webpack": "sh ./scripts/build.sh && . ./env && webpack-dev-server --host 0.0.0.0 & webpack -w --config server.config.js",
     "lint": "eslint . --ext .js,.jsx",
-    "hooks": ". ./env && nodemon hooks/entry.js"
+    "hooks": ". ./env && nodemon hooks/entry.js",
+    "prod": ". ./env && forever start client/entry.js"
   },
   "author": "",
   "license": "ISC",
