@@ -6,6 +6,9 @@ import fs from 'fs';
 import UserService from '../domain/UserService';
 import {Paths} from './paths';
 import {Client} from '../utils/github';
+import setupConfig from '../steps/html/environment-setup';
+
+const {branchName} = setupConfig;
 
 const app = express();
 
@@ -28,7 +31,7 @@ const getSetupScript = async function getSetupScript(request, response) {
 		let {login} = await client.getUser();
 
 		response.set('Content-Type', 'text/plain');
-		response.status(200).send(tmpl({login, repoName}));
+		response.status(200).send(tmpl({login, repoName, branchName}));
 	} catch (e) {
 		console.log(e.stack);
 	}
