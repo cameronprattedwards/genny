@@ -19,7 +19,7 @@ import { match, RoutingContext } from 'react-router';
 const app = express();
 app.use(cookieParser());
 
-const {PORT, FIREBASE_NAME, CLIENT_DOMAIN} = process.env;
+const {PORT, FIREBASE_NAME, CLIENT_DOMAIN, SERVER_DOMAIN} = process.env;
 const indexHtml = fs.readFileSync(path.join(__dirname, 'index.html'), {encoding: 'utf8'});
 const indexTemplate = _.template(indexHtml);
 
@@ -49,7 +49,7 @@ const handleDefaultRequest = async function handleDefaultRequest(request, respon
 				response.redirect(redirectLocation.pathname + redirectLocation.search);
 			} else if (renderProps) {
 				const html = renderToString(<Provider store={store}><RoutingContext {...renderProps} /></Provider>);
-				const string = indexTemplate({env: {FIREBASE_NAME}, CLIENT_DOMAIN, state, html});
+				const string = indexTemplate({env: {FIREBASE_NAME, SERVER_DOMAIN}, CLIENT_DOMAIN, state, html});
 				response.send(string);
 			}
 		});

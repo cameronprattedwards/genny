@@ -1,5 +1,4 @@
 import fetch from 'isomorphic-fetch';
-import {expect} from 'chai';
 import AssertionError from 'assertion-error';
 
 export const validateHtml = async function validateHtml(markup) {

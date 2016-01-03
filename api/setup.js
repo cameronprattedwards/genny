@@ -1,12 +1,10 @@
 import express from 'express';
-import squel from 'squel';
 import _ from 'lodash';
 import path from 'path';
 import fs from 'fs';
 
 import UserService from '../domain/UserService';
 import {Paths} from './paths';
-import mysql from '../utils/mysql';
 import {Client} from '../utils/github';
 
 const app = express();

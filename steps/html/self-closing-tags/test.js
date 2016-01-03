@@ -1,5 +1,3 @@
-import {expect} from 'chai';
-
 import {assertHasFile} from 'utils/test/hasFile';
 import {assertValid} from 'utils/test/validateHtml';
 import {getRawFile} from 'utils/github';

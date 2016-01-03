@@ -10,7 +10,7 @@ export const FILENAME = config.fileName;
 
 const Content = React.createClass({
 	render() {
-		const {step, repoName} = this.props;
+		const {step} = this.props;
 		const branchName = step.get('branchName');
 
 		return (

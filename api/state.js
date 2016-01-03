@@ -34,6 +34,7 @@ export const getUserState = async function getUserState(token) {
 		token,
 		login,
 		repoName,
+		SERVER_DOMAIN: process.env.SERVER_DOMAIN,
 		avatar: avatar_url,  // eslint-disable-line camelcase
 		currentStep: db.modules[db.moduleOrder[0]].steps[0],
 		db,

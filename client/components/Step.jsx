@@ -64,7 +64,7 @@ const Breadcrumb = React.createClass({
 				{content}
 			</li>
 		);
-	}
+	},
 });
 
 const Breadcrumbs = React.createClass({
@@ -76,19 +76,22 @@ const Breadcrumbs = React.createClass({
 			<ul className={styles.breadcrumbs}>
 				{steps.map(step => {
 					let makeActive = step.get('branchName') === active;
-					let el = <Breadcrumb key={step.get('branchName')} step={step} active={makeActive} isLink={isLink} />;
-					isLink = step.get('success');
+					let el = <Breadcrumb 
+						key={step.get('branchName')} 
+						step={step} 
+						active={makeActive} 
+						isLink={isLink} 
+					/>;
 					return el;
 				})}
 			</ul>
 		);
-	}
+	},
 });
 
 export const Step = React.createClass({
 	postVisit(stepName) {
-		const {token, db} = this.props;
-		const step = getStep(db, stepName);
+		const {token} = this.props;
 		const path = BASE_PATH + Paths.ADD_VISIT[1](stepName, token);
 		fetch(path, {method: 'POST'});
 	},
@@ -159,7 +162,8 @@ function mapStateToProps(state) {
 		token: state.get('token'),
 		login: state.get('login'),
 		db: state.get('db'),
-		moduleOrder: state.getIn('moduleOrder'),
+		moduleOrder: state.get('moduleOrder'),
+		SERVER_DOMAIN: state.get('SERVER_DOMAIN'),
 	};
 }
 
