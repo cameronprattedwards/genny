@@ -4,9 +4,7 @@ import {Paths, BASE_PATH} from '../../../api/paths';
 
 const Content = React.createClass({
 	render() {
-		const {step, token, SERVER_DOMAIN} = this.props;
-
-		const branchName = step.get('branchName');
+		const {token, SERVER_DOMAIN} = this.props;
 
 		return (
 			<div>
