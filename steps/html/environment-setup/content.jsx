@@ -1,6 +1,6 @@
 import React from 'react';
 import {Bash} from '../../../utils/components/Bash';
-import {Paths} from '../../../api/paths';
+import {Paths, BASE_PATH} from '../../../api/paths';
 
 const Content = React.createClass({
 	render() {
@@ -30,29 +30,14 @@ const Content = React.createClass({
 					press "enter."
 				</p>
 
-				<Bash>curl {SERVER_DOMAIN}{Paths.SETUP[1](token)} | sh</Bash>
+				<Bash>curl {SERVER_DOMAIN}{BASE_PATH}{Paths.SETUP[1](token)} | sh</Bash>
 
 				<p>
-					There's not a lot happening in there for right now, 
-					but we're going to make some stuff happen right away. Create a new branch to do your coding in. 
-					We'll explain later what this step is all about.
+					That will open up your repository in Sublime Text. When you're done, we'll be ready to start 
+					writing some HTML!
 				</p>
 
-				<Bash>git checkout -b {branchName}</Bash>
-
-				<p>Let's create a test file to make sure that you're set up correctly:</p>
-
-				<Bash>touch test-file.txt</Bash>
-
-				<p>
-					Then, go into Sublime Text and click on "test-file.txt" in the left hand side. 
-					This will open up the file for editing in the main window. 
-					Type "This is just a test" in the file and type Command+S to save.
-				</p>
-
-				<p>Last but not least, send the code to our shared repository by typing</p>
-
-				<Bash>git add . && git commit -m "Create my first text file" && git push -u origin {branchName}</Bash>
+				<p>We'll wait until you're done running the script. :)</p>
 			</div>
 		);
 	},

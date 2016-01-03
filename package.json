@@ -24,6 +24,7 @@
     "webpack-dev-server": "1.12.1"
   },
   "dependencies": {
+    "assertion-error": "^1.0.1",
     "babel": "^6.2.1",
     "babel-core": "^6.2.1",
     "babel-plugin-syntax-async-functions": "^6.2.1",
