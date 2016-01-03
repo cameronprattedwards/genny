@@ -17,22 +17,38 @@ function connect() {
 	return myConnection;
 }
 
+function reconnect() {
+	connection.destroy();
+	connection = connect();
+}
+
 export default function execMysql(query) {
 	return new Promise((resolve, reject) => {
 		const {text, values} = query.toParam();
 		console.log(text);
 		console.log(values);
-		connection.query(text, values, (error, rows) => {
-			if (error) {
-				reject(error);
 
-				if (error.fatal) {
-					connection.destroy();
-					connection = connect();
-				}
-			} else {
-				resolve(rows);
+		try {
+			doQuery();
+		} catch (e) {
+			if (e.message === 'Cannot enqueue Query after fatal error.') {
+				reconnect();
+				doQuery();
 			}
-		});
+		}
+
+		function doQuery() {
+			connection.query(text, values, (error, rows) => {
+				if (error) {
+					if (error.fatal) {
+						reconnect();
+					}
+
+					reject(error);
+				} else {
+					resolve(rows);
+				}
+			});
+		}
 	});
 }

@@ -17,7 +17,7 @@ export default {
 		let query = squel.select().from('User').limit(1);
 
 		if (id) {
-			query = query.where(`id = ${id}`);
+			query = query.where(`id = '${id}'`);
 		}
 
 		if (token) {
