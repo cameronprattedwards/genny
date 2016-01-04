@@ -1,7 +1,9 @@
 import React from 'react';
+import {connect} from 'react-redux';
+
 import {Paths, reversePath} from '../../api/paths';
 import {setChildWindow} from '../actionCreators';
-import {connect} from 'react-redux';
+import styles from './Home.css';
 
 const loginPath = reversePath(Paths.LOGIN, false);
 
@@ -9,8 +11,19 @@ export const Home = React.createClass({
 	render() {
 		console.log(this.props.loading);
 		return (
-			<div>
-				<p>Click <a href={loginPath} onClick={this.openLoginWindow}>here</a> to login.</p>
+			<div className={styles.home}>
+				<h1>School of Haxx is a free HTML tutorial.</h1>
+				<p>We'll teach you the basics of HTML, and you'll be building your own webpages in no time. </p>
+				<p>
+					Plus, we'll do it using tools that real programmers use - like <strong>Sublime Text</strong>, 
+					<strong> the terminal</strong> and <strong>git</strong>.
+				</p>
+				<p>
+					It's simple as pie. In a couple minutes you'll be writing webpages like a pro.
+				</p>
+				<p>
+					To get started, <a href={loginPath} onClick={this.openLoginWindow} className={styles.button}>sign up with GitHub.</a>
+				</p>
 				<p>{this.props.loading && 'Loading...'}</p>
 			</div>
 		);

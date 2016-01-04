@@ -50,11 +50,7 @@ render() {
 				We need to give our <code>img</code> tag a <code>src</code> attribute 
 				so the browser knows which image to show.
 			</p>
-			<p>
-				An <strong>attribute</strong> is an additional piece of information that you provide to a tag. 
-				Here's what the general pattern looks like:
-			</p>
-			<Html>{`<tagName attribute="attribute value">content</tagName>`}</Html>
+
 			<p>
 				We're going to point our penguin picture at <a href={IMG_URL}>{IMG_URL}</a>, 
 				which is a super cute picture of a papa penguin incubating an egg.

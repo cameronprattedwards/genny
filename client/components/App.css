@@ -8,6 +8,7 @@
     margin: 0;
     padding-left: 8px;
     font-family: Helvetica;
+    z-index: 1;
 }
 
 .link {

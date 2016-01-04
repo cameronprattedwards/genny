@@ -3,6 +3,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {Link} from 'react-router';
 import cx from 'classnames';
+import DocumentTitle from 'react-document-title';
 
 import stepsMapping from '../../steps/content';
 import styles from './Step.css';
@@ -147,12 +148,16 @@ export const Step = React.createClass({
 
 		let steps = db.getIn(['modules', 'html', 'steps']).map(step => db.getIn(['steps', step]));
 
-		return <div className={styles.step}>
-			<h2 className={styles.stepName}>{step.get('name')}!</h2>
-			<StepContent {...this.props} stepName={stepName} step={step} />
-			{statusLink}
-			<Breadcrumbs steps={steps} active={stepName} />
-		</div>;
+		return (
+			<DocumentTitle title={`HTML Tutorial - ${step.get('name')}`}>
+				<div className={styles.step}>
+					<h2 className={styles.stepName}>{step.get('name')}!</h2>
+					<StepContent {...this.props} stepName={stepName} step={step} />
+					{statusLink}
+					<Breadcrumbs steps={steps} active={stepName} />
+				</div>
+			</DocumentTitle>
+		);
 	},
 });
 

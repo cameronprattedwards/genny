@@ -8,13 +8,14 @@ import { fromJS } from 'immutable';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import React from 'react';
+import { match, RoutingContext } from 'react-router';
+import DocumentTitle from 'react-document-title';
 
 import {UnauthorizedError} from '../utils/errors';
 import {routes} from '../client/dist/server';
 import {BASE_PATH} from '../api/paths';
 import api from '../api/server';
 import {getUserState} from '../api/state';
-import { match, RoutingContext } from 'react-router';
 
 const app = express();
 app.use(cookieParser());
@@ -49,7 +50,8 @@ const handleDefaultRequest = async function handleDefaultRequest(request, respon
 				response.redirect(redirectLocation.pathname + redirectLocation.search);
 			} else if (renderProps) {
 				const html = renderToString(<Provider store={store}><RoutingContext {...renderProps} /></Provider>);
-				const string = indexTemplate({env: {FIREBASE_NAME, SERVER_DOMAIN}, CLIENT_DOMAIN, state, html});
+				const title = DocumentTitle.rewind();
+				const string = indexTemplate({env: {FIREBASE_NAME, SERVER_DOMAIN}, CLIENT_DOMAIN, state, html, title});
 				response.send(string);
 			}
 		});

@@ -6,7 +6,7 @@ var plugins;
 cssLoaders = ExtractTextPlugin.extract('style-loader', 'css-loader?modules');
 plugins = [
   new webpack.HotModuleReplacementPlugin(),
-  new ExtractTextPlugin('bundle.css', {allChunks: true})
+  new ExtractTextPlugin('bundle.css', {allChunks: true}),
 ];
 
 module.exports = {

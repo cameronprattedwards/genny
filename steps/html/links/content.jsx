@@ -38,15 +38,19 @@ render() {
 
 			<p>
 				To specify the URL that you want the link to point to, just provide an <code>href</code> attribute. 
+			</p>
+
+			<p>
+				An <strong>attribute</strong> is an additional piece of information that you provide to a tag. 
+				Here's what the general pattern looks like:
+			</p>
+
+			<Html>{`<tagName attribute="attribute value">content</tagName>`}</Html>
+
+			<p>
 				For example, if you wanted to link to {GOOGLE_URL}, and you wanted the clickable text to be 
 				"{GOOGLE_LINK_TEXT}," your link would look like this:
 			</p>
-
-			<Sidebar>
-				<code>href</code> stands for "Hypertext Reference." 
-				Hypertext is text that is linked to other text on the web. 
-				You can read more about that idea <a target="_blank" href="http://www.w3.org/WhatIs.html">here</a>.
-			</Sidebar>
 
 			<Html>{`<a href="${GOOGLE_URL}">${GOOGLE_LINK_TEXT}</a>`}</Html>
 
@@ -60,6 +64,12 @@ render() {
 					This Picture is Unrelated
 				</a>
 			</p>
+
+			<Sidebar>
+				<code>href</code> stands for "Hypertext Reference." 
+				Hypertext is text that is linked to other text on the web. 
+				You can read more about that idea <a target="_blank" href="http://www.w3.org/WhatIs.html">here</a>.
+			</Sidebar>
 
 			<p>Ready to add a link to your page? Great! First, checkout a new branch:</p>
 
