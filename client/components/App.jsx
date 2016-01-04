@@ -8,7 +8,9 @@ export const App = React.createClass({
 		return (
 			<DocumentTitle title="HTML Tutorial">
 				<div>
-					<h1 className={styles.header}><Link className={styles.link} href="/" to="/">School of Haxx</Link></h1>
+					<h1 className={styles.header}>
+						<Link className={styles.link} href="/" to="/">School of Haxx</Link>
+					</h1>
 					<div className={styles.body}>
 						{this.props.children}
 					</div>

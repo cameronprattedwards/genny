@@ -22,7 +22,10 @@ export const Home = React.createClass({
 					It's simple as pie. In a couple minutes you'll be writing webpages like a pro.
 				</p>
 				<p>
-					To get started, <a href={loginPath} onClick={this.openLoginWindow} className={styles.button}>sign up with GitHub.</a>
+					To get started, 
+					{' '}<a href={loginPath} onClick={this.openLoginWindow} className={styles.button}>
+						sign up with GitHub.
+					</a>
 				</p>
 				<p>{this.props.loading && 'Loading...'}</p>
 			</div>

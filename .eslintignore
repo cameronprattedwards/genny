@@ -1,3 +1,4 @@
 client/dist
 webpack.config.js
+production.config.js
 steps/files.js
