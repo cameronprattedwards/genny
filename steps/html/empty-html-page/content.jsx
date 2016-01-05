@@ -31,29 +31,26 @@ const Content = React.createClass({
 				</FakePage>
 
 				<p>
-					In fact, let's create your first HTML page right now! It'll be a simple copy-paste job.
-					Create a new branch for your file:
+					In fact, let's create your first HTML page right now! It'll be a simple copy-paste job. 
+					Create a new file with a .html extension and open it up in Sublime:
 				</p>
 
-				<Bash>cd ~/{repoName} && git checkout -b {branchName}</Bash>
-
-				<p>Then, create a new file with a .html extension and open it up in Sublime:</p>
-
-				<Bash>touch {fileName} && subl {fileName}</Bash>
+				<Bash>cd ~/{repoName} && touch {fileName} && subl {fileName}</Bash>
 
 				<p>
-					Copy and paste the code above into your file, press Command+S to save, and 
-					{' '} to take a look at your handiwork in a browser, type:
+					<strong>Copy and paste the code above</strong> into your file. Press Command+S to save.
+					Then, to look at your handiwork in a browser, type:
 				</p>
 
 				<Bash>open {fileName}</Bash>
 
 				<p>
 					Check that out. You just created your first webpage! Nicely done. 
-					{' '} To move on to the next step, just push your code to your remote repository!
+					To move on to the next step (and write some HTML from scratch), just send your code back to us 
+					by copy-pasting the following into the terminal:
 				</p>
 
-				<Bash>git add . && git commit -m "Create my first HTML page" && git push -u origin {branchName}</Bash>
+				<Bash>git checkout -b {branchName} && git add . && git commit -m "Create my first HTML page" && git push -u origin {branchName}</Bash>
 			</div>
 		);
 	},
