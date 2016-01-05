@@ -50,7 +50,12 @@ const Content = React.createClass({
 					by copy-pasting the following into the terminal:
 				</p>
 
-				<Bash>git checkout -b {branchName} && git add . && git commit -m "Create my first HTML page" && git push -u origin {branchName}</Bash>
+				<Bash>
+					git checkout -b {branchName} && 
+					git add . && 
+					git commit -m "Create my first HTML page" && 
+					git push -u origin {branchName}
+				</Bash>
 			</div>
 		);
 	},

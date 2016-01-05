@@ -10,10 +10,11 @@ import {markCopied} from '../../../client/actionCreators';
 export const Content = React.createClass({
 	render() {
 		const shellCommand = getShellCommand(this.props);
+		const execShell = `${shellCommand}\n`;
 		let copyVerb = this.props.copiedText === shellCommand ? 'Copied' : 'Copy';
 
 		const inlineButton = (
-			<ReactZeroClipboard text={shellCommand + '\n'} onAfterCopy={this.onAfterCopy}>
+			<ReactZeroClipboard text={execShell} onAfterCopy={this.onAfterCopy}>
 				<button className={styles.inlineButton}>{copyVerb}</button>
 			</ReactZeroClipboard>
 		);
@@ -40,13 +41,13 @@ export const Content = React.createClass({
 
 				<p>
 					Next, we'll run one script to install a text editor called Sublime Text and create a special 
-					folder where you'll store your code. Just {inlineButton} and paste (Command + V) the following into your 
-					terminal.
+					folder where you'll store your code. Just {inlineButton} and paste (Command + V) the following 
+					into your terminal.
 				</p>
 
 				<div className={styles.bash}>
 					<Bash>{shellCommand}</Bash>
-					<ReactZeroClipboard text={shellCommand + '\n'} onAfterCopy={this.onAfterCopy}>
+					<ReactZeroClipboard text={execShell} onAfterCopy={this.onAfterCopy}>
 						<button className={styles.button}>{copyVerb}</button>
 					</ReactZeroClipboard>
 				</div>
@@ -63,7 +64,7 @@ export const Content = React.createClass({
 
 	onAfterCopy() {
 		this.props.markCopied(getShellCommand(this.props));
-	}
+	},
 });
 
 function getShellCommand({SERVER_DOMAIN, token}) {
@@ -79,7 +80,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
 	return {
 		markCopied: text => dispatch(markCopied(text)),
-	}
+	};
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Content);
