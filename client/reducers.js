@@ -16,6 +16,8 @@ export function reducer(state = immutableInitialState, event) {
 			return state.setIn(['db', 'steps', event.stepId.toString(), 'success'], true);
 		case 'STEP_FAILURE':
 			return state.setIn(['db', 'steps', event.stepId.toString(), 'failure'], event.value);
+		case 'MARK_COPIED':
+			return state.set('copiedText', event.text);
 		default:
 			return state;
 	}

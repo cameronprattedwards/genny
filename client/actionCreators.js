@@ -59,3 +59,10 @@ export function stepUpdate(type, stepId, value) {
 		value,
 	};
 }
+
+export function markCopied(text) {
+	return {
+		type: 'MARK_COPIED',
+		text,
+	};
+}
