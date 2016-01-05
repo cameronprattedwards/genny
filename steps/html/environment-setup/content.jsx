@@ -1,10 +1,22 @@
 import React from 'react';
+import ReactZeroClipboard from 'react-zeroclipboard';
+import {connect} from 'react-redux';
+
 import {Bash} from '../../../utils/components/Bash';
 import {Paths, BASE_PATH} from '../../../api/paths';
+import styles from './content.css';
+import {markCopied} from '../../../client/actionCreators';
 
-const Content = React.createClass({
+export const Content = React.createClass({
 	render() {
-		const {token, SERVER_DOMAIN} = this.props;
+		const shellCommand = getShellCommand(this.props);
+		let copyVerb = this.props.copiedText === shellCommand ? 'Copied' : 'Copy';
+
+		const inlineButton = (
+			<ReactZeroClipboard text={shellCommand + '\n'} onAfterCopy={this.onAfterCopy}>
+				<button className={styles.inlineButton}>{copyVerb}</button>
+			</ReactZeroClipboard>
+		);
 
 		return (
 			<div>
@@ -16,19 +28,28 @@ const Content = React.createClass({
 					This should take just a couple of minutes.
 				</p>
 
+				<h4>Open up your terminal</h4>
+
 				<p>
-					First, open up your terminal. You can do that by pressing Command+Spacebar and typing in 
+					You can open your terminal by pressing Command+Spacebar and typing in 
 					"Terminal", then pressing enter. The terminal is a program that allows you to type in 
 					commands to your computer. It's pretty handy.
 				</p>
 
+				<h4>Copy-paste the script</h4>
+
 				<p>
 					Next, we'll run one script to install a text editor called Sublime Text and create a special 
-					folder where you'll store your code. Just copy and paste the following into your terminal and 
-					press "enter."
+					folder where you'll store your code. Just {inlineButton} and paste (Command + V) the following into your 
+					terminal.
 				</p>
 
-				<Bash>curl {SERVER_DOMAIN}{BASE_PATH}{Paths.SETUP[1](token)} | sh</Bash>
+				<div className={styles.bash}>
+					<Bash>{shellCommand}</Bash>
+					<ReactZeroClipboard text={shellCommand + '\n'} onAfterCopy={this.onAfterCopy}>
+						<button className={styles.button}>{copyVerb}</button>
+					</ReactZeroClipboard>
+				</div>
 
 				<p>
 					That will open up your repository in Sublime Text. When you're done, we'll be ready to start 
@@ -39,6 +60,26 @@ const Content = React.createClass({
 			</div>
 		);
 	},
+
+	onAfterCopy() {
+		this.props.markCopied(getShellCommand(this.props));
+	}
 });
 
-export default Content;
+function getShellCommand({SERVER_DOMAIN, token}) {
+	return `curl ${SERVER_DOMAIN}${BASE_PATH}${Paths.SETUP[1](token)} | sh`;
+}
+
+function mapStateToProps(state) {
+	return {
+		copiedText: state.get('copiedText'),
+	};
+}
+
+function mapDispatchToProps(dispatch) {
+	return {
+		markCopied: text => dispatch(markCopied(text)),
+	}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Content);
