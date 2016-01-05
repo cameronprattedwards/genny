@@ -60,7 +60,13 @@ const handleDefaultRequest = async function handleDefaultRequest(request, respon
 		if (e instanceof UnauthorizedError) {
 			response.cookie('token', '', {expires: new Date(0)});
 		}
-		response.status(e.status ? e.status : 500).send(e.message);
+		let text = `Sorry, we encountered a problem processing your request.
+
+${e.stack}`;
+
+		response.set('Content-Type', 'text/plain');
+
+		response.status(e.status ? e.status : 500).send(text);
 	}
 };
 
