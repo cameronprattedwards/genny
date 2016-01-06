@@ -1,8 +1,8 @@
 import React from 'react';
-import Highlight from 'react-highlight';
+import {Code} from './Code';
 
 export const Html = React.createClass({
 	render() {
-		return <Highlight className="html">{this.props.children}</Highlight>;
+		return <Code className="html" {...this.props}>{this.props.children}</Code>;
 	},
 });

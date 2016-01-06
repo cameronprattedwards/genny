@@ -31,30 +31,3 @@
 .link {
 	color: white;
 }
-
-.breadcrumbs {
-    display: flex;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    justify-content: space-around;
-    padding: .2em 0;
-    list-style: none;
-    background-color: rgba(455,455,455, .9);
-    margin: 0;
-    border-top: 1px #ccc solid;
-}
-
-.breadcrumbSuccess:before {
-	color: green;
-}
-
-.breadcrumbLink {
-    text-decoration: none;
-    color: black;
-}
-
-.breadcrumbActive {
-	font-weight: 800;
-}

@@ -4,7 +4,6 @@ import fs from 'fs';
 import path from 'path';
 import cookieParser from 'cookie-parser';
 import { renderToString } from 'react-dom/server';
-import { fromJS } from 'immutable';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import React from 'react';
@@ -39,7 +38,6 @@ const handleDefaultRequest = async function handleDefaultRequest(request, respon
 			return response.redirect('/');
 		}
 
-		state = fromJS(state);
 		const store = createStore(() => state);
 
 		match({routes, location: request.path}, (error, redirectLocation, renderProps) => {

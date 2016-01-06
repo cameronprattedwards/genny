@@ -70,19 +70,24 @@ const index = fs.readFileSync(path.join(__dirname, 'oauth.html'), {encoding: 'ut
 const template = _.template(index);
 
 const callback = async function callback(request, response) {  // eslint-disable-line no-unused-vars
-	const {code} = request.query;
-	const storedState = request.cookies[STATE_KEY];
-	const receivedState = request.query[STATE_KEY];
+	try {
+		const {code} = request.query;
+		const storedState = request.cookies[STATE_KEY];
+		const receivedState = request.query[STATE_KEY];
 
-	if (storedState !== receivedState) {
-		response.status(400).send('Ya tryin to trick me?');
+		if (storedState !== receivedState) {
+			response.status(400).send('Ya tryin to trick me?');
+		}
+
+		const token = await getToken(code);  // eslint-disable-line no-undef
+		response.cookie('token', token);
+		await makeRepo(token);  // eslint-disable-line no-undef
+		const string = template({token});
+		response.status(200).send(string);
+	} catch (e) {
+		console.log(e.stack);
+		response.set('Content-type', 'text/plain').status(500).send(e.stack);
 	}
-
-	const token = await getToken(code);  // eslint-disable-line no-undef
-	response.cookie('token', token);
-	await makeRepo(token);  // eslint-disable-line no-undef
-	const string = template({token});
-	response.status(200).send(string);
 };
 
 app.get(apiPaths.Paths.CALLBACK, callback);  // eslint-disable-line no-undef

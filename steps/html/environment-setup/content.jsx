@@ -1,23 +1,15 @@
 import React from 'react';
-import ReactZeroClipboard from 'react-zeroclipboard';
-import {connect} from 'react-redux';
 
 import {Bash} from '../../../utils/components/Bash';
+import {CopyButtonContainer} from '../../../utils/components/CopyButton';
 import {Paths, BASE_PATH} from '../../../api/paths';
-import styles from './content.css';
-import {markCopied} from '../../../client/actionCreators';
 
 export const Content = React.createClass({
 	render() {
 		const shellCommand = getShellCommand(this.props);
 		const execShell = `${shellCommand}\n`;
-		let copyVerb = this.props.copiedText === shellCommand ? 'Copied' : 'Copy';
 
-		const inlineButton = (
-			<ReactZeroClipboard text={execShell} onAfterCopy={this.onAfterCopy}>
-				<button className={styles.inlineButton}>{copyVerb}</button>
-			</ReactZeroClipboard>
-		);
+		const inlineButton = <CopyButtonContainer text={execShell} />;
 
 		return (
 			<div>
@@ -45,15 +37,10 @@ export const Content = React.createClass({
 					into your terminal.
 				</p>
 
-				<div className={styles.bash}>
-					<Bash>{shellCommand}</Bash>
-					<ReactZeroClipboard text={execShell} onAfterCopy={this.onAfterCopy}>
-						<button className={styles.button}>{copyVerb}</button>
-					</ReactZeroClipboard>
-				</div>
+				<Bash copy={true}>{shellCommand}</Bash>
 
 				<p>
-					That will open up your repository in Sublime Text. When you're done, we'll be ready to start 
+					That will open up your code directory in Sublime Text. When you're done, we'll be ready to start 
 					writing some HTML!
 				</p>
 
@@ -61,26 +48,10 @@ export const Content = React.createClass({
 			</div>
 		);
 	},
-
-	onAfterCopy() {
-		this.props.markCopied(getShellCommand(this.props));
-	},
 });
 
 function getShellCommand({SERVER_DOMAIN, token}) {
 	return `curl ${SERVER_DOMAIN}${BASE_PATH}${Paths.SETUP[1](token)} | sh`;
 }
 
-function mapStateToProps(state) {
-	return {
-		copiedText: state.get('copiedText'),
-	};
-}
-
-function mapDispatchToProps(dispatch) {
-	return {
-		markCopied: text => dispatch(markCopied(text)),
-	};
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Content);
+export default Content;

@@ -2,14 +2,13 @@ import React from 'react';
 import {connect} from 'react-redux';
 
 import {Paths, reversePath} from '../../api/paths';
-import {setChildWindow} from '../actionCreators';
+import {setChildWindow} from '../../flux/actionCreators';
 import styles from './Home.css';
 
 const loginPath = reversePath(Paths.LOGIN, false);
 
 export const Home = React.createClass({
 	render() {
-		console.log(this.props.loading);
 		return (
 			<div className={styles.home}>
 				<h1>School of Haxx is a free HTML tutorial.</h1>
@@ -41,7 +40,7 @@ export const Home = React.createClass({
 
 function mapStateToProps(state) {
 	return {
-		loading: state.get('loading'),
+		loading: state.ui.get('loading'),
 	};
 }
 

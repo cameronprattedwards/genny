@@ -1,17 +1,12 @@
 import express from 'express';
-import {fromJS} from 'immutable';
 
 import {Paths} from './paths';
 import {Client} from '../utils/github';
 import {NotFoundError} from '../utils/errors';
 import UserService from '../domain/UserService';
 import db from '../steps';
-import {
-	EVENT_TYPE_KEY,
-	STEP_COMMIT,
-	STEP_VISIT,
-	EventService,
-} from '../domain/EventService';
+import {rootReducerFactory} from '../flux/reducers';
+import {EventService} from '../domain/EventService';
 
 const app = express();
 
@@ -29,45 +24,28 @@ export const getUserState = async function getUserState(token) {
 		throw e;
 	}
 
-	let state = fromJS({
-		id,
-		token,
-		login,
-		repoName,
-		SERVER_DOMAIN: process.env.SERVER_DOMAIN,
-		avatar: avatar_url,  // eslint-disable-line camelcase
-		currentStep: db.modules[db.moduleOrder[0]].steps[0],
+	let state = {
+		user: {
+			id,
+			token,
+			login,
+			repoName,
+			avatar: avatar_url,  // eslint-disable-line camelcase
+			currentStep: db.modules[db.moduleOrder[0]].steps[0],
+		},
+		env: {
+			SERVER_DOMAIN: process.env.SERVER_DOMAIN,
+		},
 		db,
-	});
+	};
 
 	let eventService = new EventService(id);
 	let events = await eventService.getEventsForUser();
+	let rootReducer = rootReducerFactory(state);
 
-	state = events.reduce(reducer, state);
+	state = events.reduce(rootReducer, {});
 
 	return state;
-
-	function stepCommitReducer(state, {step, success, failureMessage}) {
-		failureMessage = failureMessage || true;
-		let status = success ? 'success' : 'failure';
-		let notStatus = success ? 'failure' : 'success';
-		state = state.setIn(['db', 'steps', step, 'commit'], true);
-		state = state.setIn(['db', 'steps', step, status], failureMessage);
-		return state.setIn(['db', 'steps', step, notStatus], false);
-	}
-
-	function stepVisitReducer(state, {step}) {
-		return state.set('currentStep', step);
-	}
-
-	function reducer(state, event) {
-		switch (event[EVENT_TYPE_KEY]) {
-			case STEP_COMMIT:
-				return stepCommitReducer(state, event);
-			case STEP_VISIT:
-				return stepVisitReducer(state, event);
-		}
-	}
 };
 
 const handleStateRequest = async function handleStateRequest(request, response) {

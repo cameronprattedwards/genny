@@ -8,6 +8,7 @@ import DocumentTitle from 'react-document-title';
 import stepsMapping from '../../steps/content';
 import styles from './Step.css';
 import {Paths, BASE_PATH} from '../../api/paths';
+import {Breadcrumbs} from './Breadcrumbs';
 
 function next(currentStepId, step, db, moduleOrder) {
 	const currentModuleId = step.get('module');
@@ -31,7 +32,6 @@ function next(currentStepId, step, db, moduleOrder) {
 }
 
 function getStep(db, stepName) {
-	console.log(db, stepName);
 	const step = db.getIn(['steps', stepName]);
 
 	if (!step) {
@@ -42,53 +42,6 @@ function getStep(db, stepName) {
 
 	return step;
 }
-
-const Breadcrumb = React.createClass({
-	render() {
-		const {step, active, isLink} = this.props;
-		const success = step.get('success');
-		const successClasses = cx(styles.breadcrumbSuccess, 'fa', 'fa-check');
-		const classNames = cx({
-			[styles.breadcrumbActive]: active,
-		});
-		let content = step.get('name');
-
-		if (isLink) {
-			content = <Link to={`/step/${step.get('branchName')}`} className={styles.breadcrumbLink}>
-				{success && <i className={successClasses}></i>}
-				{content}
-			</Link>;
-		}
-
-		return (
-			<li className={classNames}>
-				{content}
-			</li>
-		);
-	},
-});
-
-const Breadcrumbs = React.createClass({
-	render() {
-		let {steps, active} = this.props;
-		let isLink = true;
-
-		return (
-			<ul className={styles.breadcrumbs}>
-				{steps.map(step => {
-					let makeActive = step.get('branchName') === active;
-					let el = <Breadcrumb 
-						key={step.get('branchName')} 
-						step={step} 
-						active={makeActive} 
-						isLink={isLink} 
-					/>;
-					return el;
-				})}
-			</ul>
-		);
-	},
-});
 
 export const Step = React.createClass({
 	postVisit(stepName) {
@@ -163,12 +116,12 @@ export const Step = React.createClass({
 
 function mapStateToProps(state) {
 	return {
-		repoName: state.get('repoName'),
-		token: state.get('token'),
-		login: state.get('login'),
-		db: state.get('db'),
-		moduleOrder: state.get('moduleOrder'),
-		SERVER_DOMAIN: state.get('SERVER_DOMAIN'),
+		repoName: state.user.getIn(['repoName']),
+		token: state.user.getIn(['token']),
+		login: state.user.getIn(['login']),
+		db: state.db,
+		moduleOrder: state.db.getIn(['moduleOrder']),
+		SERVER_DOMAIN: state.env.getIn(['SERVER_DOMAIN']),
 	};
 }
 

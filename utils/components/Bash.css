@@ -7,3 +7,15 @@
 	-ms-user-select: none;
 	user-select: none;
 }
+
+.relative {
+	position: relative;
+}
+
+.button {
+	position: absolute;
+	left: 100%;
+	margin-left: 10px;
+	top: 0;
+	height: 100%;
+}

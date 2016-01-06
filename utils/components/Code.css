@@ -1,4 +1,4 @@
-.bash {
+.relative {
 	position: relative;
 }
 
@@ -8,9 +8,4 @@
 	margin-left: 10px;
 	top: 0;
 	height: 100%;
-	cursor: pointer;
-}
-
-.inlineButton {
-	cursor: pointer;
 }

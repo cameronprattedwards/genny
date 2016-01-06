@@ -1,16 +1,14 @@
 import squel from 'squel';
 import mysql from '../utils/mysql';
 import _ from 'lodash';
+import {
+	STEP_SUCCESS,
+	STEP_FAILURE,
+	STEP_VISIT,
+} from '../flux/actionCreators';
 
-export const EVENT_TYPE_KEY = 'type';
+const EVENT_TYPE_KEY = 'type';
 const TIME_KEY = 'eventTime';
-
-export const MODULE_CREATE = 'MODULE_CREATE';
-export const STEP_CREATE = 'STEP_CREATE';
-export const STEP_BRANCH_NAME_UPDATE = 'STEP_BRANCH_NAME_UPDATE';
-export const STEP_COMMIT = 'STEP_COMMIT';
-export const STEP_VISIT = 'STEP_VISIT';
-export const STEP_DELETE = 'STEP_DELETE';
 
 export class EventService {
 	constructor(userId) {
@@ -19,7 +17,7 @@ export class EventService {
 
 	async getEventsForUser() {
 		let allPromises = [
-			this._getStepCommits(),
+			...this._getStepCommits(),
 			this._getStepVisits(),
 		];
 
@@ -31,15 +29,22 @@ export class EventService {
 	}
 
 	_getStepCommits() {
-		let query = squel.select().from('Step_commit').order('committedAt')
+		let baseQuery = () => squel.select().from('Step_commit').order('committedAt')
 			.where(`User_id = ${this._userId}`)
-			.field('Step_id', 'step')
-			.field('success')
+			.field('Step_id', 'stepId')
 			.field('failureMessage')
-			.field('committedAt', TIME_KEY)
-			.field(`'${STEP_COMMIT}'`, EVENT_TYPE_KEY);
+			.field('committedAt', TIME_KEY);
 
-		return mysql(query);
+		let successQuery = baseQuery().field(`'${STEP_SUCCESS}'`, EVENT_TYPE_KEY)
+			.where(`success = 1`);
+
+		let failureQuery = baseQuery().field(`'${STEP_FAILURE}'`, EVENT_TYPE_KEY)
+			.where(`success = 0`);
+
+		return [
+			mysql(successQuery),
+			mysql(failureQuery),
+		];
 	}
 
 	_getStepVisits() {
