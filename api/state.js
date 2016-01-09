@@ -1,4 +1,5 @@
 import express from 'express';
+import {createStore} from 'redux';
 
 import {Paths} from './paths';
 import {Client} from '../utils/github';
@@ -36,6 +37,7 @@ export const getUserState = async function getUserState(token) {
 		env: {
 			SERVER_DOMAIN: process.env.SERVER_DOMAIN,
 		},
+		ui: {},
 		db,
 	};
 
@@ -43,9 +45,12 @@ export const getUserState = async function getUserState(token) {
 	let events = await eventService.getEventsForUser();
 	let rootReducer = rootReducerFactory(state);
 
-	state = events.reduce(rootReducer, {});
+	let store = createStore(rootReducer);
+	events.forEach(event => {
+		store.dispatch({...event});
+	});
 
-	return state;
+	return store.getState();
 };
 
 const handleStateRequest = async function handleStateRequest(request, response) {

@@ -28,6 +28,8 @@ export function rootReducerFactory(initialState) {
 				return state.setIn(['steps', event.stepId.toString(), 'success'], true);
 			case STEP_FAILURE:
 				return state.setIn(['steps', event.stepId.toString(), 'failure'], event.value);
+			case RECEIVE_USER_STATE:
+				return state.merge(event.state.get('db'));
 			default:
 				return state;
 		}
@@ -54,7 +56,7 @@ export function rootReducerFactory(initialState) {
 				let {step} = event;
 				return state.set('currentStep', step);
 			case RECEIVE_USER_STATE:
-				return state.merge(event.state);
+				return state.merge(event.state.get('user'));
 			default:
 				return state;
 		}

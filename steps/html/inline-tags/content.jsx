@@ -62,7 +62,7 @@ render() {
 				<blockquote><strong>This is important.</strong></blockquote>
 
 				<p>
-					To give one or more words a special emphasis, use an <strong>em</strong> tag. 
+					To give one or more words special emphasis, use an <strong>em</strong> tag. 
 					em tags looks like this:
 				</p>
 

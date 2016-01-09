@@ -21,7 +21,7 @@ const Content = React.createClass({
 render() {
 	const {step} = this.props;
 	const branchName = step.get('branchName');
-	const command = `git checkout -b ${branchName} git add . && git commit -m "${COMMIT_MESSAGE}" && git push -u origin ${branchName}`; // eslint-disable-line max-len
+	const command = `git checkout -b ${branchName} && git add . && git commit -m "${COMMIT_MESSAGE}" && git push -u origin ${branchName}`; // eslint-disable-line max-len
 
 	return (
 		<Carousel>
@@ -87,7 +87,7 @@ render() {
 				<p>Ready to add a link to your page? Great!</p>
 
 				<p>
-					First, put a new paragraph on your page above the image.
+					First, put a new paragraph on your page under the paragraph with the fact in it. 
 					Inside the new paragraph, add a link to {YOUTUBE_LINK}. 
 					It's a demonstration of the sound penguins make. 
 					Make the clickable text for the link "{YOUTUBE_TEXT}"
@@ -106,7 +106,6 @@ render() {
 			<p>
 				<a href="${YOUTUBE_LINK}">${YOUTUBE_TEXT}</a>
 			</p>
-			<img src="${IMG_URL}"></img>
 		</body>
 	</html>`}</Html>
 

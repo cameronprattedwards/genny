@@ -34,7 +34,7 @@ render() {
 				</p>
 				<p>
 					The <code>img</code> tag allows you to display images to your webpage's visitors. 
-					Let's put the <code>img</code> tag below the fact paragraph:
+					Let's put the <code>img</code> tag below the paragraph with the link in it:
 				</p>
 
 				<Html noSelect={true}>{`${DOCTYPE}
@@ -44,6 +44,9 @@ render() {
 		<h1>${HEADER}</h1>
 		<p>
 			${PARAGRAPH}
+		</p>
+		<p>
+			<a href="${YOUTUBE_LINK}">${YOUTUBE_TEXT}</a>
 		</p>
 		<img></img>
 	</body>
@@ -71,6 +74,9 @@ render() {
 		<h1>${HEADER}</h1>
 		<p>
 			${PARAGRAPH}
+		</p>
+		<p>
+			<a href="${YOUTUBE_LINK}">${YOUTUBE_TEXT}</a>
 		</p>
 		<img src="${IMG_URL}"></img>
 	</body>

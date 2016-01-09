@@ -9,6 +9,7 @@ import { Provider } from 'react-redux';
 import React from 'react';
 import { match, RoutingContext } from 'react-router';
 import DocumentTitle from 'react-document-title';
+import {Map} from 'immutable';
 
 import {UnauthorizedError} from '../utils/errors';
 import {routes} from '../client/dist/server';
@@ -31,7 +32,15 @@ app.use('/public', express.static(path.join(__dirname, 'dist')));
 const handleDefaultRequest = async function handleDefaultRequest(request, response) {
 	try {
 		const {token} = request.cookies;
-		let state = {};
+		let state = {
+			ui: Map(),
+			db: Map(),
+			env: {
+				SERVER_DOMAIN: process.env.SERVER_DOMAIN,
+			},
+			user: Map(),
+		};
+
 		if (token) {
 			state = await getUserState(token);
 		} else if (request.path !== '/') {
