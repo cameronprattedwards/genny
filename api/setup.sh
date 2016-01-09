@@ -5,7 +5,22 @@ brew cask install sublime-text3
 cd ~
 git clone https://github.com/<%= login %>/<%= repoName %>.git
 cd <%= repoName %>
-subl .
+
+EMAIL=`git config user.email`
+USERNAME=`git config user.name`
+
+if [ "$EMAIL" = '' ]; then
+    echo "setting git email"
+    git config user.email '<%= email %>'
+fi
+
+if [ "$USERNAME" = '' ]; then
+	echo "setting git username"
+	git config user.name '<%= login %>'
+fi
+
 git checkout -b <%= branchName %>
 touch test-file.txt 
+
 git add . && git commit -m "Create my first text file" && git push -u origin <%= branchName %>
+subl .

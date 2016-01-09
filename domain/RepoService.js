@@ -2,7 +2,7 @@ import github from '../utils/github';
 import webhookPaths from '../hooks/paths';
 import randomstring from 'randomstring';
 
-export const BASE_REPO_NAME = 'genny-test';
+export const BASE_REPO_NAME = 'school-of-haxx';
 export const GITHUB_ADMIN = 'cameronprattedwards';
 
 export class RepoService {

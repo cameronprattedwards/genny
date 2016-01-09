@@ -44,6 +44,9 @@ export const Paths = {
 	repos() {
 		return 'https://api.github.com/user/repos';
 	},
+	emails() {
+		return 'https://api.github.com/user/emails';
+	},
 	collaborators(login, repoName, adminName) { 
 		return `https://api.github.com/repos/${login}/${repoName}/collaborators/${adminName}`;
 	},
@@ -63,6 +66,10 @@ export class Client {
 
 	getRepos() {
 		return request(Paths.repos(), this.accessToken);
+	}
+
+	getEmails() {
+		return request(Paths.emails(), this.accessToken);
 	}
 
 	createRepo(repo) {

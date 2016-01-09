@@ -19,7 +19,6 @@ const tmpl = _.template(script);
 const getSetupScript = async function getSetupScript(request, response) {
 	try {
 		const {token} = request.params;
-		console.log('token!', token);
 		const user = await UserService.get({token});
 
 		if (!user) {
@@ -29,9 +28,10 @@ const getSetupScript = async function getSetupScript(request, response) {
 		let {repoName} = user;
 		let client = new Client(token);
 		let {login} = await client.getUser();
+		let [email] = await client.getEmails();
 
 		response.set('Content-Type', 'text/plain');
-		response.status(200).send(tmpl({login, repoName, branchName}));
+		response.status(200).send(tmpl({login, email: email.email, repoName, branchName}));
 	} catch (e) {
 		console.log(e.stack);
 	}

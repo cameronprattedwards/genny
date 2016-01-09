@@ -39,9 +39,11 @@ export const Content = React.createClass({
 
 				<Bash copy={true}>{shellCommand}</Bash>
 
+				<p>You'll need to enter the username and password you created for GitHub.</p>
+
 				<p>
-					That will open up your code directory in Sublime Text. When you're done, we'll be ready to start 
-					writing some HTML!
+					When you're done, your code directory should be open in Sublime Text, 
+					and you'll be ready to start writing some HTML!
 				</p>
 
 				<p>We'll wait until you're done running the script. :)</p>
