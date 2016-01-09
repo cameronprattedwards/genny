@@ -3,7 +3,6 @@ import {Link} from 'react-router';
 
 import {FILENAME, DOCTYPE} from '../html-from-scratch/content';
 import {HEADER, PARAGRAPH} from '../body-tag/content';
-import {IMG_URL} from '../images/content';
 import {Html} from '../../../utils/components/Html';
 import {Bash} from '../../../utils/components/Bash';
 import {Sidebar} from '../../../utils/components/Sidebar';

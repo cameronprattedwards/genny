@@ -9,7 +9,8 @@ const test = async function test(hook) {
 	assertHasFile(hook, fileName);
 
 	let text = await getRawFile(hook, branchName, fileName);
-	expect(text.trim()).to.equal(fileContents.trim());
+	let errorMessage = `Your file looks like "${text.trim()}". It should look like "${fileContents.trim()}".`;
+	expect(text.trim()).to.equal(fileContents.trim(), errorMessage);
 };
 
 export default test;

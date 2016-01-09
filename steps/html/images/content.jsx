@@ -3,6 +3,7 @@ import {Link} from 'react-router';
 
 import {FILENAME, DOCTYPE} from '../html-from-scratch/content';
 import {HEADER, PARAGRAPH} from '../body-tag/content';
+import {YOUTUBE_LINK, YOUTUBE_TEXT} from '../links/content';
 import config from './index';
 
 import {Html} from '../../../utils/components/Html';
