@@ -1,5 +1,4 @@
 import {fromJS} from 'immutable';
-import {routeReducer} from 'redux-simple-router';
 import {combineReducers} from 'redux';
 import {
 	STEP_COMMIT,
@@ -69,7 +68,6 @@ export function rootReducerFactory(initialState) {
 	return combineReducers({
 		ui: uiReducer,
 		db: dbReducer,
-		routing: routeReducer,
 		user: userReducer,
 		env: envReducer,
 	});
