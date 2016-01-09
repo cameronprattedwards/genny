@@ -1,31 +1,12 @@
 import React from 'react';
-import {connect} from 'react-redux';
+import {Link} from 'react-router';
 
 import {Html} from '../../../utils/components/Html';
+import {Carousel, Pane} from '../../../utils/components/Carousel';
 import {FakePage} from '../../../utils/components/FakePage';
 import {Bash} from '../../../utils/components/Bash';
 import {CopyButtonContainer} from '../../../utils/components/CopyButton';
-import styles from './content.css';
-
-const Carousel = React.createClass({
-	render() {
-		return React.Children.toArray(this.props.children).find(child => child.props.name === this.props.pane);
-	},
-});
-
-function mapStateToProps() {
-	return {
-		pane: '',
-	};
-}
-
-const CarouselContainer = connect(mapStateToProps)(Carousel);
-
-const Pane = React.createClass({
-	render() {
-		return <div>{this.props.children}</div>;
-	},
-});
+import {Continue} from '../../../utils/components/Continue';
 
 const Content = React.createClass({
 	render() {
@@ -36,7 +17,7 @@ const Content = React.createClass({
 		const command = `git checkout -b ${branchName} && git add . && git commit -m "Create my first HTML page" && git push -u origin ${branchName}`; // eslint-disable-line max-len
 
 		return (
-			<CarouselContainer>
+			<Carousel>
 				<Pane name="">
 					<p>Awesome! Now that your environment is all set up, let's write some HTML.</p>
 
@@ -63,12 +44,16 @@ const Content = React.createClass({
 						<p>This is a new paragraph.</p>	
 					</FakePage>
 
-					<div className={styles.continue}>Click Here to Put It Into Action -></div>
+					<Continue>
+						<Link to="/step/empty-html-page/create-your-first-webpage">
+							Click Here to Put It Into Action ->
+						</Link>
+					</Continue>
 				</Pane>
 
 				<Pane name="create-your-first-webpage">
 					<p>
-						In fact, let's create your first HTML page right now! It'll be a simple copy-paste job. 
+						Let's create your first HTML page right now! It'll be a simple copy-paste job. 
 						Type the following commands into your terminal. 
 						It will create a new file with a .html extension and open it up in Sublime:
 					</p>
@@ -76,8 +61,12 @@ const Content = React.createClass({
 					<Bash noSelect={true}>cd ~/{repoName} && touch {fileName} && subl {fileName}</Bash>
 
 					<p>
-						<strong><CopyButtonContainer text={fileContents} /> and paste the HTML above</strong> into 
-						your file. Press Command+S to save. Then, to look at your handiwork in a browser, type:
+						<strong>
+							<CopyButtonContainer text={fileContents} /> and paste the HTML on 
+							{' '}<Link to="/step/empty-html-page">the previous page</Link>
+						</strong>
+						{' '}into your file. Press Command+S to save. 
+						Then, to look at your handiwork in a browser, type:
 					</p>
 
 					<Bash noSelect={true}>open {fileName}</Bash>
@@ -89,8 +78,10 @@ const Content = React.createClass({
 					</p>
 
 					<Bash copy={true}>{command}</Bash>
+
+					{this.props.statusLink}
 				</Pane>
-			</CarouselContainer>
+			</Carousel>
 		);
 	},
 });

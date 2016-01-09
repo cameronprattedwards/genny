@@ -2,13 +2,13 @@ import fetch from 'isomorphic-fetch';
 import React from 'react';
 import {connect} from 'react-redux';
 import {Link} from 'react-router';
-import cx from 'classnames';
 import DocumentTitle from 'react-document-title';
 
 import stepsMapping from '../../steps/content';
 import styles from './Step.css';
 import {Paths, BASE_PATH} from '../../api/paths';
 import {Breadcrumbs} from './Breadcrumbs';
+import {Continue} from '../../utils/components/Continue';
 
 function next(currentStepId, step, db, moduleOrder) {
 	const currentModuleId = step.get('module');
@@ -78,25 +78,25 @@ export const Step = React.createClass({
 
 		let statusLink = null;
 
-		if (step.get('commit')) {
-			if (step.get('success')) {
-				let nextUrl = next(stepName, step, db, moduleOrder);
-				statusLink = (
-					<div className={styles.success}>
-						You did it! 
-						{' '}<Link className={styles.link} href={nextUrl} to={nextUrl}>
-							Move on to the next step.
-						</Link>
-					</div>
-				);
-			} else if (step.get('failure')) {
-				statusLink = <div className={styles.failure}>
+		if (step.get('success')) {
+			let nextUrl = next(stepName, step, db, moduleOrder);
+			statusLink = (
+				<Continue>
+					You did it!{' '}
+					<Link className={styles.link} href={nextUrl} to={nextUrl}>
+						Move on to the next step.
+					</Link>
+				</Continue>
+			);
+		} else if (step.get('failure')) {
+			statusLink = (
+				<div className={styles.failure}>
 					<p>Oops. Looks like something went wrong.</p>
 					<p>{step.get('failure')}</p>
-				</div>;
-			} else {
-				statusLink = <div className={styles.loading}>We got your code and we're running some tests.</div>;
-			}
+				</div>
+			);
+		} else if (step.get('commit')) {
+			statusLink = <div className={styles.loading}>We got your code and we're running some tests.</div>;
 		}
 
 		let steps = db.getIn(['modules', 'html', 'steps']).map(step => db.getIn(['steps', step]));
@@ -105,8 +105,7 @@ export const Step = React.createClass({
 			<DocumentTitle title={`HTML Tutorial - ${step.get('name')}`}>
 				<div className={styles.step}>
 					<h2 className={styles.stepName}>{step.get('name')}!</h2>
-					<StepContent {...this.props} stepName={stepName} step={step} />
-					{statusLink}
+					<StepContent {...this.props} stepName={stepName} step={step} statusLink={statusLink} />
 					<Breadcrumbs steps={steps} active={stepName} />
 				</div>
 			</DocumentTitle>

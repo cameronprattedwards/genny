@@ -1,6 +1,5 @@
 import React from 'react';
 import {Html} from '../../../utils/components/Html';
-import {NoSelect} from '../../../utils/components/NoSelect';
 import {Bash} from '../../../utils/components/Bash';
 import {IMG_URL} from '../images/content';
 import {Sidebar} from '../../../utils/components/Sidebar';
@@ -9,6 +8,7 @@ const Content = React.createClass({
 render() {
 	const {step} = this.props;
 	const branchName = step.get('branchName');
+	const command = `git checkout -b ${branchName} && git add . && git commit -m "Make img tag self-closing" && git push -u origin ${branchName}`; // eslint-disable-line max-len
 
 	return (
 		<div>
@@ -22,14 +22,11 @@ render() {
 				It wouldn't make any sense for an image to have content, right? 
 				To finish this step, let's make the <code>img</code> tag for our penguin image self closing. 
 			</p>
-			<p>Before you make the change, make sure to checkout a new branch:</p>
-			<Bash>git checkout -b {branchName}</Bash>
-			<p>Now change the <code>img</code> tag to look like this:</p>
-			<NoSelect>
-				<Html>{`<img src="${IMG_URL}" />`}</Html>
-			</NoSelect>
+
+			<p>Change the <code>img</code> tag to look like this:</p>
+			<Html noSelect={true}>{`<img src="${IMG_URL}" />`}</Html>
 			<p>Easy peasy. Now just push the code to our shared repository:</p>
-			<Bash>git add . && git commit -m "Make img tag self-closing" && git push -u origin {branchName}</Bash>
+			<Bash copy={true}>{command}</Bash>
 			<Sidebar>
 				There are a handful of tags that are self-closing, 
 				but the one you'll use most often is <code>img</code>. 
@@ -38,6 +35,7 @@ render() {
 					{' '}area, base, br, col, command, embed, hr, img, input, keygen, link, meta, param, source, track,
 				</code> and <code>wbr</code>.
 			</Sidebar>
+			{this.props.statusLink}
 		</div>
 	);
 },

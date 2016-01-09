@@ -45,6 +45,8 @@ export const Content = React.createClass({
 				</p>
 
 				<p>We'll wait until you're done running the script. :)</p>
+				
+				{this.props.statusLink}
 			</div>
 		);
 	},

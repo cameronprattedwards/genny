@@ -4,6 +4,16 @@ import styles from './App.css';
 import DocumentTitle from 'react-document-title';
 
 export const App = React.createClass({
+	childContextTypes: {
+		params: React.PropTypes.object,
+	},
+
+	getChildContext() {
+		return {
+			params: this.props.params,
+		};
+	},
+
 	render() {
 		return (
 			<DocumentTitle title="HTML Tutorial">

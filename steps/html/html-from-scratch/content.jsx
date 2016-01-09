@@ -1,8 +1,12 @@
 import React from 'react';
+import {Link} from 'react-router';
+
 import {Html} from '../../../utils/components/Html';
 import {Bash} from '../../../utils/components/Bash';
 import {Sidebar} from '../../../utils/components/Sidebar';
-import {NoSelect} from '../../../utils/components/NoSelect';
+import {Carousel, Pane} from '../../../utils/components/Carousel';
+import {Continue} from '../../../utils/components/Continue';
+
 import config from './index';
 
 export const DOCTYPE = '<!DOCTYPE html>';
@@ -13,78 +17,88 @@ const Content = React.createClass({
 		const {step} = this.props;
 		const branchName = step.get('branchName');
 
+		const command = `git checkout -b ${branchName} && git add . && git commit -m "Create a new, empty HTML file" && git push -u origin ${branchName}`; // eslint-disable-line max-len
+
 		return (
-			<div>
-				<p>
-					Cool! Now that you've copy-pasted your first HTML page, 
-					let's try building an HTML page from scratch.
-				</p>
-				<p>HTML is made up of a bunch of <strong>tags</strong>. A tag looks like this:</p>
-				
-				<Html>{`<tagName>content</tagName>`}</Html>
-				
-				<p>Here are a couple of examples:</p>
-				
-				<Html>{`<h1>My Title</h1>`}</Html>
-				
-				<p><code>h1</code> tags create <strong>headers</strong>.</p>
-				
-				<Html>{`<html></html>`}</Html>
+			<Carousel>
+				<Pane name=''>
+					<p>
+						Cool! Now that you've copy-pasted your first HTML page, 
+						let's try building an HTML page from scratch.
+					</p>
 
-				<p><code>html</code> tags mark the beginning and end of an <strong>HTML page</strong>.</p>
+					<p>HTML is made up of a bunch of <strong>tags</strong>. A tag looks like this:</p>
+					
+					<Html>{`<tagName>content</tagName>`}</Html>
+					
+					<p>Here are a couple of examples:</p>
+					
+					<Html>{`<h1>My Title</h1>`}</Html>
+					
+					<p><code>h1</code> tags create <strong>headers</strong>.</p>
+					
+					<Html>{`<html></html>`}</Html>
 
-				<Html>{`<p>My paragraph content.</p>`}</Html>
+					<p><code>html</code> tags mark the beginning and end of an <strong>HTML page</strong>.</p>
 
-				<p><code>p</code> tags create new <strong>paragraphs</strong>.</p>
+					<Html>{`<p>My paragraph content.</p>`}</Html>
 
-				<p>At the beginning of any HTML Document, you'll see a DOCTYPE Declaration. It looks like this:</p>
+					<p><code>p</code> tags create new <strong>paragraphs</strong>.</p>
 
-				<Html>{DOCTYPE}</Html>
+					<p>At the beginning of any HTML Document, you'll see a DOCTYPE Declaration. It looks like this:</p>
 
-				<p>
-					This DOCTYPE declaration is just a way of telling the browser: 
-					"Hey! I'm about to send you an HTML document, 
-					so I want you to render what I'm about to send you as HTML."
-				</p>
+					<Html>{DOCTYPE}</Html>
 
-				<Sidebar>
-					<code>{DOCTYPE}</code> actually means "This is an HTML5 document." 
-					There are lots of versions of the HTML language. HTML5 is the latest one. 
-					There's also HTML 1.1, HTML 2.0, HTML 3.0, and XHTML (also known as HTML 4.01).
-					All of those different versions have different, sometimes counterintuitive, doctypes. 
-					But we're only going to use the latest and greatest. 
-					So for now, just know that the DOCTYPE for HTML5 is <code>{DOCTYPE}</code>
-				</Sidebar>
+					<p>
+						This DOCTYPE declaration is just a way of telling the browser: 
+						"Hey! I'm about to send you an HTML document, 
+						so I want you to render what I'm about to send you as HTML."
+					</p>
 
-				<p>To finish this step, checkout a new branch - </p>
+					<Sidebar>
+						<code>{DOCTYPE}</code> actually means "This is an HTML<strong>5</strong> document." 
+						There are lots of versions of the HTML language. HTML5 is the latest one. 
+						There's also HTML 1.1, HTML 2.0, HTML 3.0, and XHTML (also known as HTML 4.01).
+						All of those different versions have different, sometimes counterintuitive, doctypes. 
+						But we're only going to use the latest and greatest. 
+						So for now, just know that the DOCTYPE for HTML5 is <code>{DOCTYPE}</code>
+					</Sidebar>
 
-				<Bash>git checkout -b {branchName}</Bash>
+					<Continue>
+						<Link to="/step/html-from-scratch/doctypes-and-html-tags">
+							Click Here to Put It Into Action ->
+						</Link>
+					</Continue>
+				</Pane>
 
-				<p>Then create a new HTML document called <code>{FILENAME}</code> and open it up in Sublime Text:</p>
+				<Pane name="doctypes-and-html-tags">
+					<p>
+						First, create a new HTML document called <code>{FILENAME}</code> and 
+						open it up in Sublime Text:
+					</p>
 
-				<Bash>touch {FILENAME} && subl {FILENAME}</Bash>
+					<Bash noSelect={true}>touch {FILENAME} && subl {FILENAME}</Bash>
 
-				<p>
-					Add a DOCTYPE to the top of your document on line 1. 
-					Then add opening and closing <code>html</code> tags on line 2. 
-					Your HTML document should look like this:
-				</p>
+					<p>
+						Add a DOCTYPE to the top of your document on line 1. 
+						Then add opening and closing <code>html</code> tags on line 2. 
+						Your HTML document should look like this:
+					</p>
 
-				<NoSelect><Html>{`${DOCTYPE}
-<html></html>`}</Html></NoSelect>
+					<Html noSelect={true}>{`${DOCTYPE}
+<html></html>`}</Html>
 
-				<p>
-					When you're done, save your HTML page and send it to our shared repository.
-				</p>
+					<p>
+						When you're done, save your HTML page and send it to our shared repository.
+					</p>
 
-				<Bash>
-					git add . && 
-					git commit -m "Create a new, empty HTML file" && 
-					git push -u origin {branchName}
-				</Bash>
+					<Bash copy={true}>{command}</Bash>
 
-				<p>Then you can move on to the next step, where we'll add some content to our new HTML page.</p>
-			</div>
+					<p>Then you can move on to the next step, where we'll add some content to our new HTML page.</p>
+
+					{this.props.statusLink}
+				</Pane>
+			</Carousel>
 		);
 	},
 });
