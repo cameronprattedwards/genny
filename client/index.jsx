@@ -7,7 +7,6 @@ import Firebase from 'firebase';
 import _ from 'lodash';
 import createBrowserHistory from 'history/lib/createBrowserHistory';
 import {Router} from 'react-router';
-import { syncReduxAndRouter } from 'redux-simple-router';
 
 import {rootReducerFactory} from '../flux/reducers';
 import {routes} from './routes';
@@ -23,7 +22,6 @@ if (store.getState().user.get('token')) {
 }
 
 let history = createBrowserHistory();
-syncReduxAndRouter(history, store);
 
 function getInitialLocation(callback) {
 	let unlisten = history.listen(location => {
