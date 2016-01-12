@@ -28,6 +28,13 @@ const queries = {
 			.set('failureMessage', failureMessage)
 			.set('committedAt', new Date().getTime());
 	},
+
+	getLastVisit(userId) {
+		return squel.select().from('Step_visit')
+			.order('visitedAt', false)
+			.where(`User_id = ${userId}`)
+			.limit(1);
+	},
 };
 
 export default {
@@ -43,5 +50,11 @@ export default {
 
 	commit(userId, stepId, success, failureMessage) {
 		return mysql(queries.commit(userId, stepId, success, failureMessage));
+	},
+
+	async getLastVisit(userId) {
+		const query = queries.getLastVisit(userId);
+		let [visit] = await mysql(query);
+		return visit && visit.Step_id;
 	},
 };

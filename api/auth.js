@@ -2,13 +2,16 @@ import express from 'express';
 import randomstring from 'randomstring';
 import 'isomorphic-fetch';
 import cookieParser from 'cookie-parser';
+import fs from 'fs';
+import path from 'path';
+import _ from 'lodash';
+
 import apiPaths from './paths';
 import github from '../utils/github';
 import UserService from '../domain/UserService';
 import {RepoService} from '../domain/RepoService';
-import fs from 'fs';
-import path from 'path';
-import _ from 'lodash';
+import StepService from '../domain/StepService';
+import db from '../steps';
 
 const app = express();
 
@@ -47,9 +50,7 @@ const getToken = async function getToken(code) {  // eslint-disable-line no-unus
 	return response['access_token'];
 };
 
-const makeRepo = async function makeRepo(accessToken) {  // eslint-disable-line no-unused-vars
-	const client = new github.Client(accessToken);
-	const {id, login} = await client.getUser();
+const makeRepo = async function makeRepo(accessToken, id, login, client) {  // eslint-disable-line no-unused-vars
 	const gennyUser = await UserService.get({id});
 
 	if (!gennyUser) {
@@ -81,8 +82,14 @@ const callback = async function callback(request, response) {  // eslint-disable
 
 		const token = await getToken(code);  // eslint-disable-line no-undef
 		response.cookie('token', token);
-		await makeRepo(token);  // eslint-disable-line no-undef
-		const string = template({token});
+		const client = new github.Client(token);
+		const {id, login} = await client.getUser();
+		await makeRepo(token, id, login, client);  // eslint-disable-line no-undef
+		let step = await StepService.getLastVisit(id);
+		step = step || db.modules[db.moduleOrder[0]].steps[0];
+		let stepUrl = `${process.env.SERVER_DOMAIN}/step/${step}`;
+
+		const string = template({token, stepUrl});
 		response.status(200).send(string);
 	} catch (e) {
 		console.log(e.stack);

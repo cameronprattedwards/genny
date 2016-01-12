@@ -6,7 +6,11 @@
 <body>
 	<script>
 		var token = "<%= token %>";
-		window.opener.postMessage(token, '*');
+		if (window.opener) {
+			window.opener.postMessage(token, '*');
+		} else {
+			window.location = "<%= stepUrl %>";
+		}
 	</script>
 </body>
 </html>
