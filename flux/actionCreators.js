@@ -9,6 +9,7 @@ export const SET_CHILD_WINDOW = 'SET_CHILD_WINDOW';
 export const REQUEST_USER_STATE = 'REQUEST_USER_STATE';
 export const RECEIVE_USER_STATE = 'RECEIVE_USER_STATE';
 export const MARK_COPIED = 'MARK_COPIED';
+export const SET_OS = 'SET_OS';
 
 export function setChildWindow(childWindow) {
 	return {
@@ -73,5 +74,12 @@ export function markCopied(text) {
 	return {
 		type: MARK_COPIED,
 		text,
+	};
+}
+
+export function setOs(os) {
+	return {
+		type: SET_OS,
+		os,
 	};
 }

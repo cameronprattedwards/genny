@@ -9,7 +9,8 @@ let blacklist = ['.', '..', 'index.js'];
 let difference = _.difference(dirs, blacklist);
 
 for (let dir of difference) {
-	mapping[dir] = require(`./html/${dir}/content`).default;
+	let {Mac, Win} = require(`./html/${dir}/content`);
+	mapping[dir] = {Mac, Win};
 }
 
 export default mapping;

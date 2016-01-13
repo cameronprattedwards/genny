@@ -10,7 +10,8 @@ import {Router} from 'react-router';
 
 import {rootReducerFactory} from '../flux/reducers';
 import {routes} from './routes';
-import {fetchUserState, stepUpdate} from '../flux/actionCreators';
+import {fetchUserState, stepUpdate, setOs} from '../flux/actionCreators';
+import {getOs} from '../utils/getOs';
 
 const rootReducer = rootReducerFactory(__INITIAL_STATE__);
 
@@ -20,6 +21,9 @@ const firebaseApp = new Firebase(`https://${env.FIREBASE_NAME}.firebaseio.com/`)
 if (store.getState().user.get('token')) {
 	listenToFirebase(store.getState());
 }
+
+const os = getOs(window.navigator.userAgent);
+store.dispatch(setOs(os));
 
 let history = createBrowserHistory();
 

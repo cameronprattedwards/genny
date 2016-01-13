@@ -74,7 +74,7 @@ export const Step = React.createClass({
 
 		const step = getStep(db, stepName);
 
-		const StepContent = stepsMapping[stepName];
+		const StepContent = stepsMapping[stepName][this.props.os];
 
 		let statusLink = null;
 
@@ -114,13 +114,17 @@ export const Step = React.createClass({
 });
 
 function mapStateToProps(state) {
+	let {user, db, env, ui} = state;
+
 	return {
-		repoName: state.user.getIn(['repoName']),
-		token: state.user.getIn(['token']),
-		login: state.user.getIn(['login']),
-		db: state.db,
-		moduleOrder: state.db.getIn(['moduleOrder']),
-		SERVER_DOMAIN: state.env.getIn(['SERVER_DOMAIN']),
+		repoName: user.get('repoName'),
+		token: user.get('token'),
+		login: user.get('login'),
+		email: user.get('email'),
+		db,
+		moduleOrder: db.get('moduleOrder'),
+		SERVER_DOMAIN: env.get('SERVER_DOMAIN'),
+		os: ui.get('os'),
 	};
 }
 

@@ -119,4 +119,8 @@ const Content = React.createClass({
 	},
 });
 
+export const Mac = Content;
+
+export const Win = Content;
+
 export default Content;

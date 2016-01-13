@@ -9,13 +9,15 @@ import { Provider } from 'react-redux';
 import React from 'react';
 import { match, RoutingContext } from 'react-router';
 import DocumentTitle from 'react-document-title';
-import {Map} from 'immutable';
+import {Map, fromJS} from 'immutable';
 
 import {UnauthorizedError} from '../utils/errors';
 import {routes} from '../client/dist/server';
 import {BASE_PATH} from '../api/paths';
 import api from '../api/server';
 import {getUserState} from '../api/state';
+import {getOs} from '../utils/getOs';
+import {setOs} from '../flux/actionCreators';
 
 const app = express();
 app.use(cookieParser());
@@ -31,9 +33,11 @@ app.use('/public', express.static(path.join(__dirname, 'dist')));
 
 const handleDefaultRequest = async function handleDefaultRequest(request, response) {
 	try {
+		const os = getOs(request.get('user-agent'));
+
 		const {token} = request.cookies;
 		let state = {
-			ui: Map(),
+			ui: fromJS({os}),
 			db: Map(),
 			env: {
 				SERVER_DOMAIN: process.env.SERVER_DOMAIN,
@@ -41,17 +45,18 @@ const handleDefaultRequest = async function handleDefaultRequest(request, respon
 			user: Map(),
 		};
 
+		let store = createStore(() => state);
+
 		if (token) {
-			state = await getUserState(token);
+			store = await getUserState(token);
+			store.dispatch(setOs(os));
+			state = store.getState();
 		} else if (request.path !== '/') {
 			return response.redirect('/');
 		}
 
-		const store = createStore(() => state);
-
 		match({routes, location: request.path}, (error, redirectLocation, renderProps) => {
 			if (error) {
-				console.log(error);
 				response.status(error.status ? error.status : 500).send(error.message);
 			} else if (redirectLocation) {
 				response.redirect(redirectLocation.pathname + redirectLocation.search);

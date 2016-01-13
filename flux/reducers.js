@@ -9,6 +9,7 @@ import {
 	RECEIVE_USER_STATE,
 	MARK_COPIED,
 	STEP_VISIT,
+	SET_OS,
 } from './actionCreators';
 
 export function rootReducerFactory(initialState) {
@@ -44,6 +45,8 @@ export function rootReducerFactory(initialState) {
 				return state.set('loading', false);
 			case MARK_COPIED:
 				return state.set('copiedText', event.text);
+			case SET_OS:
+				return state.set('os', event.os);
 			default:
 				return state;
 		}

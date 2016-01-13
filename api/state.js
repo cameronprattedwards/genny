@@ -15,6 +15,7 @@ export const getUserState = async function getUserState(token) {
 	const client = new Client(token);
 
 	let {id, login, avatar_url} = await client.getUser();  // eslint-disable-line camelcase
+	let [email] = await client.getEmails();
 	let repoName;
 	try {
 		 ({repoName} = await UserService.get({id}));
@@ -31,6 +32,7 @@ export const getUserState = async function getUserState(token) {
 			token,
 			login,
 			repoName,
+			email,
 			avatar: avatar_url,  // eslint-disable-line camelcase
 			currentStep: db.modules[db.moduleOrder[0]].steps[0],
 		},
@@ -50,12 +52,14 @@ export const getUserState = async function getUserState(token) {
 		store.dispatch({...event});
 	});
 
+	return store;
+
 	return store.getState();
 };
 
 const handleStateRequest = async function handleStateRequest(request, response) {
-	const state = await getUserState(request.query.token);
-	response.status(200).send(state);
+	const store = await getUserState(request.query.token);
+	response.status(200).send(store.getState());
 };
 
 app.get(Paths.GET_USER_STATE, handleStateRequest);
