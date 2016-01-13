@@ -8,6 +8,7 @@ import {Bash} from '../../../utils/components/Bash';
 import {CopyButtonContainer} from '../../../utils/components/CopyButton';
 import {Continue} from '../../../utils/components/Continue';
 import {Key} from '../../../utils/components/Keyboard';
+import {Sidebar} from '../../../utils/components/Sidebar';
 
 function instruction(fileContents) {
 	return (
@@ -97,7 +98,7 @@ export const Mac = React.createClass({
 				</Pane>
 			</Carousel>
 		);
-	}
+	},
 });
 
 export const Win = React.createClass({
@@ -107,47 +108,42 @@ export const Win = React.createClass({
 		const fileName = step.get('fileName');
 		const branchName = step.get('branchName');
 		const command = `git checkout -b ${branchName} && git add . && git commit -m "Create my first HTML page" && git push -u origin ${branchName}`; // eslint-disable-line max-len
-	
+		const repoPath = `C:\\Users\\<your user name>\\${repoName}`;
+
 		return (
 			<Carousel>
 				<Pane name="">
 					{instruction(fileContents)}
 					<Continue>
-						<Link to="/step/empty-html-page/open-folder-in-sublime">
-							Click Here to Put It Into Action ->
-						</Link>
-					</Continue>
-				</Pane>
-
-				<Pane name="open-folder-in-sublime">
-					<p>
-						Let's create your first HTML page right now! It'll be a simple copy-paste job. 
-					</p>
-					<p>
-						First, <strong>open your code folder in Sublime</strong> by selecting File > Open Folder, 
-						then selecting the folder. The folder will be called <code>C:\Users\&lt;your user name&gt;\{repoName}</code>.
-					</p>
-
-					<Continue>
 						<Link to="/step/empty-html-page/create-an-html-file">
-							Click Here to Create Your HTML File ->
+							Click Here to Put It Into Action ->
 						</Link>
 					</Continue>
 				</Pane>
 
 				<Pane name="create-an-html-file">
 					<p>
-						Once you have your folder open, create a new file (<Key>Ctrl</Key> <Key>N</Key>), then 					
-						<strong>
-							<CopyButtonContainer text={fileContents} /> and paste the HTML on 
-							{' '}<Link to="/step/empty-html-page">the previous page</Link>
-						</strong>
-						{' '}into your file. You can paste into Sublime Text with <Key>Ctrl</Key> <Key>V</Key>.
+						Let's create your first HTML page right now! It'll be a simple copy-paste job. 
 					</p>
 
 					<p>
-						Save your file (<Key>Ctrl</Key> <Key>S</Key>). To see your handiwork in the browser, 
-						open up your File Explorer (<Key><i className="fa fa-windows" /></Key> <Key>E</Key>), then navigate to 
+						First, <strong>open your code folder in Sublime</strong> by selecting File > Open Folder, 
+						then selecting <code>{repoPath}</code>.
+					</p>
+
+					<p>
+						Once you have your folder open, create a new file, then 					
+						<strong>
+							{' '}<CopyButtonContainer text={fileContents} /> and paste the HTML on 
+							{' '}<Link to="/step/empty-html-page">the previous page</Link>
+						</strong>
+						{' '}into your file.
+					</p>
+
+					<p>
+						Save your file as <code>{`${repoPath}\\${fileName}`}</code>. 
+						To see your handiwork in the browser, 
+						open up your File Explorer, then navigate to 
 						{' '}{fileName} and double-click it.
 					</p>
 
@@ -156,6 +152,20 @@ export const Win = React.createClass({
 							Click Here to Submit Your Code ->
 						</Link>
 					</Continue>
+
+					<Sidebar>
+						<ul>
+							<li>
+								You can create a new file in Sublime Text by pressing <Key>Ctrl</Key> <Key>N</Key>.
+							</li>
+							<li>You can paste into Sublime Text with <Key>Ctrl</Key> <Key>V</Key>.</li>
+							<li>You can save a file in Sublime with <Key>Ctrl</Key> <Key>S</Key>.</li>
+							<li>
+								You can open File Explorer with{' '}
+								<Key><i className="fa fa-windows" /></Key> <Key>E</Key>.
+							</li>
+						</ul>
+					</Sidebar>
 				</Pane>
 
 				<Pane name="submit-your-code">
@@ -167,14 +177,17 @@ export const Win = React.createClass({
 
 					<Bash copy={true}>{command}</Bash>
 
-					<p>
-						Remember: You can open your command prompt by typing <Key><i className="fa fa-windows"/></Key> <Key>R</Key>, 
-						then "CMD". You can paste into your command prompt by right-clicking.
-					</p>
+					<Sidebar>
+						<ul>
+						<li>You can open your command prompt by typing 
+						{' '}<Key><i className="fa fa-windows"/></Key> <Key>R</Key>, then "CMD". </li>
+						<li>You can paste into your command prompt by right-clicking.</li>
+						</ul>
+					</Sidebar>
 
 					{this.props.statusLink}
 				</Pane>
 			</Carousel>
 		);
-	}
+	},
 });
