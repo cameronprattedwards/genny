@@ -105,7 +105,9 @@ export const Step = React.createClass({
 			<DocumentTitle title={`HTML Tutorial - ${step.get('name')}`}>
 				<div className={styles.step}>
 					<h2 className={styles.stepName}>{step.get('name')}!</h2>
-					<StepContent {...this.props} stepName={stepName} step={step} statusLink={statusLink} />
+					<div className={styles.stepWrapper}>
+						<StepContent {...this.props} stepName={stepName} step={step} statusLink={statusLink} />
+					</div>
 					<Breadcrumbs steps={steps} active={stepName} />
 				</div>
 			</DocumentTitle>
