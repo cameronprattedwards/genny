@@ -32,7 +32,7 @@ export const getUserState = async function getUserState(token) {
 			token,
 			login,
 			repoName,
-			email,
+			email: email.email,
 			avatar: avatar_url,  // eslint-disable-line camelcase
 			currentStep: db.modules[db.moduleOrder[0]].steps[0],
 		},
