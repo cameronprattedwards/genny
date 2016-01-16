@@ -25,3 +25,9 @@
 .link {
 	color: white;
 }
+
+.stepWrapper {
+	background-color: white;
+	position: relative;
+	z-index: 1;
+}

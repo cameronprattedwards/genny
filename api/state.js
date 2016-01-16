@@ -53,8 +53,6 @@ export const getUserState = async function getUserState(token) {
 	});
 
 	return store;
-
-	return store.getState();
 };
 
 const handleStateRequest = async function handleStateRequest(request, response) {

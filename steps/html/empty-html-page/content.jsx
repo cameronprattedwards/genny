@@ -47,6 +47,8 @@ function instruction(fileContents) {
 
 let Troubleshooting = React.createClass({
 	render() {
+		let isOpen = this.props.troubleshootingKey === this.props.key;
+
 		return (
 			<div>
 				<h4 className={styles.help}>Help! I got an error!</h4>

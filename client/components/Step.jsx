@@ -9,6 +9,7 @@ import styles from './Step.css';
 import {Paths, BASE_PATH} from '../../api/paths';
 import {Breadcrumbs} from './Breadcrumbs';
 import {Continue} from '../../utils/components/Continue';
+import {Spinner} from '../../utils/components/Spinner';
 
 function next(currentStepId, step, db, moduleOrder) {
 	const currentModuleId = step.get('module');
@@ -96,7 +97,12 @@ export const Step = React.createClass({
 				</div>
 			);
 		} else if (step.get('commit')) {
-			statusLink = <div className={styles.loading}>We got your code and we're running some tests.</div>;
+			statusLink = (
+				<div className={styles.loading}>
+					<Spinner />{' '}
+					We got your code and we're running some tests.
+				</div>
+			);
 		}
 
 		let steps = db.getIn(['modules', 'html', 'steps']).map(step => db.getIn(['steps', step]));

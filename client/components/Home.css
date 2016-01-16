@@ -49,3 +49,8 @@
     background-image: none;
     border-color: #418737;
 }
+
+.spinner {
+    font-size: 100px;
+    text-align: center;
+}
