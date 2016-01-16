@@ -5,13 +5,13 @@ import {Provider} from 'react-redux';
 import thunkMiddleware from 'redux-thunk';
 import Firebase from 'firebase';
 import _ from 'lodash';
-import createBrowserHistory from 'history/lib/createBrowserHistory';
 import {Router} from 'react-router';
 
 import {rootReducerFactory} from '../flux/reducers';
 import {routes} from './routes';
 import {fetchUserState, stepUpdate, setOs} from '../flux/actionCreators';
 import {getOs} from '../utils/getOs';
+import {history, goToCurrentStep} from './history';
 
 const rootReducer = rootReducerFactory(__INITIAL_STATE__);
 
@@ -25,26 +25,6 @@ if (store.getState().user.get('token')) {
 const os = getOs(window.navigator.userAgent);
 store.dispatch(setOs(os));
 
-let history = createBrowserHistory();
-
-function getInitialLocation(callback) {
-	let unlisten = history.listen(location => {
-		callback(location);
-	});
-	unlisten();
-}			
-
-function goToCurrentStep(state) {
-	getInitialLocation(location => {
-		if (typeof state.user.get('currentStep') !== 'undefined' && location.pathname === '/') {
-			const currentStep = state.user.get('currentStep');
-			let route;
-			let step = state.db.getIn(['steps', currentStep.toString()]);
-			route = `/step/${step.get('branchName')}`;
-			history.replaceState(null, route);
-		}
-	});
-}
 
 function listenToFirebase(state) {
 	firebaseApp.child(state.user.get('token')).on('child_added', snapshot => {

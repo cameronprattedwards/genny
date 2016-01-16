@@ -1,5 +1,8 @@
 import React from 'react';
 import {Link} from 'react-router';
+import {connect} from 'react-redux';
+
+import {openTroubleshooting} from '../../../flux/actionCreators';
 
 import {Html} from '../../../utils/components/Html';
 import {Carousel, Pane} from '../../../utils/components/Carousel';
@@ -9,6 +12,7 @@ import {CopyButtonContainer} from '../../../utils/components/CopyButton';
 import {Continue} from '../../../utils/components/Continue';
 import {Key} from '../../../utils/components/Keyboard';
 import {Sidebar} from '../../../utils/components/Sidebar';
+import styles from './Troubleshooting.css';
 
 function instruction(fileContents) {
 	return (
@@ -41,46 +45,65 @@ function instruction(fileContents) {
 	);
 }
 
+let Troubleshooting = React.createClass({
+	render() {
+		return (
+			<div>
+				<h4 className={styles.help}>Help! I got an error!</h4>
+				{this.props.children}
+			</div>
+		);
+	}
+});
+
+function mapDispatchToProps(dispatch) {
+	return {
+		open: (key) => dispatch(openTroubleshooting(key)),
+	}
+}
+
+function mapStateToProps(state) {
+	return {
+		troubleshootingKey: state.ui.get('troubleshootingKey'),
+	};
+}
+
+Troubleshooting = connect(mapStateToProps, mapDispatchToProps)(Troubleshooting);
+
+const ErrorMessage = React.createClass({
+	render() {
+		return (
+			<div className={styles.errorMessage}>{this.props.children}</div>
+		);
+	}
+});
+
+function troubleshooting(branchName, shortCommand) {
+	return (
+		<Troubleshooting>
+			<ErrorMessage>A branch named '{branchName}' already exists.</ErrorMessage>
+			<p>
+				Don't fret. Just run this instead:
+				<Bash copy={true}>{shortCommand}</Bash>
+			</p>
+		</Troubleshooting>
+	);
+}
+
 export const Mac = React.createClass({
 	render() {
 		const {repoName, step} = this.props;
 		const fileName = step.get('fileName');
 		const fileContents = step.get('fileContents');
 		const branchName = step.get('branchName');
-		const command = `git checkout -b ${branchName} && git add . && git commit -m "Create my first HTML page" && git push -u origin ${branchName}`; // eslint-disable-line max-len
-
-		const create = (
-			<div>
-				<p>
-					Let's create your first HTML page right now! It'll be a simple copy-paste job. 
-					Type the following commands into your terminal. 
-					It will create a new file with a .html extension and open it up in Sublime:
-				</p>
-
-				<Bash noSelect={true}>cd ~/{repoName} && touch {fileName} && subl {fileName}</Bash>
-
-				<p>
-					<strong>
-						<CopyButtonContainer text={fileContents} /> and paste the HTML on 
-						{' '}<Link to="/step/empty-html-page">the previous page</Link>
-					</strong>
-					{' '}into your file. Press <Key>Command</Key> <Key>S</Key> to save. 
-					Then, to look at your handiwork in a browser, type:
-				</p>
-
-				<Bash noSelect={true}>open {fileName}</Bash>
-
-				<p>
-					Check that out. You just created your first webpage! Nicely done. 
-					To move on to the next step (and write some HTML from scratch), just send your code back to us 
-					by copy-pasting the following into the terminal:
-				</p>
-
-				<Bash copy={true}>{command}</Bash>
-
-				{this.props.statusLink}
-			</div>
-		);
+		const commands = [
+			`git checkout -b ${branchName}`,
+			'git add .',
+			'git commit -m "Create my first HTML page"',
+			`git push -u origin ${branchName}`
+		];
+		const command = commands.join(' && ');
+		const shortCommand = commands.slice(1).join(' && ');
 
 		return (
 			<Carousel>
@@ -94,7 +117,75 @@ export const Mac = React.createClass({
 				</Pane>
 
 				<Pane name="create-your-first-webpage">
-					{create}
+					<p>
+						Let's create your first HTML page right now! 
+						We'll start with creating the file, then copy and paste some HTML 
+						to create your first webpage! Easy peasy.
+					</p>
+
+					<h3>Create the File</h3>
+
+					<p>
+						<strong>Type the following commands into your terminal</strong>. 
+						You won't be able to copy and paste them - 
+						that's so you get some practice with typing in the terminal on your own.
+					</p>
+
+					<p>
+						Here's the first command to type. It takes you to your code folder, 
+						where you'll put your first HTML file:
+					</p>
+
+					<Bash noSelect={true}>cd ~/{repoName}</Bash>
+
+					<p>
+						This next command creates a new file called "{fileName}":
+					</p>
+
+					<Bash noSelect={true}>touch {fileName}</Bash>
+
+					<p>
+						And this last command opens up your file in Sublime so you can paste some HTML in there:
+					</p>
+
+					<Bash noSelect={true}>subl {fileName}</Bash>
+
+					<Continue>
+						<Link to="/step/empty-html-page/paste-your-first-html">
+							Click Here to Add Some HTML ->
+						</Link>
+					</Continue>
+				</Pane>
+
+				<Pane name="paste-your-first-html">
+					<h3>Paste Your First HTML</h3>
+
+					<p>Now the easy part. :)</p>
+
+					<p>
+						<strong>
+							<CopyButtonContainer text={fileContents} /> and paste the HTML on 
+							{' '}<Link to="/step/empty-html-page">the previous page</Link>
+						</strong>
+						{' '}into your file in Sublime Text. Press <Key>Command</Key> <Key>S</Key> to save. 
+					</p>
+
+					<p>
+						Then, to look at your handiwork in a browser, type this in your terminal:
+					</p>
+
+					<Bash noSelect={true}>open {fileName}</Bash>
+
+					<p>
+						Check that out. You just created your first webpage! Nicely done. 
+						To move on to the next step (and write some HTML from scratch), just send your code back to us 
+						by copy-pasting the following into the terminal:
+					</p>
+
+					<Bash copy={true}>{command}</Bash>
+
+					{this.props.statusLink}
+					{troubleshooting(branchName, shortCommand)}
 				</Pane>
 			</Carousel>
 		);
@@ -107,8 +198,15 @@ export const Win = React.createClass({
 		const fileContents = step.get('fileContents');
 		const fileName = step.get('fileName');
 		const branchName = step.get('branchName');
-		const command = `git checkout -b ${branchName} && git add . && git commit -m "Create my first HTML page" && git push -u origin ${branchName}`; // eslint-disable-line max-len
 		const repoPath = `C:\\Users\\<your user name>\\${repoName}`;
+		const commands = [
+			`git checkout -b ${branchName}`,
+			'git add .',
+			'git commit -m "Create my first HTML page"',
+			`git push -u origin ${branchName}`
+		];
+		const command = commands.join(' && ');
+		const shortCommand = commands.slice(1).join(' && ');
 
 		return (
 			<Carousel>
@@ -171,7 +269,7 @@ export const Win = React.createClass({
 				<Pane name="submit-your-code">
 					<p>
 						Check that out. You just created your first webpage! Nicely done. 
-						To move on to the next step (and write some HTML from scratch), just 
+						To move on to the next step (and write some HTML from scratch), just{' '}
 						<CopyButtonContainer text={`${command}\n`} /> and paste the following into your command prompt:
 					</p>
 
@@ -179,13 +277,16 @@ export const Win = React.createClass({
 
 					<Sidebar>
 						<ul>
-						<li>You can open your command prompt by typing 
-						{' '}<Key><i className="fa fa-windows"/></Key> <Key>R</Key>, then "CMD". </li>
-						<li>You can paste into your command prompt by right-clicking.</li>
+							<li>
+								You can open your command prompt by typing 
+								{' '}<Key><i className="fa fa-windows"/></Key> <Key>R</Key>, then "CMD".
+							</li>
+							<li>You can paste into your command prompt by right-clicking.</li>
 						</ul>
 					</Sidebar>
 
 					{this.props.statusLink}
+					{troubleshooting(branchName, shortCommand)}
 				</Pane>
 			</Carousel>
 		);

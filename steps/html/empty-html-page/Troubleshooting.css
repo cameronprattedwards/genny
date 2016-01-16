@@ -1,0 +1,11 @@
+.errorMessage {
+    background-color: #ddd;
+    font-family: monospace;
+    padding: 5px;
+}
+
+.help {
+	color: blue;
+	cursor: pointer;
+	text-decoration: underline;
+}

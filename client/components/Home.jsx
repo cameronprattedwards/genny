@@ -41,6 +41,7 @@ export const Home = React.createClass({
 function mapStateToProps(state) {
 	return {
 		loading: state.ui.get('loading'),
+		token: state.user.get('token'),
 	};
 }
 
