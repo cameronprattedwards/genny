@@ -10,7 +10,7 @@ export const REQUEST_USER_STATE = 'REQUEST_USER_STATE';
 export const RECEIVE_USER_STATE = 'RECEIVE_USER_STATE';
 export const MARK_COPIED = 'MARK_COPIED';
 export const SET_OS = 'SET_OS';
-export const OPEN_TROUBLESHOOTING = 'OPEN_TROUBLESHOOTING';
+export const TOGGLE_TROUBLESHOOTING = 'TOGGLE_TROUBLESHOOTING';
 
 export function setChildWindow(childWindow) {
 	return {
@@ -85,9 +85,10 @@ export function setOs(os) {
 	};
 }
 
-export function openTroubleshooting(key) {
+export function toggleTroubleshooting(key, isOpen) {
 	return {
-		type: 'OPEN_TROUBLESHOOTING',
-		key
+		type: TOGGLE_TROUBLESHOOTING,
+		key,
+		isOpen,
 	};
 }

@@ -1,0 +1,12 @@
+.setup {
+	max-width: 750px;
+	margin: auto;
+}
+
+.img {
+	max-width: 50%;
+}
+
+.imgWrapper {
+	text-align: center;
+}

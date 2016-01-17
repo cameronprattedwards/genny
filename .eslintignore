@@ -1,4 +1,4 @@
-client/dist
+client/public/dist
 webpack.config.js
 production.config.js
 steps/files.js

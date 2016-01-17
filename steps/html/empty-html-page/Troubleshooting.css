@@ -9,3 +9,12 @@
 	cursor: pointer;
 	text-decoration: underline;
 }
+
+.closed {
+	display: none;
+}
+
+.tip {
+	margin-top: 1em;
+	margin-bottom: 1em;
+}

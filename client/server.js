@@ -12,7 +12,7 @@ import DocumentTitle from 'react-document-title';
 import {Map, fromJS} from 'immutable';
 
 import {UnauthorizedError} from '../utils/errors';
-import {routes} from '../client/dist/server';
+import {routes} from '../client/public/dist/server';
 import {BASE_PATH} from '../api/paths';
 import api from '../api/server';
 import {getUserState} from '../api/state';
@@ -29,7 +29,7 @@ const indexTemplate = _.template(indexHtml);
 app.use(BASE_PATH, api);
 
 app.use('/public/themes', express.static(path.join(__dirname, '../node_modules/highlight.js/styles')));
-app.use('/public', express.static(path.join(__dirname, 'dist')));
+app.use('/public', express.static(path.join(__dirname, 'public')));
 
 const handleDefaultRequest = async function handleDefaultRequest(request, response) {
 	try {

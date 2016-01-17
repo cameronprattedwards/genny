@@ -1,10 +1,14 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import {Link} from 'react-router';
 
 import {Paths, reversePath} from '../../api/paths';
 import {setChildWindow} from '../../flux/actionCreators';
 import styles from './Home.css';
+import {FIRST_PANE, setupUrl} from './Setup';
+
 import {Spinner} from '../../utils/components/Spinner';
+import {Button} from '../../utils/components/Button';
 
 const loginPath = reversePath(Paths.LOGIN, false);
 
@@ -14,13 +18,17 @@ export const Home = React.createClass({
 
 		if (this.props.loading) {
 			callToAction = <div className={styles.spinner}><Spinner /></div>;
+		} else if (this.props.token) {
+			callToAction = (
+				<p>
+					<Button component={Link} to={`/step/${this.props.currentStep}`}>Click here</Button>
+					{' '}to pick up where you left off.
+				</p>
+			);
 		} else {
 			callToAction = (
 				<p>
-					To get started, 
-					{' '}<a href={loginPath} onClick={this.openLoginWindow} className={styles.button}>
-						sign up with GitHub.
-					</a>
+					<Button component={Link} to={setupUrl(FIRST_PANE)}>Click here</Button> to get started.
 				</p>
 			);
 		}

@@ -1,8 +1,9 @@
 import React from 'react';
 import {Link} from 'react-router';
 import {connect} from 'react-redux';
+import cx from 'classnames';
 
-import {openTroubleshooting} from '../../../flux/actionCreators';
+import {toggleTroubleshooting} from '../../../flux/actionCreators';
 
 import {Html} from '../../../utils/components/Html';
 import {Carousel, Pane} from '../../../utils/components/Carousel';
@@ -47,21 +48,35 @@ function instruction(fileContents) {
 
 let Troubleshooting = React.createClass({
 	render() {
-		let isOpen = this.props.troubleshootingKey === this.props.key;
+		let classNames = cx({
+			[styles.closed]: !this.props.isOpen,
+		});
 
 		return (
 			<div>
-				<h4 className={styles.help}>Help! I got an error!</h4>
-				{this.props.children}
+				<h4 className={styles.help} onClick={() => this.onClick()}>Help! I got an error!</h4>
+				<div className={classNames}>
+					{this.props.children}
+				</div>
 			</div>
 		);
-	}
+	},
+
+	onClick() {
+		this.props.toggle(this.props.keyName, !this.props.isOpen);
+	},
+});
+
+let Tip = React.createClass({
+	render() {
+		return <div className={styles.tip}>{this.props.children}</div>;
+	},
 });
 
 function mapDispatchToProps(dispatch) {
 	return {
-		open: (key) => dispatch(openTroubleshooting(key)),
-	}
+		toggle: (key, isOpen) => dispatch(toggleTroubleshooting(key, isOpen)),
+	};
 }
 
 function mapStateToProps(state) {
@@ -70,24 +85,32 @@ function mapStateToProps(state) {
 	};
 }
 
-Troubleshooting = connect(mapStateToProps, mapDispatchToProps)(Troubleshooting);
+function mergeProps(stateProps, dispatchProps, ownProps) {
+	return {
+		...dispatchProps,
+		...ownProps,
+		isOpen: stateProps.troubleshootingKey === ownProps.keyName,
+	};
+}
+
+Troubleshooting = connect(mapStateToProps, mapDispatchToProps, mergeProps)(Troubleshooting);
 
 const ErrorMessage = React.createClass({
 	render() {
 		return (
 			<div className={styles.errorMessage}>{this.props.children}</div>
 		);
-	}
+	},
 });
 
 function troubleshooting(branchName, shortCommand) {
 	return (
-		<Troubleshooting>
+		<Troubleshooting keyName={branchName}>
 			<ErrorMessage>A branch named '{branchName}' already exists.</ErrorMessage>
-			<p>
+			<Tip>
 				Don't fret. Just run this instead:
 				<Bash copy={true}>{shortCommand}</Bash>
-			</p>
+			</Tip>
 		</Troubleshooting>
 	);
 }
@@ -102,7 +125,7 @@ export const Mac = React.createClass({
 			`git checkout -b ${branchName}`,
 			'git add .',
 			'git commit -m "Create my first HTML page"',
-			`git push -u origin ${branchName}`
+			`git push -u origin ${branchName}`,
 		];
 		const command = commands.join(' && ');
 		const shortCommand = commands.slice(1).join(' && ');
@@ -129,26 +152,18 @@ export const Mac = React.createClass({
 
 					<p>
 						<strong>Type the following commands into your terminal</strong>. 
-						You won't be able to copy and paste them - 
+						You won't be able to copy and paste the commands - 
 						that's so you get some practice with typing in the terminal on your own.
 					</p>
 
 					<p>
-						Here's the first command to type. It takes you to your code folder, 
-						where you'll put your first HTML file:
+						This first command just navigates to your repository. 
+						(<code>cd</code> stands for "change directories.")
 					</p>
 
 					<Bash noSelect={true}>cd ~/{repoName}</Bash>
 
-					<p>
-						This next command creates a new file called "{fileName}":
-					</p>
-
-					<Bash noSelect={true}>touch {fileName}</Bash>
-
-					<p>
-						And this last command opens up your file in Sublime so you can paste some HTML in there:
-					</p>
+					<p>This last command opens up a new file called {fileName} in Sublime Text.</p>
 
 					<Bash noSelect={true}>subl {fileName}</Bash>
 
@@ -166,21 +181,42 @@ export const Mac = React.createClass({
 
 					<p>
 						<strong>
-							<CopyButtonContainer text={fileContents} /> and paste the HTML on 
-							{' '}<Link to="/step/empty-html-page">the previous page</Link>
+							Copy and paste the following HTML 
 						</strong>
-						{' '}into your file in Sublime Text. Press <Key>Command</Key> <Key>S</Key> to save. 
+						{' '}into Sublime Text.
 					</p>
 
+					<Html copy={true}>{`<!DOCTYPE html>
+<html>
+	<head>
+		<title>Your First Webpage!</title>
+	</head>
+	<body>
+		<h1>This Is Your First Webpage!</h1>
+		<p>
+			This your very first webpage ever. Congratulations!
+		</p>
+		<p>
+			You deserve to celebrate. Go eat some ice cream or something.
+			Then go back to School of Haxx to learn some more about HTML.
+		</p>
+	</body>
+</html>	`}</Html>
 					<p>
-						Then, to look at your handiwork in a browser, type this in your terminal:
+ 						Press <Key>Command</Key> <Key>S</Key> to save. 
+ 					</p>
+
+					<p>
+						Then, to look at your handiwork in a browser, type this in your terminal and press "enter":
 					</p>
 
 					<Bash noSelect={true}>open {fileName}</Bash>
 
 					<p>
 						Check that out. You just created your first webpage! Nicely done. 
-						To move on to the next step (and write some HTML from scratch), just send your code back to us 
+					</p>
+					<p>
+						To move on to the next step, just send your code back to us 
 						by copy-pasting the following into the terminal:
 					</p>
 
@@ -205,7 +241,7 @@ export const Win = React.createClass({
 			`git checkout -b ${branchName}`,
 			'git add .',
 			'git commit -m "Create my first HTML page"',
-			`git push -u origin ${branchName}`
+			`git push -u origin ${branchName}`,
 		];
 		const command = commands.join(' && ');
 		const shortCommand = commands.slice(1).join(' && ');

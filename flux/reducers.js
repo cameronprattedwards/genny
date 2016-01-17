@@ -10,7 +10,7 @@ import {
 	MARK_COPIED,
 	STEP_VISIT,
 	SET_OS,
-	OPEN_TROUBLESHOOTING,
+	TOGGLE_TROUBLESHOOTING,
 } from './actionCreators';
 
 export function rootReducerFactory(initialState) {
@@ -48,8 +48,12 @@ export function rootReducerFactory(initialState) {
 				return state.set('copiedText', event.text);
 			case SET_OS:
 				return state.set('os', event.os);
-			case OPEN_TROUBLESHOOTING:
-				return state.set('troubleshootingKey', event.key);
+			case TOGGLE_TROUBLESHOOTING:
+				if (event.isOpen) {
+					return state.set('troubleshootingKey', event.key);
+				} else {
+					return state.remove('troubleshootingKey');
+				}
 			default:
 				return state;
 		}

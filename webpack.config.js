@@ -33,12 +33,12 @@ module.exports = {
     extensions: ['', '.js', '.jsx', '.css']
   },
   output: {
-    path: __dirname + '/client/dist',
-    publicPath: '/public/',
+    path: __dirname + '/client/public/dist',
+    publicPath: '/public/dist/',
     filename: 'bundle.js'
   },
   devServer: {
-    contentBase: './client/dist',
+    contentBase: './client',
     hot: true,
   },
   plugins: plugins

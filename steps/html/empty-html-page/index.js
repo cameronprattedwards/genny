@@ -1,6 +1,6 @@
 export default {
 	branchName: 'empty-html-page',
-	name: 'Empty HTML Page',
+	name: 'Your First HTML Page',
 	fileName: 'my-first-html.html',
 	fileContents: `<!DOCTYPE html>
 <html>

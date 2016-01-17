@@ -2,7 +2,7 @@
 <html>
 <head>
 	<title><%= title %></title>
-	<link type="text/css" rel="stylesheet" href="<%= CLIENT_DOMAIN %>/public/bundle.css" />
+	<link type="text/css" rel="stylesheet" href="<%= CLIENT_DOMAIN %>/public/dist/bundle.css" />
 </head>
 <body>
 	<div id="app"><%= html %></div>
@@ -10,7 +10,7 @@
 		window.env = <%= JSON.stringify(env) %>;
 		window.__INITIAL_STATE__ = <%= JSON.stringify(state) %>;
 	</script>
-	<script src="<%= CLIENT_DOMAIN %>/public/bundle.js"></script>
+	<script src="<%= CLIENT_DOMAIN %>/public/dist/bundle.js"></script>
 	<link type="text/css" rel="stylesheet" href="/public/themes/agate.css" />
 	<link type="text/css" rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.css" />
 </body>

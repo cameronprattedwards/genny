@@ -15,7 +15,7 @@ module.exports = {
   },
 
   output: {
-    path: './client/dist',
+    path: './client/public/dist',
     filename: 'server.js',
     libraryTarget: 'commonjs2',
   },
