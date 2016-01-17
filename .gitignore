@@ -1,6 +1,6 @@
 node_modules
 .vagrant
-client/dist
+client/public/dist
 steps/files.js
 npm-debug.log
 env
