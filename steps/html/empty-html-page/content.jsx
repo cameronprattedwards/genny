@@ -165,7 +165,10 @@ export const Mac = React.createClass({
 
 					<p>Press "enter" after typing the command.</p>
 
-					<p>This command opens up a new file called {fileName} in Sublime Text.</p>
+					<p>
+						This command opens up a new file called {fileName} in Sublime Text. 
+						(Which you downloaded during setup.)
+					</p>
 
 					<Bash noSelect={true}>subl {fileName}</Bash>
 
@@ -224,14 +227,51 @@ export const Mac = React.createClass({
 					<p>
 						Check that out. You just created your first webpage! Nicely done. 
 					</p>
+					<Continue>
+						<Link to="/step/empty-html-page/submit-your-code">
+							Click Here to Submit Your Code ->
+						</Link>
+					</Continue>
+				</Pane>
+				<Pane name="submit-your-code">
 					<p>
-						To move on to the next step, just send your code back to us 
-						by copy-pasting the following into the terminal:
+						To move on to the next step, send your code back to us. 
+						Just <strong>copy-paste the following into the terminal</strong>:
 					</p>
 
 					<Bash copy={true}>{command}</Bash>
 
 					{this.props.statusLink}
+
+					<Sidebar>
+						You can paste text pretty much anywhere by pressing <Key>Command</Key> <Key>V</Key>.
+					</Sidebar>
+
+					<p>
+						Remember how you signed up for GitHub during setup? 
+						We're sharing a repository (which is just a bucket for code) with you on GitHub. 
+					</p>
+					<p>
+						The command above uses Git to send your code to GitHub. 
+					</p>
+					<p>
+						We'll take a look at your code. If the code looks good, you can move on to the next step. 
+						Otherwise, we'll give you some pointers about how to make it better. 
+						Then you can resubmit it and move on.
+					</p>
+
+					<p>
+						This is the flow that coders use in the real world:
+					</p>
+
+					<ol>
+						<li>Write some code</li>
+						<li>Send the code to a repository shared with other coders</li>
+						<li>Get feedback on the code</li>
+						<li>Make some changes and resubmit, if necessary</li>
+						<li>Deploy your code</li>
+					</ol>
+
 					{troubleshooting(branchName, shortCommand)}
 				</Pane>
 			</Carousel>

@@ -73,11 +73,11 @@ const Content = React.createClass({
 
 				<Pane name="doctypes-and-html-tags">
 					<p>
-						First, create a new HTML document called <code>{FILENAME}</code> and 
-						open it up in Sublime Text:
+						First, open a new HTML document called "{FILENAME}" 
+						in Sublime Text:
 					</p>
 
-					<Bash noSelect={true}>touch {FILENAME} && subl {FILENAME}</Bash>
+					<Bash noSelect={true}>subl {FILENAME}</Bash>
 
 					<p>
 						Add a DOCTYPE to the top of your document on line 1. 
