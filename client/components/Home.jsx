@@ -9,6 +9,7 @@ import {FIRST_PANE, setupUrl} from './Setup';
 
 import {Spinner} from '../../utils/components/Spinner';
 import {Button} from '../../utils/components/Button';
+import {AuthorizeContainer} from './Authorize';
 
 const loginPath = reversePath(Paths.LOGIN, false);
 
@@ -27,9 +28,15 @@ export const Home = React.createClass({
 			);
 		} else {
 			callToAction = (
-				<p>
-					<Button component={Link} to={setupUrl(FIRST_PANE)}>Click here</Button> to get started.
-				</p>
+				<div>
+					<p>
+						<Button component={Link} to={setupUrl(FIRST_PANE)}>Click here</Button> to get started. 
+						(Don't worry - it's free.) 
+					</p>
+					<p>
+						Or <AuthorizeContainer>log in</AuthorizeContainer> if you already have an account.
+					</p>
+				</div>
 			);
 		}
 

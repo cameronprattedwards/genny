@@ -8,6 +8,7 @@ import {Button} from '../../utils/components/Button';
 import {Key} from '../../utils/components/Keyboard';
 import {Bash} from '../../utils/components/Bash';
 import {Spinner} from '../../utils/components/Spinner';
+import {AuthorizeContainer} from './Authorize';
 import styles from './Setup.css';
 
 import {Paths, BASE_PATH} from '../../api/paths';
@@ -125,7 +126,8 @@ const Authorize = React.createClass({
 
 		if (this.props.token) {
 			callToAction = (<Continue>
-				<Link to={setupUrl(OPEN_YOUR_TERMINAL)}>I Have Authorized School of Haxx</Link>
+				You've authorized School of Haxx!{' '}
+				<Link to={setupUrl(OPEN_YOUR_TERMINAL)}>Go to the next step.</Link>
 			</Continue>);
 		} else if (this.props.loading) {
 			callToAction = (<div>
@@ -138,9 +140,9 @@ const Authorize = React.createClass({
 				<h2>Setup Step Three: {titles[AUTHORIZE_SCHOOL_OF_HAXX]}</h2>
 				<h3>tl;dr</h3>
 				<p>
-					<Button onClick={this.authorize}>
+					<AuthorizeContainer>
 						Authorize School of Haxx
-					</Button>
+					</AuthorizeContainer>
 					{' '}to access your GitHub account.
 				</p>
 
@@ -202,7 +204,8 @@ const DownloadSublime = React.createClass({
 		if (this.props.complete) {
 			next = (
 				<Continue>
-					You did it! <Link to="/step/empty-html-page">Click here</Link> to start writing some HTML.
+					You're done setting up your computer!{' '}
+					<Link to="/step/empty-html-page">Click here</Link> to start writing some HTML.
 				</Continue>
 			);
 		}
@@ -221,7 +224,7 @@ const DownloadSublime = React.createClass({
 
 				<p className={styles.imgWrapper}><img src="/public/images/xcrun.png" className={styles.img}/></p>
 
-				<p>Just press "Install."</p>
+				<p>Just press "Install." Agree to the terms.</p>
 
 				<p>
 					You'll probably need to enter your Mac password a couple of times. 
@@ -233,12 +236,15 @@ const DownloadSublime = React.createClass({
 				<h3>Why?</h3>
 				<p>
 					Sublime Text is a simple text editor where you'll be writing your HTML. 
+				</p>
+
+				<p>
 					You'll want to use text editor instead of a word processor (like Microsoft Word) 
 					because word processors add a bunch of extra formatting 
 					that will actually mess up your code.
 				</p>
 
-				<p>Sublime Text is easy to use. You'll see.</p>
+				<p>Sublime Text is easy to use.</p>
 
 				<p>
 					The command will download your repository and open it up in Sublime Text. 

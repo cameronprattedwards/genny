@@ -32,7 +32,7 @@ function instruction(fileContents) {
 				into a file with a <strong>.html</strong> extension:
 			</p>
 
-			<Html copy={true}>{fileContents}</Html>
+			<Html>{fileContents}</Html>
 
 			<p>Your web browser will display it like this:</p>
 
@@ -152,18 +152,20 @@ export const Mac = React.createClass({
 
 					<p>
 						<strong>Type the following commands into your terminal</strong>. 
-						You won't be able to copy and paste the commands - 
-						that's so you get some practice with typing in the terminal on your own.
+						You won't be able to copy and paste. 
+						That's so you get some practice with typing in the terminal on your own.
 					</p>
 
 					<p>
-						This first command just navigates to your repository. 
+						This command just navigates to your repository. 
 						(<code>cd</code> stands for "change directories.")
 					</p>
 
 					<Bash noSelect={true}>cd ~/{repoName}</Bash>
 
-					<p>This last command opens up a new file called {fileName} in Sublime Text.</p>
+					<p>Press "enter" after typing the command.</p>
+
+					<p>This command opens up a new file called {fileName} in Sublime Text.</p>
 
 					<Bash noSelect={true}>subl {fileName}</Bash>
 
@@ -205,9 +207,16 @@ export const Mac = React.createClass({
 					<p>
  						Press <Key>Command</Key> <Key>S</Key> to save. 
  					</p>
-
+					<Continue>
+						<Link to="/step/empty-html-page/view-your-webpage">
+							Click Here to View Your Webpage ->
+						</Link>
+					</Continue>
+ 				</Pane>
+ 				<Pane name="view-your-webpage">
+ 					<h3>View Your New Webpage</h3>
 					<p>
-						Then, to look at your handiwork in a browser, type this in your terminal and press "enter":
+						To look at your new website in a browser, type this in your terminal and press "enter":
 					</p>
 
 					<Bash noSelect={true}>open {fileName}</Bash>
