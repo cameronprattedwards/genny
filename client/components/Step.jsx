@@ -3,6 +3,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {Link} from 'react-router';
 import DocumentTitle from 'react-document-title';
+import Modal from 'react-modal';
 
 import stepsMapping from '../../steps/content';
 import styles from './Step.css';
@@ -10,6 +11,7 @@ import {Paths, BASE_PATH} from '../../api/paths';
 import {Breadcrumbs} from './Breadcrumbs';
 import {Continue} from '../../utils/components/Continue';
 import {Spinner} from '../../utils/components/Spinner';
+import {Button} from '../../utils/components/Button';
 
 function next(currentStepId, step, db, moduleOrder) {
 	const currentModuleId = step.get('module');
@@ -32,19 +34,31 @@ function next(currentStepId, step, db, moduleOrder) {
 	return `/step/${nextStepId}`;
 }
 
-function getStep(db, stepName) {
-	const step = db.getIn(['steps', stepName]);
-
-	if (!step) {
-		let err = new Error(`No step with branch name ${stepName}`);
-		err.status = 404;
-		throw err;
-	}
-
-	return step;
-}
+const modalStyles = {
+	overlay: {
+		zIndex: 1,
+	},
+};
 
 export const Step = React.createClass({
+	getInitialState() {
+		return {
+			modalOpen: true,
+		};
+	},
+
+	openModal() {
+		this.setState({
+			modalOpen: true,
+		});
+	},
+
+	closeModal() {
+		this.setState({
+			modalOpen: false,
+		});
+	},
+
 	postVisit(stepName) {
 		const {token} = this.props;
 		const path = BASE_PATH + Paths.ADD_VISIT[1](stepName, token);
@@ -69,13 +83,11 @@ export const Step = React.createClass({
 		const {
 			db,
 			params: {stepName},
+			step,
+			StepContent,
 		} = this.props;
 
 		const moduleOrder = db.get('moduleOrder');
-
-		const step = getStep(db, stepName);
-
-		const StepContent = stepsMapping[stepName][this.props.os];
 
 		let statusLink = null;
 
@@ -91,9 +103,17 @@ export const Step = React.createClass({
 			);
 		} else if (step.get('failure')) {
 			statusLink = (
-				<div className={styles.failure}>
-					<p>Oops. Looks like something went wrong.</p>
-					<p>{step.get('failure')}</p>
+				<div>
+					<p>
+						Something went wrong. 
+						<Button onClick={() => this.openModal()}>Click here</Button> for more info.
+					</p>
+					<Modal isOpen={this.state.modalOpen} onRequestClose={() => this.closeModal()} style={modalStyles}>
+						<div className={styles.failure}>
+							<p>Oops. Looks like something went wrong.</p>
+							<pre>{step.get('failure')}</pre>
+						</div>
+					</Modal>
 				</div>
 			);
 		} else if (step.get('commit')) {
@@ -136,4 +156,29 @@ function mapStateToProps(state) {
 	};
 }
 
-export const StepContainer = connect(mapStateToProps)(Step);
+function mergeProps(stateProps, dispatchProps, ownProps) {
+	console.log('garbage');
+	console.log(ownProps.params);
+	const {params: {stepName}} = ownProps;
+	const {db, os} = stateProps;
+	
+	const step = db.getIn(['steps', stepName]);
+
+	const StepContent = stepsMapping[stepName][os];
+
+	if (!step) {
+		let err = new Error(`No step with branch name ${stepName}`);
+		err.status = 404;
+		throw err;
+	}
+
+
+	return {
+		...stateProps,
+		...ownProps,
+		step,
+		StepContent,
+	};
+}
+
+export const StepContainer = connect(mapStateToProps, null, mergeProps)(Step);

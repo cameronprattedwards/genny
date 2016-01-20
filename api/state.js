@@ -45,6 +45,8 @@ export const getUserState = async function getUserState(token) {
 
 	let eventService = new EventService(id);
 	let events = await eventService.getEventsForUser();
+	console.log('EVENTS');
+	console.log(events);
 	let rootReducer = rootReducerFactory(state);
 
 	let store = createStore(rootReducer);

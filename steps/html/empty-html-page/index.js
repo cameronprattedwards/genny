@@ -14,4 +14,20 @@ export default {
 	<p>This is a new paragraph.</p>	
 </body>
 </html>`,
+	firstWebpage: `<!DOCTYPE html>
+<html>
+	<head>
+		<title>Your First Webpage!</title>
+	</head>
+	<body>
+		<h1>This Is Your First Webpage!</h1>
+		<p>
+			This your very first webpage ever. Congratulations!
+		</p>
+		<p>
+			You deserve to celebrate. Go eat some ice cream or something.
+			Then go back to School of Haxx to learn some more about HTML.
+		</p>
+	</body>
+</html>`,
 };

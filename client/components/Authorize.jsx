@@ -16,7 +16,7 @@ export const Authorize = React.createClass({
 		event.preventDefault();
 		const child = window.open(loginPath, '', 'width=500,height=500');
 		this.props.setChildWindow(child);
-	}
+	},
 });
 
 function mapDispatchToProps(dispatch) {

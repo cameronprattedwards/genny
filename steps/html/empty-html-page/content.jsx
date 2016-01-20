@@ -120,6 +120,7 @@ export const Mac = React.createClass({
 		const {repoName, step} = this.props;
 		const fileName = step.get('fileName');
 		const fileContents = step.get('fileContents');
+		const firstWebpage = step.get('firstWebpage');
 		const branchName = step.get('branchName');
 		const commands = [
 			`git checkout -b ${branchName}`,
@@ -191,22 +192,7 @@ export const Mac = React.createClass({
 						{' '}into Sublime Text.
 					</p>
 
-					<Html copy={true}>{`<!DOCTYPE html>
-<html>
-	<head>
-		<title>Your First Webpage!</title>
-	</head>
-	<body>
-		<h1>This Is Your First Webpage!</h1>
-		<p>
-			This your very first webpage ever. Congratulations!
-		</p>
-		<p>
-			You deserve to celebrate. Go eat some ice cream or something.
-			Then go back to School of Haxx to learn some more about HTML.
-		</p>
-	</body>
-</html>	`}</Html>
+					<Html copy={true}>{firstWebpage}</Html>
 					<p>
  						Press <Key>Command</Key> <Key>S</Key> to save. 
  					</p>

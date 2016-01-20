@@ -32,7 +32,7 @@ export class EventService {
 		let baseQuery = () => squel.select().from('Step_commit').order('committedAt')
 			.where(`User_id = ${this._userId}`)
 			.field('Step_id', 'stepId')
-			.field('failureMessage')
+			.field('failureMessage', 'value')
 			.field('committedAt', TIME_KEY);
 
 		let successQuery = baseQuery().field(`'${STEP_SUCCESS}'`, EVENT_TYPE_KEY)

@@ -16,6 +16,11 @@
 .failure {
 	background-color: red;
 	color: white;
+	overflow: hidden;
+}
+
+.failure pre {
+	font-family: Helvetica;
 }
 
 .loading {

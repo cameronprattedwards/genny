@@ -103,7 +103,7 @@ const VerifyYourEmail = React.createClass({
 			<div>
 				<h2>Setup Step Two: {titles[VERIFY_YOUR_EMAIL]}</h2>
 				<h3>tl;dr</h3>
-				<p>Verify your email address.</p>
+				<p><strong>Verify your email address.</strong></p>
 				<p>
 					Visit the inbox for the email you provided to GitHub. 
 					Click on the email titled "[GitHub] Please verify your email address." 
@@ -259,6 +259,8 @@ const DownloadSublime = React.createClass({
 
 export const Setup = React.createClass({
 	render() {
+		console.log('rendering setup');
+
 		return (
 			<div className={styles.setup}>
 				<Carousel>

@@ -39,9 +39,9 @@ const handleDefaultRequest = async function handleDefaultRequest(request, respon
 		let state = {
 			ui: fromJS({os}),
 			db: Map(),
-			env: {
+			env: fromJS({
 				SERVER_DOMAIN: process.env.SERVER_DOMAIN,
-			},
+			}),
 			user: Map(),
 		};
 
@@ -51,7 +51,7 @@ const handleDefaultRequest = async function handleDefaultRequest(request, respon
 			store = await getUserState(token);
 			store.dispatch(setOs(os));
 			state = store.getState();
-		} else if (request.path !== '/') {
+		} else if (request.path !== '/' && request.path.indexOf('setup') === -1) {
 			return response.redirect('/');
 		}
 
