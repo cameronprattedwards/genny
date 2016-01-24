@@ -63,11 +63,11 @@ export function stepFailure(stepId) {
 	};
 }
 
-export function stepUpdate(type, stepId, value) {
+export function stepUpdate(status, stepId, error) {
 	return {
-		type: `STEP_${type.toUpperCase()}`,
+		type: `STEP_${status.toUpperCase()}`,
 		stepId,
-		value,
+		error,
 	};
 }
 

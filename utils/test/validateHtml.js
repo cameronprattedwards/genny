@@ -1,5 +1,5 @@
 import fetch from 'isomorphic-fetch';
-import AssertionError from 'assertion-error';
+import {AssertionError} from '../assert/AssertionError';
 
 export const validateHtml = async function validateHtml(markup) {
 	let headers = {

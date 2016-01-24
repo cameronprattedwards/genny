@@ -7,6 +7,14 @@ import {Code} from './Code';
 export const Bash = React.createClass({
 	render() {
 		const classNames = cx('bash', styles.bash);
-		return <Code className={classNames} {...this.props}>{this.props.children}</Code>;
+		const wrapperClass = cx({
+			[styles.wrapper]: this.props.expand,
+		});
+
+		return (
+			<div className={wrapperClass}>
+				<Code className={classNames} {...this.props}>{this.props.children}</Code>
+			</div>
+		);
 	},
 });

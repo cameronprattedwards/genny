@@ -7,6 +7,7 @@ import {Bash} from '../../../utils/components/Bash';
 import {FakePage} from '../../../utils/components/FakePage';
 import {Carousel, Pane} from '../../../utils/components/Carousel';
 import {Continue} from '../../../utils/components/Continue';
+import {CopyButtonContainer} from '../../../utils/components/CopyButton';
 
 export const HEADER = 'Interesting Penguin Facts';
 
@@ -27,12 +28,11 @@ const Content = React.createClass({
 					<p>
 						Now that you've created an empty HTML page, let's fill it in a bit. 
 						Our HTML page is going to teach people a little bit about penguins.
-						Before we start coding more, let's create a new branch.
 					</p>
 
 					<p>
-						First, add a <code>head</code> tag and 
-						a <code>body</code> tag inside your <code>html</code> tags in {FILENAME}. 
+						First, <strong>add a <code>head</code> tag and 
+						a <code>body</code> tag</strong> inside your <code>html</code> tags in {FILENAME}. 
 						Your HTML document will look like this:
 					</p>
 
@@ -42,12 +42,12 @@ const Content = React.createClass({
 	<body></body>
 </html>`}</Html>
 					<p>
-						You'll notice that every time we put a tag inside another tag, we indent it. 
-						That's a good practice to follow, because it makes it easier to read.
+						Every time we put a tag inside another tag, we indent it. 
+						This just makes it makes it easier to read.
 					</p>
 					<p>
-						The <code>head</code> tag is where all of the data about the page lives. 
-						We're going to mess around with that a little more later.
+						All of the data about our webpage lives in the <code>head</code> tag. 
+						We'll add some content to the <code>head</code> tag later.
 					</p>
 					<p>
 						The <code>body</code> tag is more exciting. 
@@ -82,9 +82,12 @@ const Content = React.createClass({
 						Nicely done. Now, add some paragraph content. 
 						<strong> After</strong> the <code>h1</code> tag, 
 						<strong> inside</strong> the <code>body</code> tag, 
-						add a <code>p</code> tag with the content "{PARAGRAPH}"
+						<strong> add a <code>p</code> tag</strong> with this content:
 					</p>
-					<p>Your HTML document will look like this:</p>
+					<blockquote>
+						{PARAGRAPH} <CopyButtonContainer text={PARAGRAPH} />
+					</blockquote>
+					<p>Your HTML document will look something like this:</p>
 					<Html noSelect={true}>{`${DOCTYPE}
 <html>
 	<head></head>
@@ -96,12 +99,12 @@ const Content = React.createClass({
 	</body>
 </html>`}</Html>
 					<Continue>
-						<Link to="/step/body-tag/submit-your-html">Submit Your Code -></Link>
+						<Link to="/step/body-tag/view-your-webpage">View Your Webpage -></Link>
 					</Continue>
 				</Pane>
-				<Pane name="submit-your-html">
-					<h4>Submit Your Code!</h4>
-					<p>First, take a look at your handiwork in a browser!</p>
+				<Pane name="view-your-webpage">
+					<h4>View Your Webpage!</h4>
+					<p>Let's take a look at your handiwork in a browser!</p>
 					<Bash noSelect={true}>open {FILENAME}</Bash>
 					<p>It should look like this:</p>
 					<FakePage>
@@ -110,6 +113,12 @@ const Content = React.createClass({
 							{PARAGRAPH}
 						</p>
 					</FakePage>
+					<Continue>
+						<Link to="/step/body-tag/submit-your-html">Submit Your Code -></Link>
+					</Continue>
+				</Pane>
+				<Pane name="submit-your-html">
+					<h4>Submit Your Code!</h4>
 					<p>Cool! To move on to the next step, just push this code up to our shared repository:</p>
 					<Bash copy={true}>{command}</Bash>
 					{this.props.statusLink}

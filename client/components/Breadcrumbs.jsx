@@ -3,11 +3,12 @@ import cx from 'classnames';
 import {Link} from 'react-router';
 
 import styles from './Breadcrumbs.css';
+import {SUCCESS} from '../../domain/constants';
 
 const Breadcrumb = React.createClass({
 	render() {
 		const {step, active, isLink} = this.props;
-		const success = step.get('success');
+		const success = step.get('status') === SUCCESS;
 		const successClasses = cx(styles.breadcrumbSuccess, 'fa', 'fa-check');
 		const classNames = cx({
 			[styles.breadcrumbActive]: active,

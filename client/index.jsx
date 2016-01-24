@@ -49,10 +49,9 @@ function goToCurrentStep(state) {
 
 function listenToFirebase(state) {
 	firebaseApp.child(state.user.get('token')).on('child_added', snapshot => {
-		console.log(snapshot.val());
 		const stepId = snapshot.key();
-		_.each(snapshot.val(), (value, event) => {
-			store.dispatch(stepUpdate(event, stepId, value));
+		_.each(snapshot.val(), (error, status) => {
+			store.dispatch(stepUpdate(status, stepId, error));
 		});
 		window.scrollTo(0, document.body.offsetHeight);
 	});

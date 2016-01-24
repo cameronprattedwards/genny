@@ -8,6 +8,8 @@ import {Bash} from '../../../utils/components/Bash';
 import {Sidebar} from '../../../utils/components/Sidebar';
 import {Carousel, Pane} from '../../../utils/components/Carousel';
 import {Continue} from '../../../utils/components/Continue';
+import {CopyButtonContainer} from '../../../utils/components/CopyButton';
+import {NoSelect} from '../../../utils/components/NoSelect';
 import config from './index';
 
 const GOOGLE_LINK_TEXT = 'Go to Google';
@@ -83,13 +85,24 @@ render() {
 			</Pane>
 
 			<Pane name="take-action">
-				<p>Ready to add a link to your page? Great!</p>
+				<p>
+					Ready to add a link to your page? Great! Let's add a link to a YouTube video 
+					demonstrating the sound penguins make.
+				</p>
 
 				<p>
-					First, put a new paragraph on your page under the paragraph with the fact in it. 
-					Inside the new paragraph, add a link to {YOUTUBE_LINK}. 
-					It's a demonstration of the sound penguins make. 
-					Make the clickable text for the link "{YOUTUBE_TEXT}"
+					First, <strong>put a new <code>p</code> tag on your page</strong> under the paragraph with the fact in it. 
+				</p>
+				<p>
+					Second, <strong>add an <code>a</code> tag</strong> inside the new <code>p</code> tag.
+				</p>
+				<p>
+					Third, <strong>give your <code>a</code> tag an <code>href</code> attribute</strong> of <a href={YOUTUBE_LINK} target="_blank">{YOUTUBE_LINK}</a>.
+					{' '}<CopyButtonContainer text={YOUTUBE_LINK} />
+				</p>
+				<p>
+					Last, <strong>Make the content of your <code>a</code> tag "{YOUTUBE_TEXT}"</strong>
+					{' '}<CopyButtonContainer text={YOUTUBE_TEXT} />
 				</p>
 
 				<p>When you're done, {FILENAME} should look like this:</p>
@@ -108,13 +121,23 @@ render() {
 		</body>
 	</html>`}</Html>
 
-				<p>Cool! Now, open up your webpage in your browser and try clicking on the link:</p>
+				<p>
+					Cool! Look at your webpage by typing 
+					<NoSelect component="span"><code> open {FILENAME} </code></NoSelect>
+					in your terminal. Or just refresh the page, if you have it open already.
+				</p>
 
-				<Bash noSelect={true}>open {FILENAME}</Bash>
+				<Continue>
+					<Link to="/step/links/submit-your-code">Submit Your Code -></Link>
+				</Continue>
+			</Pane>
+			<Pane name="submit-your-code">
+				<p>
+					When you've added the link to your page and taken a look in a browser, 
+					push your code up to the remote repository to move on to the next step.
+				</p>
 
-				<p>When you're done, push your code up to the remote repository to move on to the next step.</p>
-
-				<Bash copy={true}>{command}</Bash>
+				<Bash copy={true} expand={true}>{command}</Bash>
 
 				{this.props.statusLink}
 			</Pane>

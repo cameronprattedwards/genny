@@ -13,6 +13,8 @@ import {Continue} from '../../utils/components/Continue';
 import {Spinner} from '../../utils/components/Spinner';
 import {Button} from '../../utils/components/Button';
 
+import {SUCCESS, FAILURE, COMMIT} from '../../domain/constants';
+
 function next(currentStepId, step, db, moduleOrder) {
 	const currentModuleId = step.get('module');
 	const module = db.getIn(['modules', currentModuleId.toString()]);
@@ -91,38 +93,42 @@ export const Step = React.createClass({
 
 		let statusLink = null;
 
-		if (step.get('success')) {
-			let nextUrl = next(stepName, step, db, moduleOrder);
-			statusLink = (
-				<Continue>
-					You did it!{' '}
-					<Link className={styles.link} href={nextUrl} to={nextUrl}>
-						Move on to the next step.
-					</Link>
-				</Continue>
-			);
-		} else if (step.get('failure')) {
-			statusLink = (
-				<div>
-					<p>
-						Something went wrong. 
-						<Button onClick={() => this.openModal()}>Click here</Button> for more info.
-					</p>
-					<Modal isOpen={this.state.modalOpen} onRequestClose={() => this.closeModal()} style={modalStyles}>
-						<div className={styles.failure}>
-							<p>Oops. Looks like something went wrong.</p>
-							<pre>{step.get('failure')}</pre>
-						</div>
-					</Modal>
-				</div>
-			);
-		} else if (step.get('commit')) {
-			statusLink = (
-				<div className={styles.loading}>
-					<Spinner />{' '}
-					We got your code and we're running some tests.
-				</div>
-			);
+		switch (step.get('status')) {
+			case SUCCESS:
+				let nextUrl = next(stepName, step, db, moduleOrder);
+				statusLink = (
+					<Continue>
+						You did it!{' '}
+						<Link className={styles.link} href={nextUrl} to={nextUrl}>
+							Move on to the next step.
+						</Link>
+					</Continue>
+				);
+				break;
+			case FAILURE:
+				statusLink = (
+					<div>
+						<p>
+							Something went wrong. 
+							<Button onClick={() => this.openModal()}>Click here</Button> for more info.
+						</p>
+						<Modal isOpen={this.state.modalOpen} onRequestClose={() => this.closeModal()} style={modalStyles}>
+							<div className={styles.failure}>
+								<p>Oops. Looks like something went wrong.</p>
+								<pre>{step.get('failure')}</pre>
+							</div>
+						</Modal>
+					</div>
+				);
+				break;
+			case COMMIT:
+				statusLink = (
+					<div className={styles.loading}>
+						<Spinner />{' '}
+						We got your code and we're running some tests.
+					</div>
+				);
+				break;
 		}
 
 		let steps = db.getIn(['modules', 'html', 'steps']).map(step => db.getIn(['steps', step]));

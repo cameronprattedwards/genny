@@ -12,12 +12,13 @@ import {AuthorizeContainer} from './Authorize';
 import styles from './Setup.css';
 
 import {Paths, BASE_PATH} from '../../api/paths';
+import {SUCCESS} from '../../domain/constants';
 
 export const SIGN_UP_FOR_GITHUB = 'sign-up-for-github';
 export const FIRST_PANE = SIGN_UP_FOR_GITHUB;
 const VERIFY_YOUR_EMAIL = 'verify-your-email';
 const AUTHORIZE_SCHOOL_OF_HAXX = 'authorize-school-of-haxx';
-const OPEN_YOUR_TERMINAL = 'open-your-terminal';
+export const OPEN_YOUR_TERMINAL = 'open-your-terminal';
 const DOWNLOAD_SUBLIME_TEXT = 'download-sublime-text';
 
 const titles = {
@@ -259,8 +260,6 @@ const DownloadSublime = React.createClass({
 
 export const Setup = React.createClass({
 	render() {
-		console.log('rendering setup');
-
 		return (
 			<div className={styles.setup}>
 				<Carousel>
@@ -283,10 +282,6 @@ export const Setup = React.createClass({
 			</div>
 		);		
 	},
-
-	authorize() {
-
-	},
 });
 
 export function setupUrl(slug) {
@@ -298,7 +293,7 @@ function mapStateToProps(state) {
 		token: state.user.get('token'),
 		SERVER_DOMAIN: state.env.get('SERVER_DOMAIN'),
 		loading: state.ui.get('loading'),
-		complete: state.db.getIn(['steps', 'environment-setup', 'success']),
+		complete: state.db.getIn(['steps', 'environment-setup', 'status']) === SUCCESS,
 	};
 }
 

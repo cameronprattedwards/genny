@@ -8,8 +8,11 @@
 	user-select: none;
 }
 
-.relative {
-	position: relative;
+.wrapper:hover .bash {
+    position: absolute;
+    right: 0;
+    margin-top: 0;
+    top: 0;
 }
 
 .button {

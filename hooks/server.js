@@ -1,13 +1,15 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import Firebase from 'firebase';
-import AssertionError from 'assertion-error';
+import {AssertionError} from '../utils/assert/AssertionError';
 
 import {Paths} from './paths';
 import UserService from '../domain/UserService';
 import StepService from '../domain/StepService';
 import {getHookSignature} from '../utils/github';
+import {errorSerializer} from '../utils/errorSerializer';
 import testMapping from '../steps/tests';
+import {SUCCESS, COMMIT, FAILURE} from '../domain/constants';
 
 const {WEBHOOK_PORT, FIREBASE_NAME} = process.env;
 
@@ -18,14 +20,12 @@ const app = express();
 app.use(bodyParser.json());
 
 const hookFn = async function hookFn(request, response) {
-	console.log(1);
 	response.status(200).send('');
 	const hook = request.body;
 	const {userId} = request.params;
 	const {webhookSecret, token} = await UserService.get({id: userId});
 	const calculatedSignature = getHookSignature(JSON.stringify(hook), webhookSecret).toString();
 	const isSecure = request.get('X-Hub-Signature') === `sha1=${calculatedSignature}`;
-	console.log(2);
 
 	if (!isSecure) {
 		return;
@@ -39,41 +39,34 @@ const hookFn = async function hookFn(request, response) {
 		return;
 	}
 
-	console.log(3);
-	notify(token, branchName, 'commit');
-	let success;
-	let failureMessage;
+	notify(token, branchName, COMMIT);
+	let status = SUCCESS;
+	let error = false;
 
-	console.log(4);
 	try {
 		await testMapping[branchName](hook);
-		success = true;
 	} catch (e) {
 		console.log(e.message);
 		console.log(e.stack);
+		console.log('is assertion error');
+		console.log(e instanceof AssertionError);
 		if (e instanceof AssertionError) {
-			failureMessage = e.message;
-			success = false;
+			error = errorSerializer(e);
+			status = FAILURE;
 		} else {
 			throw e;
 		}
 	}
 
-	console.log(5);
-	let event = success ? 'success' : 'failure';
-
-	let eventContent = failureMessage || true;
-	console.log(6);
-
-	notify(token, branchName, event, eventContent);
-	console.log(7);
-	StepService.commit(userId, branchName, success, failureMessage);
-	console.log(8);
+	notify(token, branchName, status, error);
+	StepService.commit(userId, branchName, status === SUCCESS, error);
 };
 
-function notify(token, stepId, event, eventContent = true) {
-	let child = firebaseApp.child(token).child(stepId).child(event);
-	child.set(eventContent);
+function notify(token, stepId, status, error = false) {
+	console.log('notifying');
+	console.log(arguments);
+	let child = firebaseApp.child(token).child(stepId).child(status);
+	child.set(error);
 	child.remove();
 }
 

@@ -5,7 +5,8 @@ import {Link} from 'react-router';
 import {Paths, reversePath} from '../../api/paths';
 import {setChildWindow} from '../../flux/actionCreators';
 import styles from './Home.css';
-import {FIRST_PANE, setupUrl} from './Setup';
+import {FIRST_PANE, OPEN_YOUR_TERMINAL, setupUrl} from './Setup';
+import {SUCCESS} from '../../domain/constants';
 
 import {Spinner} from '../../utils/components/Spinner';
 import {Button} from '../../utils/components/Button';
@@ -20,12 +21,21 @@ export const Home = React.createClass({
 		if (this.props.loading) {
 			callToAction = <div className={styles.spinner}><Spinner /></div>;
 		} else if (this.props.token) {
-			callToAction = (
-				<p>
-					<Button component={Link} to={`/step/${this.props.currentStep}`}>Click here</Button>
-					{' '}to pick up where you left off.
-				</p>
-			);
+			if (this.props.setupFinished) {
+				callToAction = (
+					<p>
+						<Button component={Link} to={`/step/${this.props.currentStep}`}>Click here</Button>
+						{' '}to pick up where you left off.
+					</p>
+				);
+			} else {
+				callToAction = (
+					<p>
+						<Button component={Link} to={setupUrl(OPEN_YOUR_TERMINAL)}>Click here</Button>
+						{' '}to get started.
+					</p>
+				);
+			}
 		} else {
 			callToAction = (
 				<div>
@@ -72,6 +82,7 @@ function mapStateToProps(state) {
 		loading: state.ui.get('loading'),
 		token: state.user.get('token'),
 		currentStep: state.user.get('currentStep'),
+		setupFinished: state.db.getIn(['steps', 'environment-setup', 'status']) === SUCCESS,
 	};
 }
 

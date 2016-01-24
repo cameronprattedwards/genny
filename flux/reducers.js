@@ -12,6 +12,7 @@ import {
 	SET_OS,
 	TOGGLE_TROUBLESHOOTING,
 } from './actionCreators';
+import {SUCCESS, FAILURE, COMMIT} from '../domain/constants';
 
 export function rootReducerFactory(initialState) {
 	const immutableInitialState = {
@@ -24,11 +25,15 @@ export function rootReducerFactory(initialState) {
 	function dbReducer(state = immutableInitialState.db, event) {
 		switch (event.type) {
 			case STEP_COMMIT:
-				return state.setIn(['steps', event.stepId.toString(), 'commit'], true);
+				return state.setIn(['steps', event.stepId.toString(), 'status'], COMMIT);
 			case STEP_SUCCESS:
-				return state.setIn(['steps', event.stepId.toString(), 'success'], true);
+				return state.setIn(['steps', event.stepId.toString(), 'status'], SUCCESS);
 			case STEP_FAILURE:
-				return state.setIn(['steps', event.stepId.toString(), 'failure'], event.value);
+				let path = ['steps', event.stepId];
+				let step = state.getIn(path);
+				step = step.set('status', FAILURE);
+				step = step.set('error', event.error);
+				return state.setIn(path, step);
 			case RECEIVE_USER_STATE:
 				return state.merge(event.state.get('db'));
 			default:

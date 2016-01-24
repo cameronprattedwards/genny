@@ -2,7 +2,14 @@ import React from 'react';
 import styles from './NoSelect.css';
 
 export const NoSelect = React.createClass({
+	getDefaultProps() {
+		return {
+			component: 'div',
+		};
+	},
+
 	render() {
-		return <div className={styles.noSelect}>{this.props.children}</div>;
+		const {component} = this.props;
+		return <component className={styles.noSelect}>{this.props.children}</component>;
 	},
 });

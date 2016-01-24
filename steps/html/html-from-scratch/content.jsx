@@ -6,6 +6,7 @@ import {Bash} from '../../../utils/components/Bash';
 import {Sidebar} from '../../../utils/components/Sidebar';
 import {Carousel, Pane} from '../../../utils/components/Carousel';
 import {Continue} from '../../../utils/components/Continue';
+import {Key} from '../../../utils/components/Keyboard';
 
 import config from './index';
 
@@ -89,8 +90,17 @@ const Content = React.createClass({
 <html></html>`}</Html>
 
 					<p>
-						When you're done, save your HTML page and send it to our shared repository.
+						When you're done, save your HTML page by pressing <Key>Command</Key> <Key>S</Key>.
 					</p>
+
+					<Continue>
+						<Link to="/step/html-from-scratch/submit-your-code">
+							Click Here to Submit Your Code ->
+						</Link>
+					</Continue>
+				</Pane>
+				<Pane name="submit-your-code">
+					<p>To move on to the next step, send your code to our shared repository.</p>
 
 					<Bash copy={true}>{command}</Bash>
 

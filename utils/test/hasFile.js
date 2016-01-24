@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import {expect} from 'chai';
+import {assert} from '../assert/assert';
 
 export function hasFile(hook, fileName) {
 	console.log(fileName);
@@ -11,5 +11,5 @@ export function hasFile(hook, fileName) {
 export function assertHasFile(hook, fileName) {
 	let containsFile = hasFile(hook, fileName);
 	let errorMessage = `Your changes don't include ${fileName}. Did you make any changes to ${fileName} before you committed?`; // eslint-disable-line max-len
-	expect(containsFile).to.equal(true, errorMessage);
+	assert.isEqual(true, containsFile, errorMessage);
 }
