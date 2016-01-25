@@ -1,4 +1,4 @@
-import {expect} from 'chai';
+import {assert} from '../../../utils/assert/assert';
 
 import {getRawFile} from '../../../utils/github';
 import {assertHasFile} from '../../../utils/test/hasFile';
@@ -14,7 +14,7 @@ const {branchName, youTubeLink, youTubeText} = config;
 const testDom = async function testDom(markup) {
 	let {document} = await gennyDom(markup);
 	let a = hasTag(document, 'a', youTubeText, `Set your anchor tag's content to '${youTubeText}'`);
-	expect(a.href).to.equal(youTubeLink, `Set your anchor tag's href attribute to '${youTubeLink}'`);
+	assert.isEqual(a.href, youTubeLink, `Set your anchor tag's href attribute to '${youTubeLink}'`);
 };
 
 const test = async function test(hook) {

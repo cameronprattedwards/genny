@@ -20,3 +20,9 @@
 	margin-top: 45px;
     font-family: Helvetica;
 }
+
+code {
+    background-color: #ddd;
+    color: black;
+    padding: 2px;
+}

@@ -1,4 +1,4 @@
-import {expect} from 'chai';
+import {assert} from '../../../utils/assert/assert';
 
 import {getRawFile} from '../../../utils/github';
 import {assertHasFile} from '../../../utils/test/hasFile';
@@ -14,7 +14,7 @@ const {branchName, imgUrl} = config;
 const testDom = async function testDom(markup) {
 	let {document} = await gennyDom(markup);
 	let img = hasTag(document, 'img');
-	expect(img.src).to.equal(imgUrl, `Set your image's src attribute to '${imgUrl}'`);
+	assert.isEqual(img.src, imgUrl, `Set your image's src attribute to '${imgUrl}'`);
 };
 
 const test = async function test(hook) {

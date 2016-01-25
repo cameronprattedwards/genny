@@ -122,9 +122,9 @@ render() {
 	</html>`}</Html>
 
 				<p>
-					Cool! Look at your webpage by typing 
-					<NoSelect component="span"><code> open {FILENAME} </code></NoSelect>
-					in your terminal. Or just refresh the page, if you have it open already.
+					Cool! Look at your webpage by typing{' '} 
+					<NoSelect component="span"><code>open {FILENAME}</code></NoSelect>
+					{' '}in your terminal. Or just refresh the page, if you have it open already.
 				</p>
 
 				<Continue>

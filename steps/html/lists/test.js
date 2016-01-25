@@ -1,4 +1,4 @@
-import {expect} from 'chai';
+import {assert} from '../../../utils/assert/assert';
 
 import {assertHasFile} from 'utils/test/hasFile';
 import {assertValid} from 'utils/test/validateHtml';
@@ -20,7 +20,8 @@ const test = async function test(hook) {
 	let {document} = await gennyDom(markup);
 	hasTag(document, 'ul');
 	let lis = document.getElementsByTagName('li');
-	expect(lis.length).to.be.above(4, 'Please include at least five list items');
+
+	assert.isAbove(lis.length, 4, 'Please include at least five list items');
 };
 
 export default test;

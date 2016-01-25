@@ -40,7 +40,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     v.cpus = 2
   end
 
-  config.vm.synced_folder ".", "/vagrant", type: "rsync", rsync__exclude: ".git/"
+  # config.vm.synced_folder ".", "/vagrant", type: "rsync", rsync__exclude: ".git/"
 
   # If true, then any SSH connections made will enable agent forwarding.
   # Default value: false

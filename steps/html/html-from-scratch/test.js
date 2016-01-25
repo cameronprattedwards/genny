@@ -1,4 +1,4 @@
-import {expect} from 'chai';
+import {assert} from '../../../utils/assert/assert';
 
 import {assertHasFile} from '../../../utils/test/hasFile';
 import {getRawFile} from '../../../utils/github';
@@ -12,7 +12,7 @@ const test = async function test(hook) {
 
 	let markup = await getRawFile(hook, branchName, fileName);
 	let [error] = await assertValid(markup, 1);
-	expect(error.message).to.equal('Element “head” is missing a required instance of child element “title”.');
+	assert.isEqual(error.message, 'Element “head” is missing a required instance of child element “title”.');
 };
 
 export default test;

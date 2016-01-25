@@ -21,7 +21,7 @@ const Content = React.createClass({
 				<Pane name="">
 					<p>
 						Right now, if you look up in the tab above the browser window, it just says the filename - 
-						<code> {FILENAME}</code>. We can make it better. 
+						{' '}<code>{FILENAME}</code>. We can make it better. 
 						If you add a <code>title</code> tag inside your <code>head</code> tag, a nice, pretty 
 						title will appear in the tabs sitting on top of your browser.
 					</p>
