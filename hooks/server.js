@@ -49,8 +49,8 @@ const hookFn = async function hookFn(request, response) {
 		console.log(e.message);
 		console.log(e.stack);
 		console.log('is assertion error');
-		console.log(e instanceof AssertionError);
-		if (e instanceof AssertionError) {
+		console.log(e.isAssertionError);
+		if (e.isAssertionError) {
 			error = errorSerializer(e);
 			status = FAILURE;
 		} else {

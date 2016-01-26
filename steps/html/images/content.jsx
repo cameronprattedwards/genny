@@ -11,8 +11,11 @@ import {Bash} from '../../../utils/components/Bash';
 import {FakePage} from '../../../utils/components/FakePage';
 import {Carousel, Pane} from '../../../utils/components/Carousel';
 import {Continue} from '../../../utils/components/Continue';
+import {CopyButtonContainer} from '../../../utils/components/CopyButton';
 
-export const IMG_URL = config.imgUrl;
+let env = typeof window !== 'undefined' ? window.env : process.env;
+
+export const IMG_URL = `${env.SERVER_DOMAIN}/public/images/penguin.jpg`;
 
 const Content = React.createClass({
 render() {
@@ -35,7 +38,9 @@ render() {
 				</p>
 				<p>
 					The <code>img</code> tag allows you to display images to your webpage's visitors. 
-					Let's put the <code>img</code> tag below the paragraph with the link in it:
+				</p>
+				<p>
+					<strong>Add an <code>img</code> tag</strong> below the paragraph with the link in it:
 				</p>
 
 				<Html noSelect={true}>{`${DOCTYPE}
@@ -64,10 +69,14 @@ render() {
 				</p>
 
 				<p>
-					We're going to point our penguin picture at <a href={IMG_URL}>{IMG_URL}</a>, 
+					We're going to point our penguin picture at <a href={IMG_URL} target="_blank">{IMG_URL}</a>,
+					{' '}<CopyButtonContainer text={IMG_URL} />{' '}
 					which is a super cute picture of a papa penguin incubating an egg.
 				</p>
-				<p>Add the <code>src</code> attribute to your <code>img</code> tag so your page looks like this:</p>
+				<p>
+					<strong>Set the <code>src</code> attribute on your <code>img</code> tag </strong> 
+					so your page looks like this:
+				</p>
 				<Html noSelect={true}>{`${DOCTYPE}
 <html>
 	<head></head>
@@ -87,8 +96,9 @@ render() {
 				</Continue>
 			</Pane>
 			<Pane name="submit-your-html">
-				<p>Now, open up your page in your browser to see your cute new image!</p>
-				<Bash>open {FILENAME}</Bash>
+				<p>Now, <strong>open up your page in your browser</strong> to see your cute new image!</p>
+				<p>Just refresh the page, if you have it open, or type this into your terminal:</p>
+				<Bash noSelect={true}>open {FILENAME}</Bash>
 				<p>Your page should look like this now:</p>
 				<FakePage>
 					<h1>{HEADER}</h1>
@@ -97,6 +107,11 @@ render() {
 					</p>
 					<img src={IMG_URL}></img>
 				</FakePage>
+				<Continue>
+					<Link to="/step/images/push-your-code">Next: Push Your Code -></Link>
+				</Continue>
+			</Pane>
+			<Pane name="push-your-code">
 				<p>As always, to move on to the next step, just push your code to the remote repository.</p>
 				<Bash copy={true}>{command}</Bash>
 				{this.props.statusLink}

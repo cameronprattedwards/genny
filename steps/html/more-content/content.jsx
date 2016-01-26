@@ -8,6 +8,8 @@ import {FakePage} from '../../../utils/components/FakePage';
 import {Bash} from '../../../utils/components/Bash';
 import {Carousel, Pane} from '../../../utils/components/Carousel';
 import {Continue} from '../../../utils/components/Continue';
+import {CopyButtonContainer} from '../../../utils/components/CopyButton';
+import config from '../html-from-scratch';
 
 const POEM = `
 Roses are red,
@@ -17,6 +19,7 @@ I love penguins
 
 const tabbedPoem = POEM.split('\n').map(str => `\t\t\t${str}`).join('\n');
 
+const {fileName} = config;
 const Content = React.createClass({
 render() {
 	const {step} = this.props;
@@ -53,11 +56,15 @@ render() {
 
 				<p>
 					<strong>
-						Add a 
-						<code> div </code> 
-						tag at the bottom of the body and copy-paste the poem
+						Add a <code>div</code> tag 
+					</strong>
+					{' '}right above your closing <code>body</code> tag.
+				</p>
+				<p>
+					<strong>
+						<CopyButtonContainer text={`${tabbedPoem}\n`}/> and paste the poem
 					</strong> 
-					{' '}in there, like this:
+					{' '}between the opening and closing <code>div</code> tags, like this:
 				</p>
 
 				<Html noSelect={true}>{`(...the rest of your content is up here...)
@@ -67,7 +74,8 @@ render() {
 </html>
 				`}</Html>
 				<p>
-					That should work great, right? Well, open up your webpage in a browser, 
+					That should work great, right? Well, <strong>open your webpage in a browser</strong>, 
+					(just type <code>open {fileName}</code> in your terminal) 
 					and you'll see it looks like this:
 				</p>
 				<FakePage>{POEM}</FakePage>

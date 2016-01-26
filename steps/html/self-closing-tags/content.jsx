@@ -23,9 +23,13 @@ render() {
 				To finish this step, let's make the <code>img</code> tag for our penguin image self closing. 
 			</p>
 
-			<p>Change the <code>img</code> tag to look like this:</p>
+			<p>
+				<strong>Change the <code>img</code> tag to look like this:</strong>
+			</p>
 			<Html noSelect={true}>{`<img src="${IMG_URL}" />`}</Html>
-			<p>Easy peasy. Now just push the code to our shared repository:</p>
+			<p>
+				Easy peasy. Now just <strong>push the code to our shared repository:</strong>
+			</p>
 			<Bash copy={true}>{command}</Bash>
 			<Sidebar>
 				There are a handful of tags that are self-closing, 

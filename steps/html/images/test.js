@@ -9,7 +9,8 @@ import fromScratchConfig from '../html-from-scratch';
 import config from './index';
 
 const {fileName} = fromScratchConfig;
-const {branchName, imgUrl} = config;
+const {branchName} = config;
+const imgUrl = `${process.env.SERVER_DOMAIN}/public/images/penguin.jpg`;
 
 const testDom = async function testDom(markup) {
 	let {document} = await gennyDom(markup);

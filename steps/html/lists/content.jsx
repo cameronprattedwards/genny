@@ -5,12 +5,32 @@ import {Html} from '../../../utils/components/Html';
 import {Bash} from '../../../utils/components/Bash';
 import {Carousel, Pane} from '../../../utils/components/Carousel';
 import {Continue} from '../../../utils/components/Continue';
+import {CopyButtonContainer} from '../../../utils/components/CopyButton';
 
 import {FILENAME, DOCTYPE} from '../html-from-scratch/content';
 import {YOUTUBE_LINK, YOUTUBE_TEXT} from '../links/content';
 import {IMG_URL} from '../images/content';
 import {HEADER} from '../body-tag/content';
 import {PARAGRAPH} from '../inline-tags/content';
+
+const facts = [
+`				In the 16th century, the word penguin actually referred to Great Auks, 
+				a now-extinct species that inhabited the seas around eastern Canada.
+`,
+`				Penguins survive because their feathers trap a layer of warm air 
+				next to the skin that serves as insulation.
+`,
+`				Because they aren't used to danger from animals on solid ground, 
+				wild penguins exhibit no particular fear of human tourists.
+`,
+`				Penguins evolved to stay in the Southern Hemisphere 
+				because there are no land predators, like wolves or polar bears.
+`,
+];
+
+const factsHtml = facts.map(fact => `			<li>
+${fact}			</li>
+`).join('');
 
 const Content = React.createClass({
 render() {
@@ -124,15 +144,15 @@ render() {
 					<dd>devouring, consuming, voracious.</dd>
 				</dl>
 				<Continue>
-					<Link to="/step/lists/try-it-out">Next: Try It Out -></Link>
+					<Link to="/step/lists/ul-tag">Next: Try It Out -></Link>
 				</Continue>
 			</Pane>
-			<Pane name="try-it-out">
-				<h4>Try It Out</h4>
-				<p>Let's add some more facts and a glossary to our penguins page.</p>
+			<Pane name="ul-tag">
+				<p>Let's add some more facts to our penguins page.</p>
 				<p>
-					In {FILENAME}, beneath your fact paragraph, add an unordered list tag, 
-					with a single <code>li</code> inside, so that your page looks like this:
+					In {FILENAME}, beneath your fact paragraph, 
+					<strong> add an unordered list tag, with a single <code>li</code> tag </strong>
+					inside, so that your page looks like this:
 				</p>
 				<Html noSelect={true}>{`${DOCTYPE}
 <html>
@@ -149,31 +169,49 @@ render() {
 		<img src="${IMG_URL}"></img>
 	</body>
 </html>`}</Html>
+				<Continue>
+					<Link to="/step/lists/li-tag">Next: Make Your Paragraph a List Item -></Link>
+				</Continue>
+			</Pane>
+			<Pane name="li-tag">
 				<p>
-					Then, move the contents of your paragraph into the <code>li</code> tag. 
+					Now, <strong>move the contents of your paragraph into the <code>li</code> tag</strong>. 
 					You'll probably want to add a line break between 
 					your <code>li</code> tag and your <code>ul</code> tag. 
-					Then delete the <code>p</code> tag where the fact used to be. 
-					Now that we have a list with some content, let's add some more list items. 
+				</p>
+				<p>
+					Then, <strong>delete the <code>p</code> tag where the fact used to be.</strong>
+				</p>
+
+				<p>Your document should look like this:</p>
+
+				<Html noSelect={true}>{`${DOCTYPE}
+<html>
+	<head></head>
+	<body>
+		<h1>${HEADER}</h1>
+		<ul>
+			<li>
+				${PARAGRAPH}
+			</li>
+		</ul>
+		<p>
+			<a href="${YOUTUBE_LINK}">${YOUTUBE_TEXT}</a>
+		</p>
+		<img src="${IMG_URL}"></img>
+	</body>
+</html>`}</Html>
+				<Continue>
+					<Link to="/step/lists/multiple-list-items">Next: Add Multiple List Items -></Link>
+				</Continue>
+			</Pane>
+			<Pane name="multiple-list-items">
+				<p>
+					Now that we have a list with some content, let's <strong>add some more list items</strong>. 
 					Here are some penguins facts for you to add:
 				</p>
 				<ul>
-					<li>
-						In the 16th century, the word penguin actually referred to Great Auks, 
-						a now-extinct species that inhabited the seas around eastern Canada.
-					</li>
-					<li>
-						Penguins survive because their feathers trap a layer of warm air 
-						next to the skin that serves as insulation.
-					</li>
-					<li>
-						Because they aren't used to danger from animals on solid ground, 
-						wild penguins exhibit no particular fear of human tourists.
-					</li>
-					<li>
-						Penguins evolved to stay in the Southern Hemisphere 
-						because there are no land predators, like wolves or polar bears.
-					</li>
+					{facts.map(fact => <li>{fact} <CopyButtonContainer text={fact} /></li>)}
 				</ul>
 				<p>When you're done adding facts, {FILENAME} should look something like this:</p>
 				<Html noSelect={true}>{`${DOCTYPE}
@@ -185,32 +223,24 @@ render() {
 			<li>
 				${PARAGRAPH}
 			</li>
-			<li>
-				In the 16th century, the word penguin actually referred to Great Auks, 
-				a now-extinct species that inhabited the seas around eastern Canada.
-			</li>
-			<li>
-				Penguins survive because their feathers trap a layer of warm air 
-				next to the skin that serves as insulation.
-			</li>
-			<li>
-				Because they aren't used to danger from animals on solid ground, 
-				wild penguins exhibit no particular fear of human tourists.
-			</li>
-			<li>
-				Penguins evolved to stay in the Southern Hemisphere 
-				because there are no land predators, like wolves or polar bears.
-			</li>
-		</ul>
+${factsHtml}		</ul>
 		<p>
 			<a href="${YOUTUBE_LINK}">${YOUTUBE_TEXT}</a>
 		</p>
 		<img src="${IMG_URL}"></img>
 	</body>
 </html>`}</Html>
+				<Continue>
+					<Link to="/step/lists/push-your-code">Next: Push Your Code -></Link>
+				</Continue>
+			</Pane>
+			<Pane name="push-your-code">
 				<p>
 					Check that stuff out in a browser to make sure everything looks good, 
 					then push your code to your remote repository.
+				</p>
+				<p>
+					Just <strong>copy this into your terminal</strong>:
 				</p>
 				<Bash copy={true}>{command}</Bash>
 				{this.props.statusLink}

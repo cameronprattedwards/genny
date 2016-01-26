@@ -110,18 +110,22 @@ render() {
 
 				<blockquote>E = MC<sup>2</sup></blockquote>
 				<Continue>
-					<Link to="/step/inline-tags/try-it-out">Next: Try It Out -></Link>
+					<Link to="/step/inline-tags/strong-tags">Next: Try It Out -></Link>
 				</Continue>
 			</Pane>
-			<Pane name="try-it-out">
+			<Pane name="strong-tags">
 				<p>
 					To move on to the next step, let's just add a little extra formatting to our penguins page. 
-					First, <strong>add some strong tags</strong> around the word "male", like this:
+					First, <strong>add strong tags around the word "male"</strong>, like this:
 				</p>
 
 				<Html noSelect={true}>{STRONGIFY}</Html>
-
-				<p>And <strong>add some em tags</strong> around the words "most desirable":</p>
+				<Continue>
+					<Link to="/step/inline-tags/em-tags">Next: Add Some Emphasis -></Link>
+				</Continue>
+			</Pane>
+			<Pane name="em-tags">
+				<p>Now, <strong>add some em tags</strong> around the words "most desirable":</p>
 
 				<Html noSelect={true}>{EMIFY}</Html>
 
@@ -140,10 +144,14 @@ render() {
 		<img src="${IMG_URL}"></img>
 	</body>
 </html>`}</Html>
-
+				<Continue>
+					<Link to="/step/inline-tags/view-your-page">Next: View Your Page -></Link>
+				</Continue>
+			</Pane>
+			<Pane name="view-your-page">
 				<p>
-					Now, open up {FILENAME} in your browser 
-					(if you already have it open, you can just refresh the page):
+					Now, <strong>open up {FILENAME} in your browser</strong>
+					{' '}(if you already have it open, you can just refresh the page):
 				</p>
 
 				<Bash noSelect={true}>open {FILENAME}</Bash>
@@ -160,8 +168,12 @@ render() {
 					</p>
 					<img src={IMG_URL}></img>
 				</FakePage>
-
-				<p>To wrap up, just push your HTML code up to our shared GitHub repository:</p>
+				<Continue>
+					<Link to="/step/inline-tags/push-your-code">Next: Push Your Code -></Link>
+				</Continue>
+			</Pane>
+			<Pane name="push-your-code">
+				<p>To move on to the next step, just push your HTML code up to our shared GitHub repository:</p>
 
 				<Bash copy={true}>{command}</Bash>
 				{this.props.statusLink}
