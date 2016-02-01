@@ -21,7 +21,7 @@ function instruction(fileContents) {
 			<p>Awesome! Now that your environment is all set up, let's write some HTML.</p>
 
 			<p>
-				HTML is just a way of formatting text so that a web browser 
+				HTML is a way of formatting text so that a web browser 
 				can know how to display it to people.
 			</p>
 
@@ -136,23 +136,15 @@ export const Mac = React.createClass({
 				<Pane name="">
 					{instruction(fileContents)}
 					<Continue>
-						<Link to="/step/empty-html-page/create-your-first-webpage">
+						<Link to="/step/empty-html-page/cd-command">
 							Click Here to Put It Into Action ->
 						</Link>
 					</Continue>
 				</Pane>
 
-				<Pane name="create-your-first-webpage">
+				<Pane name="cd-command">
 					<p>
-						Let's create your first HTML page right now! 
-						We'll start with creating the file, then copy and paste some HTML 
-						to create your first webpage! Easy peasy.
-					</p>
-
-					<h3>Create the File</h3>
-
-					<p>
-						<strong>Type the following commands into your terminal</strong>. 
+						<strong>Type the following command into your terminal</strong>. 
 						You won't be able to copy and paste. 
 						That's so you get some practice with typing in the terminal on your own.
 					</p>
@@ -164,14 +156,27 @@ export const Mac = React.createClass({
 
 					<Bash noSelect={true}>cd ~/{repoName}</Bash>
 
-					<p>Press "enter" after typing the command.</p>
+					<p>Press <Key>Enter</Key> after typing the command.</p>
 
+					<Continue>
+						When you're done, {' '}
+						<Link to="/step/empty-html-page/sublime-command-line">
+							Click Here to Create an HTML File ->
+						</Link>
+					</Continue>
+				</Pane>
+				<Pane name="sublime-command-line">
 					<p>
+						Now you're ready to create a new HTML file and edit it in Sublime Text.
+					</p>
+					<p>
+						<strong>Type the following command in your terminal. </strong>
 						This command opens up a new file called {fileName} in Sublime Text. 
-						(Which you downloaded during setup.)
 					</p>
 
 					<Bash noSelect={true}>subl {fileName}</Bash>
+
+					<p>You downloaded Sublime Text during setup, so you should be ready to code now!</p>
 
 					<Continue>
 						<Link to="/step/empty-html-page/paste-your-first-html">
@@ -201,11 +206,17 @@ export const Mac = React.createClass({
 							Click Here to View Your Webpage ->
 						</Link>
 					</Continue>
+
+					<Sidebar>
+					You can paste pretty much anywhere by pressing <Key>Command</Key> <Key>V</Key>.
+					</Sidebar>
  				</Pane>
  				<Pane name="view-your-webpage">
  					<h3>View Your New Webpage</h3>
 					<p>
-						To look at your new website in a browser, type this in your terminal and press "enter":
+						To look at your new website in a browser, 
+						{' '}<strong>type this in your terminal</strong> 
+						{' '}and press <Key>Enter</Key>:
 					</p>
 
 					<Bash noSelect={true}>open {fileName}</Bash>
@@ -228,10 +239,6 @@ export const Mac = React.createClass({
 					<Bash copy={true}>{command}</Bash>
 
 					{this.props.statusLink}
-
-					<Sidebar>
-						You can paste text pretty much anywhere by pressing <Key>Command</Key> <Key>V</Key>.
-					</Sidebar>
 
 					<p>
 						Remember how you signed up for GitHub during setup? 
