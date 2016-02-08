@@ -136,6 +136,11 @@ render() {
 					The font looks a little weird, right? You can fix that when you learn about CSS. 
 					But for now, we have what we really want, which is a poem with all the line breaks in place.
 				</p>
+				<Continue>
+					<Link to="/step/more-content/submit-your-code">Next: Submit Your Code -></Link>
+				</Continue>
+			</Pane>
+			<Pane name="submit-your-code">
 
 				<p>To move on to the next step, just push your code to the remote repository:</p>
 

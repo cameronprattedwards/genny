@@ -21,6 +21,10 @@ const queries = {
 	},
 
 	commit(userId, stepId, success, error = null) {
+		if (error) {
+			error = JSON.stringify(error);
+		}
+
 		return squel.insert().into('Step_commit')
 			.set('Step_id', stepId)
 			.set('User_id', userId)

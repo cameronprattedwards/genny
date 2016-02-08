@@ -18,6 +18,7 @@ import api from '../api/server';
 import {getUserState} from '../api/state';
 import {getOs} from '../utils/getOs';
 import {setOs} from '../flux/actionCreators';
+import db from '../steps';
 
 const app = express();
 app.use(cookieParser());
@@ -38,7 +39,7 @@ const handleDefaultRequest = async function handleDefaultRequest(request, respon
 		const {token} = request.cookies;
 		let state = {
 			ui: fromJS({os}),
-			db: Map(),
+			db: fromJS(db),
 			env: fromJS({
 				SERVER_DOMAIN: process.env.SERVER_DOMAIN,
 			}),

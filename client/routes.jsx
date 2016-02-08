@@ -5,7 +5,7 @@ import {HomeContainer} from './components/Home';
 import {StepContainer} from './components/Step';
 import {End} from './components/End';
 import {App} from './components/App';
-import {SetupContainer} from './components/Setup';
+import {SetupContainer} from './components/setup';
 
 export const routes = (
 	<Route path="/" component={App}>

@@ -1,7 +1,6 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import Firebase from 'firebase';
-import {AssertionError} from '../utils/assert/AssertionError';
 
 import {Paths} from './paths';
 import UserService from '../domain/UserService';

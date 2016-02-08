@@ -91,13 +91,15 @@ render() {
 				</p>
 
 				<p>
-					First, <strong>put a new <code>p</code> tag on your page</strong> under the paragraph with the fact in it. 
+					First, <strong>put a new <code>p</code> tag on your page</strong> under 
+					the paragraph with the fact in it. 
 				</p>
 				<p>
 					Second, <strong>add an <code>a</code> tag</strong> inside the new <code>p</code> tag.
 				</p>
 				<p>
-					Third, <strong>give your <code>a</code> tag an <code>href</code> attribute</strong> of <a href={YOUTUBE_LINK} target="_blank">{YOUTUBE_LINK}</a>.
+					Third, <strong>give your <code>a</code> tag an <code>href</code> attribute</strong> of 
+					{' '}<a href={YOUTUBE_LINK} target="_blank">{YOUTUBE_LINK}</a>.
 					{' '}<CopyButtonContainer text={YOUTUBE_LINK} />
 				</p>
 				<p>

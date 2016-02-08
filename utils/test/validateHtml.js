@@ -21,6 +21,8 @@ const validateMessage = `Looks like your markup isn't validating. Are you closin
 
 export const assertValid = async function assertValid(markup, errorsLength = 0, errorMessage = validateMessage) {
 	let messages = await validateHtml(markup);
+	console.log('VALIDATION MESSAGES');
+	console.log(messages);
 
 	let errors = messages.filter(message => message.type === 'error');
 

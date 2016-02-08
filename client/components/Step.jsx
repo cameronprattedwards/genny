@@ -12,6 +12,9 @@ import {Breadcrumbs} from './Breadcrumbs';
 import {Continue} from '../../utils/components/Continue';
 import {Spinner} from '../../utils/components/Spinner';
 import {Button} from '../../utils/components/Button';
+import {Bash} from '../../utils/components/Bash';
+import {CopyButtonContainer} from '../../utils/components/CopyButton';
+import assertComponentMapping from '../../utils/assert';
 
 import {SUCCESS, FAILURE, COMMIT} from '../../domain/constants';
 
@@ -91,45 +94,7 @@ export const Step = React.createClass({
 
 		const moduleOrder = db.get('moduleOrder');
 
-		let statusLink = null;
-
-		switch (step.get('status')) {
-			case SUCCESS:
-				let nextUrl = next(stepName, step, db, moduleOrder);
-				statusLink = (
-					<Continue>
-						You did it!{' '}
-						<Link className={styles.link} href={nextUrl} to={nextUrl}>
-							Move on to the next step.
-						</Link>
-					</Continue>
-				);
-				break;
-			case FAILURE:
-				statusLink = (
-					<div>
-						<p>
-							Something went wrong. 
-							<Button onClick={() => this.openModal()}>Click here</Button> for more info.
-						</p>
-						<Modal isOpen={this.state.modalOpen} onRequestClose={() => this.closeModal()} style={modalStyles}>
-							<div className={styles.failure}>
-								<p>Oops. Looks like something went wrong.</p>
-								<pre>{step.get('failure')}</pre>
-							</div>
-						</Modal>
-					</div>
-				);
-				break;
-			case COMMIT:
-				statusLink = (
-					<div className={styles.loading}>
-						<Spinner />{' '}
-						We got your code and we're running some tests.
-					</div>
-				);
-				break;
-		}
+		let statusLink = getStatusLink(step, stepName, db, moduleOrder, this.state.modalOpen);
 
 		let steps = db.getIn(['modules', 'html', 'steps']).map(step => db.getIn(['steps', step]));
 
@@ -146,6 +111,71 @@ export const Step = React.createClass({
 		);
 	},
 });
+
+function getStatusLink(step, stepName, db, moduleOrder, modalOpen) {
+	switch (step.get('status')) {
+		case SUCCESS:
+			let nextUrl = next(stepName, step, db, moduleOrder);
+			return (
+				<Continue>
+					You did it!{' '}
+					<Link className={styles.link} href={nextUrl} to={nextUrl}>
+						Move on to the next step.
+					</Link>
+				</Continue>
+			);
+		case FAILURE:
+			let componentName = step.getIn(['error', 'component']);
+			let Component;
+			if (componentName) {
+				Component = assertComponentMapping[componentName];
+			} else {
+				Component = assertComponentMapping.AssertComponent;
+			}
+			let error = step.get('error');
+			if (error.toJS) {
+				error = error.toJS();
+			}
+			let command = [
+				'git add .',
+				`git commit -m "Fix my code"`,
+				`git push origin ${step.get('branchName')}`,
+			].join(' && ');
+
+			return (
+				<div>
+					<p>
+						Something went wrong. 
+						<Button onClick={() => this.openModal()}>Click here</Button> for more info.
+					</p>
+					<Modal isOpen={modalOpen} onRequestClose={() => this.closeModal()} style={modalStyles}>
+						<div>
+							<h3 className={styles.failureHeader}>Oops!</h3>
+							<h4 className={styles.failureHeader}>Looks like something went wrong.</h4>
+							<Component {...error} />
+							<p>
+								When you're done making these changes, 
+								just copy and paste the following into your terminal to resubmit.
+							</p>
+							<div className={styles.bashContainer}>
+								<Bash className={styles.bash}>{command}</Bash>
+								<CopyButtonContainer text={`${command}\n`} className={styles.copy} />
+							</div>
+						</div>
+					</Modal>
+				</div>
+			);
+		case COMMIT:
+			return (
+				<div className={styles.loading}>
+					<Spinner />{' '}
+					We got your code and we're running some tests.
+				</div>
+			);
+	}
+
+	return null;
+}
 
 function mapStateToProps(state) {
 	let {user, db, env, ui} = state;

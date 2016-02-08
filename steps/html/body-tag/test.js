@@ -8,18 +8,22 @@ import {TagAsserter} from '../../../utils/test/gennyDom';
 import config from './index';
 import fromScratchConfig from '../html-from-scratch';
 
-const {branchName} = config;
+const {branchName, paragraph} = config;
 const {fileName} = fromScratchConfig;
 
 const testDom = async function testDom(markup) {
 	let asserter = await TagAsserter.instance(markup);
-	asserter.hasTag('h1', 'Interesting Penguin Facts');
-	asserter.hasTag('p');
+	let h1 = asserter.hasTag('h1');
+	assert.tagIsNotEmpty(h1, 'Interesting Penguin Facts');
+	let p = asserter.hasTag('p', paragraph);
+	assert.tagIsNotEmpty(p, paragraph);
 };
 
 const validate = async function validate(markup) {
 	let [error] = await assertValid(markup, 1);
-	assert.isEqual(error.message, 'Element “head” is missing a required instance of child element “title”.');
+	if (error) {
+		assert.isEqual(error.message, 'Element “head” is missing a required instance of child element “title”.');
+	}
 };
 
 const test = async function test(hook) {

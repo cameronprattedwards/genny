@@ -9,7 +9,6 @@ export default {
 		'images',
 		'inline-tags',
 		'lists',
-		'self-closing-tags',
 		'more-content',
 	],
 };

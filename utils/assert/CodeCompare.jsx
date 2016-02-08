@@ -11,5 +11,5 @@ export const CodeCompare = React.createClass({
 				<Code>{this.props.expected}</Code>
 			</div>
 		);
-	}
+	},
 });

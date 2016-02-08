@@ -12,7 +12,10 @@ import {rootReducerFactory} from '../flux/reducers';
 import {routes} from './routes';
 import {fetchUserState, stepUpdate, setOs} from '../flux/actionCreators';
 import {getOs} from '../utils/getOs';
+import Modal from 'react-modal';
 
+const appElement = document.getElementById('app');
+Modal.setAppElement('#app');
 const rootReducer = rootReducerFactory(__INITIAL_STATE__);
 
 const store = applyMiddleware(thunkMiddleware)(createStore)(rootReducer);
@@ -74,4 +77,4 @@ window.addEventListener('message', (event) => {
 
 let app = (<Provider store={store}><Router history={history}>{routes}</Router></Provider>);
 
-ReactDOM.render(app, document.getElementById('app'));
+ReactDOM.render(app, appElement);

@@ -15,9 +15,9 @@ export function gennyDom(markup) {
 	});
 };
 
-export function hasTag(document, tagName, innerText = null, innerErrorMessage = null) {
+export function hasTag(document, tagName, innerText = null, innerErrorMessage = null, attributes = null) {
 	let [tag] = document.getElementsByTagName(tagName);
-	assert.isNotEqual(tag, undefined, `Add a ${tagName} tag to your HTML.`);
+	assert.tagExists(tag, tagName, innerText, attributes);
 
 	if (innerText) {
 		if (!innerErrorMessage) {

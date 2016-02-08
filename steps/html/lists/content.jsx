@@ -211,7 +211,7 @@ render() {
 					Here are some penguins facts for you to add:
 				</p>
 				<ul>
-					{facts.map(fact => <li>{fact} <CopyButtonContainer text={fact} /></li>)}
+					{facts.map(fact => <li key={fact}>{fact} <CopyButtonContainer text={fact} /></li>)}
 				</ul>
 				<p>When you're done adding facts, {FILENAME} should look something like this:</p>
 				<Html noSelect={true}>{`${DOCTYPE}

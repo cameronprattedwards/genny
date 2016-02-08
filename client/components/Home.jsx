@@ -5,7 +5,7 @@ import {Link} from 'react-router';
 import {Paths, reversePath} from '../../api/paths';
 import {setChildWindow} from '../../flux/actionCreators';
 import styles from './Home.css';
-import {FIRST_PANE, OPEN_YOUR_TERMINAL, setupUrl} from './Setup';
+import {FIRST_PANE, OPEN_YOUR_TERMINAL, setupUrl} from './setup/metadata';
 import {SUCCESS} from '../../domain/constants';
 
 import {Spinner} from '../../utils/components/Spinner';

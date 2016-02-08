@@ -8,13 +8,11 @@ import {FakePage} from '../../../utils/components/FakePage';
 import {Carousel, Pane} from '../../../utils/components/Carousel';
 import {Continue} from '../../../utils/components/Continue';
 import {CopyButtonContainer} from '../../../utils/components/CopyButton';
+import config from './index';
 
 export const HEADER = 'Interesting Penguin Facts';
 
-export const PARAGRAPH = `In some species, it is the male penguin which incubates the eggs
-			while females leave to hunt for weeks at a time.
-			Because of this, pudgy males - with enough fat storage to survive weeks without eating -
-			are most desirable.`;
+export const PARAGRAPH = config.paragraph;
 
 const Content = React.createClass({
 	render() {
@@ -43,7 +41,7 @@ const Content = React.createClass({
 </html>`}</Html>
 					<p>
 						Every time we put a tag inside another tag, we indent it. 
-						This just makes it makes it easier to read.
+						This makes it easier to read.
 					</p>
 					<p>
 						All of the data about our webpage lives in the <code>head</code> tag. 

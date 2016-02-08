@@ -13,10 +13,8 @@
 	margin-top: 10px;
 }
 
-.failure {
-	background-color: red;
-	color: white;
-	overflow: hidden;
+.failureHeader {
+	text-align: center;
 }
 
 .failure pre {
@@ -35,4 +33,23 @@
 	background-color: white;
 	position: relative;
 	z-index: 1;
+}
+
+.bashContainer {
+	position: relative;
+	height: 28px;
+}
+
+.bash {
+	position: absolute;
+	left: 0;
+	right: 125px;
+}
+
+.copy {
+	width: 100px;
+	right: 0;
+	top: 0;
+	height: 100%;
+	position: absolute;
 }

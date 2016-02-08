@@ -42,8 +42,8 @@ export class EventService {
 			.where(`success = 0`);
 
 		return [
-			mysql(successQuery),
-			mysql(failureQuery),
+			mysql(successQuery).then(parseErrors),
+			mysql(failureQuery).then(parseErrors),
 		];
 	}
 
@@ -57,4 +57,22 @@ export class EventService {
 
 		return mysql(query);
 	}
+}
+
+function parseErrors(rows) {
+	console.log('DEEZ HERE ROWS');
+	console.log(rows);
+	return rows.map(row => {
+		let error = row.error;
+		error = JSON.parse(error);
+		if (typeof error === 'string') {
+			error = JSON.parse(error);
+		}
+
+		let garbage = {
+			...row,
+			error,
+		};
+		return garbage;
+	});
 }

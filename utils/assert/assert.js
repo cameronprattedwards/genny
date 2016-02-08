@@ -1,5 +1,7 @@
 import {AssertionError} from './AssertionError';
 import {CodeCompareError} from './CodeCompareError';
+import {EmptyTagError} from './EmptyTagError';
+import {MissingTagError} from './MissingTagError';
 
 export const assert = {
 	isEqual(actual, expected, message) {
@@ -27,5 +29,18 @@ export const assert = {
 			message = message || `Expected ${actual} to be greater than ${expected}`;
 			throw new AssertionError(message);
 		}
-	}
+	},
+
+	tagIsNotEmpty(tag, expectedContent) {
+		let tagText = tag.firstChild && tag.firstChild.nodeValue && tag.firstChild.nodeValue.trim();
+		if (!tagText) {
+			throw new EmptyTagError(`Expected ${tag.tagName} tag to not be empty.`, tag.tagName, expectedContent);
+		}
+	},
+
+	tagExists(tag, tagName, expectedContent, expectedAttributes) {
+		if (!tag) {
+			throw new MissingTagError(tagName, expectedContent, expectedAttributes);
+		}
+	},
 };

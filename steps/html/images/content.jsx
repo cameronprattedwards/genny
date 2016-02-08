@@ -4,7 +4,7 @@ import {Link} from 'react-router';
 import {FILENAME, DOCTYPE} from '../html-from-scratch/content';
 import {HEADER, PARAGRAPH} from '../body-tag/content';
 import {YOUTUBE_LINK, YOUTUBE_TEXT} from '../links/content';
-import config from './index';
+import {VOID_ELEMENTS} from '../../../domain/constants';
 
 import {Html} from '../../../utils/components/Html';
 import {Bash} from '../../../utils/components/Bash';
@@ -12,6 +12,7 @@ import {FakePage} from '../../../utils/components/FakePage';
 import {Carousel, Pane} from '../../../utils/components/Carousel';
 import {Continue} from '../../../utils/components/Continue';
 import {CopyButtonContainer} from '../../../utils/components/CopyButton';
+import {Sidebar} from '../../../utils/components/Sidebar';
 
 let env = typeof window !== 'undefined' ? window.env : process.env;
 
@@ -54,18 +55,29 @@ render() {
 		<p>
 			<a href="${YOUTUBE_LINK}">${YOUTUBE_TEXT}</a>
 		</p>
-		<img></img>
+		<img />
 	</body>
 </html>`}</Html>
+				<p>
+					<code>img</code> is actually a <strong>void</strong> element, 
+					meaning that it can't have any content. 
+					For that reason, the <code>img</code> tag should just close itself. Instead of 
+					typing <code>{'<img></img>'}</code>, just type <code>{'<img />'}</code>.
+				</p>
 				<Continue>
 					<Link to="/step/images/img-src-attributes">Next: Tell the Browser Which Image to Show -></Link>
 				</Continue>
+				<Sidebar>
+					Here are all of the void tags 
+					(tags that can't have any content and should be self-closing): 
+					{' '}{VOID_ELEMENTS.slice(0, -1).join(', ')}, and {VOID_ELEMENTS[VOID_ELEMENTS.length - 1]}.
+				</Sidebar>
 			</Pane>
 			<Pane name="img-src-attributes">
 				<p>
-					Our webpage going to display an image quite yet. 
+					Our webpage isn't going to display an image quite yet. 
 					We need to give our <code>img</code> tag a <code>src</code> attribute 
-					so the browser knows which image to show.
+					so the browser knows <em>which</em> image to show.
 				</p>
 
 				<p>
@@ -88,14 +100,14 @@ render() {
 		<p>
 			<a href="${YOUTUBE_LINK}">${YOUTUBE_TEXT}</a>
 		</p>
-		<img src="${IMG_URL}"></img>
+		<img src="${IMG_URL}" />
 	</body>
 </html>`}</Html>
 				<Continue>
-					<Link to="/step/images/submit-your-html">Next: Submit Your Code -></Link>
+					<Link to="/step/images/view-your-page">Next: View Your Page -></Link>
 				</Continue>
 			</Pane>
-			<Pane name="submit-your-html">
+			<Pane name="view-your-page">
 				<p>Now, <strong>open up your page in your browser</strong> to see your cute new image!</p>
 				<p>Just refresh the page, if you have it open, or type this into your terminal:</p>
 				<Bash noSelect={true}>open {FILENAME}</Bash>
@@ -105,7 +117,7 @@ render() {
 					<p>
 						{PARAGRAPH}
 					</p>
-					<img src={IMG_URL}></img>
+					<img src={IMG_URL} />
 				</FakePage>
 				<Continue>
 					<Link to="/step/images/push-your-code">Next: Push Your Code -></Link>

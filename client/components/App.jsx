@@ -17,7 +17,7 @@ export const App = React.createClass({
 	render() {
 		return (
 			<DocumentTitle title="HTML Tutorial">
-				<div>
+				<div className={styles.app}>
 					<h1 className={styles.header}>
 						<Link className={styles.link} href="/" to="/">School of Haxx</Link>
 					</h1>

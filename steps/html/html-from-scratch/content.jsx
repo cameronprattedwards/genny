@@ -66,23 +66,45 @@ const Content = React.createClass({
 					</Sidebar>
 
 					<Continue>
-						<Link to="/step/html-from-scratch/doctypes-and-html-tags">
+						<Link to="/step/html-from-scratch/create-an-html-doc">
 							Click Here to Put It Into Action ->
 						</Link>
 					</Continue>
 				</Pane>
 
-				<Pane name="doctypes-and-html-tags">
+				<Pane name="create-an-html-doc">
 					<p>
 						First, open a new HTML document called "{FILENAME}" 
 						in Sublime Text:
 					</p>
 
 					<Bash noSelect={true}>subl {FILENAME}</Bash>
+					<Continue>
+						<Link to="/step/html-from-scratch/doctypes">
+							Click Here to Add a DOCTYPE ->
+						</Link>
+					</Continue>
+				</Pane>
+				<Pane name="doctypes">
+					<p>
+						<strong>Now, add a DOCTYPE to the top of your document</strong> on line 1. 
+					</p>
 
 					<p>
-						Add a DOCTYPE to the top of your document on line 1. 
-						Then add opening and closing <code>html</code> tags on line 2. 
+						Your HTML page should look like this:
+					</p>
+					<Html noSelect={true}>{DOCTYPE}</Html>
+					<Continue>
+						<Link to="/step/html-from-scratch/html-tags">
+							Click Here to Add Some HTML Tags ->
+						</Link>
+					</Continue>
+				</Pane>
+				<Pane name="html-tags">
+					<p>
+						Now, <strong>add opening and closing <code>html</code> tags</strong> on line 2. 
+					</p>
+					<p>
 						Your HTML document should look like this:
 					</p>
 
@@ -98,6 +120,18 @@ const Content = React.createClass({
 							Click Here to Submit Your Code ->
 						</Link>
 					</Continue>
+
+					<Sidebar>
+						<p>
+							Sublime Text has a feature called <strong>autocomplete</strong>, which automatically closes 
+							your tags for you. If you write an opening tag, like "<code>{'<html>'}</code>", and then 
+							later you just write "<code>{'</'}</code>", it will 
+							fill in the rest of the "<code>{'</html>'}</code>" for you. 
+						</p>
+						<p>
+							This is one of many little tricks that coders use to save time typing.
+						</p>
+					</Sidebar>
 				</Pane>
 				<Pane name="submit-your-code">
 					<p>To move on to the next step, send your code to our shared repository.</p>
