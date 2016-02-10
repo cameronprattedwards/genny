@@ -3,13 +3,20 @@ import {Link} from 'react-router';
 
 import styles from './content.css';
 
-import {Html} from '../../../utils/components/Html';
-import {FakePage} from '../../../utils/components/FakePage';
-import {Bash} from '../../../utils/components/Bash';
-import {Carousel, Pane} from '../../../utils/components/Carousel';
-import {Continue} from '../../../utils/components/Continue';
-import {CopyButtonContainer} from '../../../utils/components/CopyButton';
+import {
+	Html, 
+	FakePage, 
+	Bash, 
+	Carousel, 
+	Pane, 
+	Key,
+	Continue, 
+	CopyButtonContainer,
+	Sidebar,
+} from '../../../utils/components';
+
 import config from '../html-from-scratch';
+import {FILENAME} from '../html-from-scratch/content';
 
 const POEM = `
 Roses are red,
@@ -54,6 +61,8 @@ render() {
 					separate sections, on a page.
 				</p>
 
+				<p>Open {FILENAME} in Sublime Text.</p>
+
 				<p>
 					<strong>
 						Add a <code>div</code> tag 
@@ -74,9 +83,9 @@ render() {
 </html>
 				`}</Html>
 				<p>
-					That should work great, right? Well, <strong>open your webpage in a browser</strong>, 
-					(just type <code>open {fileName}</code> in your terminal) 
-					and you'll see it looks like this:
+					That should work great, right? Well, <strong>open your webpage in a browser </strong>
+					and scroll to the bottom. 
+					You'll see it looks like this:
 				</p>
 				<FakePage>{POEM}</FakePage>
 				<h3>Where are the line breaks? What went wrong?</h3>
@@ -139,10 +148,22 @@ render() {
 				<Continue>
 					<Link to="/step/more-content/submit-your-code">Next: Submit Your Code -></Link>
 				</Continue>
+				<Sidebar>
+					<p>
+						With Sublime Text, you can indent or de-dent 
+						(move one tab to the left) multiple lines at the same time.
+					</p>
+					<p>
+						Just highlight all the lines you want to move, 
+						then press <Key>Tab</Key> to indent, or <Key>Shift</Key> <Key>Tab</Key> to de-dent.
+					</p>
+				</Sidebar>
 			</Pane>
 			<Pane name="submit-your-code">
 
-				<p>To move on to the next step, just push your code to the remote repository:</p>
+				<p>To move on to the next step, just push your code to the remote repository.</p>
+
+				<p>Just copy the following command into your {this.props.terminal}.</p>
 
 				<Bash copy={true}>{command}</Bash>
 				{this.props.statusLink}
@@ -152,8 +173,16 @@ render() {
 },
 });
 
-export const Mac = Content;
+export const Mac = React.createClass({
+	render() {
+		return <Content {...this.props} terminal="terminal" />;
+	}
+});
 
-export const Win = Content;
+export const Win = React.createClass({
+	render() {
+		return <Content {...this.props} terminal="command prompt" />;
+	}
+});
 
 export default Content;

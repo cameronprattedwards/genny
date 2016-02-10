@@ -36,7 +36,7 @@ export const Setup = React.createClass({
 					<VerifyYourEmail {...this.props} />
 				</Pane>
 				<Pane name={AUTHORIZE_SCHOOL_OF_HAXX}>
-					<Authorize {...this.props} />
+					<Authorize {...this.props} goTo={OPEN_YOUR_TERMINAL}/>
 				</Pane>
 				<Pane name={OPEN_YOUR_TERMINAL}>
 					<OpenTerminal {...this.props} />
@@ -56,7 +56,7 @@ export const Setup = React.createClass({
 					<VerifyYourEmail {...this.props} />
 				</Pane>
 				<Pane name={AUTHORIZE_SCHOOL_OF_HAXX}>
-					<Authorize {...this.props} />
+					<Authorize {...this.props} goTo={INSTALL_GIT} />
 				</Pane>
 				<Pane name={INSTALL_GIT}>
 					<InstallGit {...this.props} />
@@ -80,14 +80,18 @@ export const Setup = React.createClass({
 
 function mapStateToProps(state) {
 	let step = state.db.getIn(['steps', 'environment-setup']);
+	let {ui, user} = state;
 
 	return {
-		token: state.user.get('token'),
+		token: user.get('token'),
 		SERVER_DOMAIN: state.env.get('SERVER_DOMAIN'),
-		loading: state.ui.get('loading'),
+		loading: ui.get('loading'),
 		complete: step.get('status') === SUCCESS,
-		os: state.ui.get('os'),
+		os: ui.get('os'),
 		step,
+		login: user.get('login'),
+		repoName: user.get('repoName'),
+		email: user.get('email'),
 	};
 }
 

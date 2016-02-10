@@ -1,6 +1,6 @@
 import {Bash} from './Bash';
 import {Button} from './Button';
-import {Carousel} from './Carousel';
+import {Carousel, Pane} from './Carousel';
 import {Code} from './Code';
 import {Continue} from './Continue';
 import {CopyButton, CopyButtonContainer} from './CopyButton';
@@ -15,6 +15,7 @@ export {
 	Bash,
 	Button,
 	Carousel,
+	Pane,
 	Code,
 	Continue,
 	CopyButton,

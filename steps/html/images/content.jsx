@@ -109,8 +109,7 @@ render() {
 			</Pane>
 			<Pane name="view-your-page">
 				<p>Now, <strong>open up your page in your browser</strong> to see your cute new image!</p>
-				<p>Just refresh the page, if you have it open, or type this into your terminal:</p>
-				<Bash noSelect={true}>open {FILENAME}</Bash>
+				{this.props.open}
 				<p>Your page should look like this now:</p>
 				<FakePage>
 					<h1>{HEADER}</h1>
@@ -125,6 +124,7 @@ render() {
 			</Pane>
 			<Pane name="push-your-code">
 				<p>As always, to move on to the next step, just push your code to the remote repository.</p>
+				<p>Just <strong>copy and paste the following command</strong> into your {this.props.terminal}:</p>
 				<Bash copy={true}>{command}</Bash>
 				{this.props.statusLink}
 			</Pane>
@@ -133,8 +133,27 @@ render() {
 },
 });
 
-export const Mac = Content;
+export const Mac = React.createClass({
+	render() {
+		const open = (
+			<div>
+				<p>Just refresh the page, if you have it open. Or type this into your terminal:</p>
+				<Bash noSelect={true}>open {FILENAME}</Bash>
+			</div>
+		);
 
-export const Win = Content;
+		return <Content {...this.props} open={open} terminal="terminal" />;
+	}
+});
+
+export const Win = React.createClass({
+	render() {
+		const open = (
+			<p>Just refresh the page, if you have it open. Or navigate to it and click on it in your File Explorer.</p>
+		);
+
+		return <Content {...this.props} open={open} terminal="command prompt" />;
+	}
+});
 
 export default Content;

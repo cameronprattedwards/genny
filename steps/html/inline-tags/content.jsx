@@ -115,8 +115,11 @@ render() {
 			</Pane>
 			<Pane name="strong-tags">
 				<p>
-					To move on to the next step, let's just add a little extra formatting to our penguins page. 
-					First, <strong>add strong tags around the word "male"</strong>, like this:
+					To move on to the next step, let's just add a little extra formatting to our penguins page.
+				</p>
+				<p>
+					Open {FILENAME} in Sublime Text. 
+					Then, <strong>add strong tags around the word "male"</strong>, like this:
 				</p>
 
 				<Html noSelect={true}>{STRONGIFY}</Html>
@@ -141,7 +144,7 @@ render() {
 		<p>
 			<a href="${YOUTUBE_LINK}">${YOUTUBE_TEXT}</a>
 		</p>
-		<img src="${IMG_URL}"></img>
+		<img src="${IMG_URL}" />
 	</body>
 </html>`}</Html>
 				<Continue>
@@ -154,7 +157,7 @@ render() {
 					{' '}(if you already have it open, you can just refresh the page):
 				</p>
 
-				<Bash noSelect={true}>open {FILENAME}</Bash>
+				{this.props.open}
 
 				<p>Your browser should render it like this:</p>
 
@@ -166,14 +169,16 @@ render() {
 					<p>
 						<a href={YOUTUBE_LINK}>{YOUTUBE_TEXT}</a>
 					</p>
-					<img src={IMG_URL}></img>
+					<img src={IMG_URL} />
 				</FakePage>
 				<Continue>
 					<Link to="/step/inline-tags/push-your-code">Next: Push Your Code -></Link>
 				</Continue>
 			</Pane>
 			<Pane name="push-your-code">
-				<p>To move on to the next step, just push your HTML code up to our shared GitHub repository:</p>
+				<p>To move on to the next step, just push your HTML code up to our shared GitHub repository.</p>
+
+				<p>Just copy and paste the following into your {this.props.terminal}.</p>
 
 				<Bash copy={true}>{command}</Bash>
 				{this.props.statusLink}
@@ -183,8 +188,32 @@ render() {
 },
 });
 
-export const Mac = Content;
+export const Mac = React.createClass({
+	render() {
+		const open = (
+			<div>
+				<p>You can open {FILENAME} in the browser by typing this:</p>
+				<Bash noSelect={true}>open {FILENAME}</Bash>
+			</div>
+		);
 
-export const Win = Content;
+		return <Content {...this.props} open={open} terminal="terminal" />;
+	}
+});
+
+export const Win = React.createClass({
+	render() {
+		const open = (
+			<div>
+				<p>
+					You can open {FILENAME} by navigating to it 
+					in the File Explorer and double-clicking it.
+				</p>
+			</div>
+		);
+
+		return <Content {...this.props} open={open} terminal="command prompt" />;
+	}
+});
 
 export default Content;

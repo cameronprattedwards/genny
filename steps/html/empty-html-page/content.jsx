@@ -278,6 +278,7 @@ export const Win = React.createClass({
 		const fileContents = step.get('fileContents');
 		const fileName = step.get('fileName');
 		const branchName = step.get('branchName');
+		const firstWebpage = step.get('firstWebpage');
 		const repoPath = `C:\\Users\\<your user name>\\${repoName}`;
 		const commands = [
 			`git checkout -b ${branchName}`,
@@ -305,18 +306,19 @@ export const Win = React.createClass({
 					</p>
 
 					<p>
-						First, <strong>open your code folder in Sublime</strong> by selecting File > Open Folder, 
+						First, <strong>open your code folder in Sublime Text</strong> by selecting File > Open Folder, 
 						then selecting <code>{repoPath}</code>.
 					</p>
 
 					<p>
-						Once you have your folder open, create a new file, then 					
+						Once you have your folder open, create a new file, then 
 						<strong>
-							{' '}<CopyButtonContainer text={fileContents} /> and paste the HTML on 
-							{' '}<Link to="/step/empty-html-page">the previous page</Link>
+							{' '}<CopyButtonContainer text={firstWebpage} /> and paste the HTML below 
 						</strong>
 						{' '}into your file.
 					</p>
+
+					<Html copy={true}>{firstWebpage}</Html>
 
 					<p>
 						Save your file as <code>{`${repoPath}\\${fileName}`}</code>. 

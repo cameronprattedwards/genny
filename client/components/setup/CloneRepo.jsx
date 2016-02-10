@@ -1,6 +1,5 @@
 import React from 'react';
-import {Bash} from '../../../utils/components/Bash';
-import {Continue} from '../../../utils/components/Continue';
+import {Bash, Continue, Key} from '../../../utils/components';
 import {Link} from 'react-router';
 
 export const CloneRepo = React.createClass({
@@ -17,7 +16,8 @@ export const CloneRepo = React.createClass({
 
 				<p>
 					First, <strong>open your command prompt</strong> by typing 
-					{' '}<i className="fa fa-windows"></i> + r, then the letters 
+					{' '}<Key><i className="fa fa-windows"></i></Key> <Key>R</Key>, 
+					then the letters 
 					{' '}<code>cmd</code>, then <code>enter</code>.
 				</p>
 

@@ -34,12 +34,12 @@ export const Authorize = React.createClass({
 	},
 });
 
-function getCallToAction({token, loading}) {
+function getCallToAction({token, loading, goTo}) {
 	if (token) {
 		return (
 			<Continue>
 				You've authorized School of Haxx!{' '}
-				<SetupLink to={OPEN_YOUR_TERMINAL}>Go to the next step.</SetupLink>
+				<SetupLink to={goTo}>Go to the next step.</SetupLink>
 			</Continue>
 		);
 	}

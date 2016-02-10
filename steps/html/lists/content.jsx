@@ -1,17 +1,21 @@
 import React from 'react';
 import {Link} from 'react-router';
 
-import {Html} from '../../../utils/components/Html';
-import {Bash} from '../../../utils/components/Bash';
-import {Carousel, Pane} from '../../../utils/components/Carousel';
-import {Continue} from '../../../utils/components/Continue';
-import {CopyButtonContainer} from '../../../utils/components/CopyButton';
+import {
+	Html,
+	Bash,
+	Carousel,
+	Pane,
+	Continue,
+	CopyButtonContainer,
+	FakePage,
+} from '../../../utils/components';
 
 import {FILENAME, DOCTYPE} from '../html-from-scratch/content';
 import {YOUTUBE_LINK, YOUTUBE_TEXT} from '../links/content';
 import {IMG_URL} from '../images/content';
 import {HEADER} from '../body-tag/content';
-import {PARAGRAPH} from '../inline-tags/content';
+import {PARAGRAPH, PARAGRAPH_HTML} from '../inline-tags/content';
 
 const facts = [
 `				In the 16th century, the word penguin actually referred to Great Auks, 
@@ -148,9 +152,12 @@ render() {
 				</Continue>
 			</Pane>
 			<Pane name="ul-tag">
-				<p>Let's add some more facts to our penguins page.</p>
 				<p>
-					In {FILENAME}, beneath your fact paragraph, 
+					Let's add some more facts to our penguins page. 
+					Open {FILENAME} in Sublime Text.
+				</p>
+				<p>
+					Beneath your fact paragraph, 
 					<strong> add an unordered list tag, with a single <code>li</code> tag </strong>
 					inside, so that your page looks like this:
 				</p>
@@ -231,6 +238,33 @@ ${factsHtml}		</ul>
 	</body>
 </html>`}</Html>
 				<Continue>
+					<Link to="/step/lists/view-your-page">Next: View Your Page -></Link>
+				</Continue>
+			</Pane>
+			<Pane name="view-your-page">
+				<p>
+					Now that you've added some list items, see what they look like in a browser!
+				</p>
+
+				{this.props.open}
+
+				<p>Your page should look like this:</p>
+
+				<FakePage>
+					<h1>{HEADER}</h1>
+					<ul>
+						<li>
+							{PARAGRAPH_HTML}
+						</li>
+						{facts.map(fact => <li key={fact}>{fact}</li>)}
+					</ul>
+					<p>
+						<a href={YOUTUBE_LINK}>{YOUTUBE_TEXT}</a>
+					</p>
+					<img src={IMG_URL}></img>
+				</FakePage>
+
+				<Continue>
 					<Link to="/step/lists/push-your-code">Next: Push Your Code -></Link>
 				</Continue>
 			</Pane>
@@ -240,7 +274,7 @@ ${factsHtml}		</ul>
 					then push your code to your remote repository.
 				</p>
 				<p>
-					Just <strong>copy this into your terminal</strong>:
+					Just <strong>copy this into your {this.props.terminal}</strong>:
 				</p>
 				<Bash copy={true}>{command}</Bash>
 				{this.props.statusLink}
@@ -250,8 +284,33 @@ ${factsHtml}		</ul>
 },
 });
 
-export const Mac = Content;
+export const Mac = React.createClass({
+	render() {
+		const open = (
+			<div>
+				<p>
+					If you have {FILENAME} open in your browser, just refresh the page. 
+					Otherwise, just type this into your terminal and press "enter":
+				</p>
+				<Bash noSelect={true}>open {FILENAME}</Bash>
+			</div>
+		);
 
-export const Win = Content;
+		return <Content {...this.props} open={open} terminal="terminal" />;
+	}
+});
+
+export const Win = React.createClass({
+	render() {
+		const open = (
+				<p>
+					If you have {FILENAME} open in your browser, just refresh the page. 
+					Otherwise, navigate to {FILENAME} in your File Explorer and double click it.
+				</p>
+		);
+
+		return <Content {...this.props} open={open} terminal="command prompt" />;
+	}
+});
 
 export default Content;
