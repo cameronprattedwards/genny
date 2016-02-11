@@ -11,8 +11,8 @@
     "webpack": "sh ./scripts/build.sh && . ./env && webpack-dev-server --host 0.0.0.0 & webpack -w --config server.config.js",
     "lint": "eslint . --ext .js,.jsx",
     "hooks": ". ./env && nodemon hooks/entry.js",
-    "prod": ". ./env && forever start client/entry.js -o out.log -e error.log",
-    "hooks-prod": ". ./env && forever start hooks/entry.js -o out.log -e error.log",
+    "prod": ". ./env && forever start -o out.log -e error.log client/entry.js",
+    "hooks-prod": ". ./env && forever start -o out.log -e error.log hooks/entry.js",
     "webpack-prod": "sh ./scripts/build.sh && . ./env && webpack --config production.config.js && webpack --config server.config.js"
   },
   "author": "",

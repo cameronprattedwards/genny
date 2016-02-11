@@ -4,6 +4,8 @@ client/public/dist
 steps/files.js
 npm-debug.log
 env
+out.log
+error.log
 
 # Elastic Beanstalk Files
 .elasticbeanstalk/*
