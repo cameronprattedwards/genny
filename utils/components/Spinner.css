@@ -1,0 +1,7 @@
+:global(.fa).giant {
+	font-size: 200px;
+}
+
+:global(.fa).small {
+	font-size: 100%;
+}

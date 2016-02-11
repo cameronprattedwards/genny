@@ -2,3 +2,8 @@
 	max-width: 700px;
 	margin: auto;
 }
+
+.spinner {
+	text-align: center;
+	margin: 100px;
+}
