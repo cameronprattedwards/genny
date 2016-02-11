@@ -1,5 +1,18 @@
 import squel from 'squel';
 import mysql from '../utils/mysql';
+import {Client} from '../utils/github';
+
+const getWithToken = async function getWithToken(token) {
+	const client = new Client(token);
+	const {id} = await client.getUser();
+	return getWithId(id);
+}
+
+const getWithId = async function getWithId(id) {
+	let query = squel.select().from('User').limit(1).where(`id = '${id}'`);
+	const [gennyUser] = await mysql(query);
+	return gennyUser;
+}
 
 export default {
 	create({id, repoName, accessToken, webhookSecret}) {
@@ -13,18 +26,11 @@ export default {
 		return mysql(query);
 	},
 
-	async get({id, token}) {
-		let query = squel.select().from('User').limit(1);
-
+	get({id, token}) {
 		if (id) {
-			query = query.where(`id = '${id}'`);
+			return getWithId(id);
 		}
 
-		if (token) {
-			query = query.where(`token = '${token}'`);
-		}
-
-		const [gennyUser] = await mysql(query);
-		return gennyUser;
+		return getWithToken(token);
 	},
 };

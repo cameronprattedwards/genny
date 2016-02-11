@@ -193,8 +193,6 @@ function mapStateToProps(state) {
 }
 
 function mergeProps(stateProps, dispatchProps, ownProps) {
-	console.log('garbage');
-	console.log(ownProps.params);
 	const {params: {stepName}} = ownProps;
 	const {db, os} = stateProps;
 	
