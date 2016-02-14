@@ -9,5 +9,6 @@ export class UnauthorizedError extends Error {
 	constructor(...args) {
 		super(...args);
 		this.status = 401;
+		this.isUnauthorizedError = true;
 	}
 }

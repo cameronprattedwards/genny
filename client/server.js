@@ -70,8 +70,9 @@ const handleDefaultRequest = async function handleDefaultRequest(request, respon
 		});
 	} catch (e) {
 		console.log(e.stack);
-		if (e instanceof UnauthorizedError) {
+		if (e.isUnauthorizedError) {
 			response.cookie('token', '', {expires: new Date(0)});
+			return response.redirect('/');
 		}
 		let text = `Sorry, we encountered a problem processing your request.
 
