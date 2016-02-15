@@ -1,22 +1,13 @@
 import fetch from 'isomorphic-fetch';
 import React from 'react';
 import {connect} from 'react-redux';
-import {Link} from 'react-router';
 import DocumentTitle from 'react-document-title';
-import Modal from 'react-modal';
 
 import stepsMapping from '../../steps/content';
 import styles from './Step.css';
 import {Paths, BASE_PATH} from '../../api/paths';
 import {Breadcrumbs} from './Breadcrumbs';
-import {Continue} from '../../utils/components/Continue';
-import {Spinner} from '../../utils/components/Spinner';
-import {Button} from '../../utils/components/Button';
-import {Bash} from '../../utils/components/Bash';
-import {CopyButtonContainer} from '../../utils/components/CopyButton';
-import assertComponentMapping from '../../utils/assert';
 
-import {SUCCESS, FAILURE, COMMIT} from '../../domain/constants';
 import {StatusLink} from './StatusLink';
 
 export const Step = React.createClass({

@@ -55,7 +55,7 @@ const Index = React.createClass({
 				</Continue>
 			</div>
 		);
-	}
+	},
 });
 
 const Submit = React.createClass({
@@ -74,7 +74,7 @@ const Submit = React.createClass({
 				{this.props.statusLink}
 			</div>
 		);
-	}
+	},
 });
 
 export const Mac = React.createClass({
@@ -108,7 +108,7 @@ export const Win = React.createClass({
 				</Pane>
 			</Carousel>
 		);
-	}
+	},
 });
 
 export default Mac;

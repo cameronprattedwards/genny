@@ -61,7 +61,7 @@ const Instruction = React.createClass({
 				</Continue>
 			</div>
 		);
-	}
+	},
 });
 
 const Create = React.createClass({
@@ -82,7 +82,7 @@ const Create = React.createClass({
 				</Continue>
 			</div>
 		);
-	}
+	},
 });
 
 const CreateWin = React.createClass({
@@ -103,7 +103,7 @@ const CreateWin = React.createClass({
 				</Continue>
 			</div>
 		);
-	}
+	},
 });
 
 const Doctypes = React.createClass({
@@ -128,7 +128,7 @@ const Doctypes = React.createClass({
 				</Continue>
 			</div>
 		);
-	}
+	},
 });
 
 const HtmlTags = React.createClass({
@@ -169,7 +169,7 @@ const HtmlTags = React.createClass({
 				</Sidebar>
 			</div>
 		);
-	}
+	},
 });
 
 const Submit = React.createClass({
@@ -192,7 +192,7 @@ const Submit = React.createClass({
 				{this.props.statusLink}
 			</div>
 		);
-	}
+	},
 });
 
 export const Mac = React.createClass({
@@ -225,11 +225,6 @@ export const Mac = React.createClass({
 
 export const Win = React.createClass({
 	render() {
-		const {step} = this.props;
-		const branchName = step.get('branchName');
-
-		const command = `git checkout -b ${branchName} && git add . && git commit -m "Create a new, empty HTML file" && git push -u origin ${branchName}`; // eslint-disable-line max-len
-
 		return (
 			<Carousel>
 				<Pane name=''>
@@ -253,7 +248,7 @@ export const Win = React.createClass({
 				</Pane>
 			</Carousel>
 		);
-	}
+	},
 });
 
 export default Mac;

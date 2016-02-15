@@ -9,4 +9,4 @@ const template = _.template(index);
 export const getHtml = async function getHtml(id, token) {
 	let stepUrl = await getStepUrl(id);
 	return template({token, stepUrl});
-}
+};

@@ -1,5 +1,5 @@
 import React from 'react';
-import {titles, AUTHORIZE_SCHOOL_OF_HAXX, OPEN_YOUR_TERMINAL, SetupLink} from './metadata';
+import {titles, AUTHORIZE_SCHOOL_OF_HAXX, SetupLink} from './metadata';
 import {Continue} from '../../../utils/components/Continue';
 import {Spinner} from '../../../utils/components/Spinner';
 import {AuthorizeContainer} from '../Authorize';

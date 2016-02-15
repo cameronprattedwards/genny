@@ -53,7 +53,7 @@ const Index = React.createClass({
 				</Continue>
 			</div>
 		);
-	}
+	},
 });
 
 const HeaderTags = React.createClass({
@@ -78,7 +78,7 @@ const HeaderTags = React.createClass({
 				</Continue>
 			</div>
 		);
-	}
+	},
 });
 
 const ParagraphTags = React.createClass({
@@ -111,7 +111,7 @@ const ParagraphTags = React.createClass({
 				</Continue>
 			</div>
 		);
-	}
+	},
 });
 
 const ViewMac = React.createClass({
@@ -136,7 +136,7 @@ const ViewMac = React.createClass({
 				</Continue>
 			</div>
 		);
-	}
+	},
 });
 
 const ViewWin = React.createClass({
@@ -161,7 +161,7 @@ const ViewWin = React.createClass({
 				</Continue>
 			</div>
 		);
-	}
+	},
 });
 
 const Submit = React.createClass({
@@ -179,7 +179,7 @@ const Submit = React.createClass({
 				{this.props.statusLink}
 			</div>
 		);
-	}
+	},
 });
 
 export const Mac = React.createClass({

@@ -15,7 +15,6 @@ import {
 	Sidebar,
 } from '../../../utils/components';
 
-import config from '../html-from-scratch';
 import {FILENAME} from '../html-from-scratch/content';
 
 const POEM = `
@@ -26,7 +25,6 @@ I love penguins
 
 const tabbedPoem = POEM.split('\n').map(str => `\t\t\t${str}`).join('\n');
 
-const {fileName} = config;
 const Content = React.createClass({
 render() {
 	const {step} = this.props;
@@ -176,13 +174,13 @@ render() {
 export const Mac = React.createClass({
 	render() {
 		return <Content {...this.props} terminal="terminal" />;
-	}
+	},
 });
 
 export const Win = React.createClass({
 	render() {
 		return <Content {...this.props} terminal="command prompt" />;
-	}
+	},
 });
 
 export default Content;

@@ -2,17 +2,14 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {Link} from 'react-router';
 
-import {Paths, reversePath} from '../../api/paths';
 import {setChildWindow} from '../../flux/actionCreators';
 import styles from './Home.css';
-import {FIRST_PANE, OPEN_YOUR_TERMINAL, setupUrl} from './setup/metadata';
+import {FIRST_PANE, setupUrl} from './setup/metadata';
 import {SUCCESS} from '../../domain/constants';
 
 import {Spinner, SpinnerSizes} from '../../utils/components/Spinner';
 import {Button} from '../../utils/components/Button';
 import {AuthorizeContainer} from './Authorize';
-
-const loginPath = reversePath(Paths.LOGIN, false);
 
 export const Home = React.createClass({
 	render() {

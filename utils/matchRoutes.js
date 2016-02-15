@@ -1,4 +1,4 @@
-import { match, RoutingContext } from 'react-router';
+import {match} from 'react-router';
 
 export function matchRoutes({routes, location}) {
 	return new Promise((resolve, reject) => {

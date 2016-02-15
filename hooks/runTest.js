@@ -18,4 +18,4 @@ export const runTest = async function runTest(branchName, hook) {
 	}
 
 	return [status, error];
-}
+};

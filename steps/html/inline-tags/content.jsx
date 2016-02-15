@@ -198,7 +198,7 @@ export const Mac = React.createClass({
 		);
 
 		return <Content {...this.props} open={open} terminal="terminal" />;
-	}
+	},
 });
 
 export const Win = React.createClass({
@@ -213,7 +213,7 @@ export const Win = React.createClass({
 		);
 
 		return <Content {...this.props} open={open} terminal="command prompt" />;
-	}
+	},
 });
 
 export default Content;

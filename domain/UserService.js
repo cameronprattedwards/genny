@@ -3,7 +3,7 @@ import mysql from '../utils/mysql';
 import {Client} from '../utils/github';
 
 const queries = {
-	create({id, repoName, token, webhookSecret}) {
+	create({id, repoName, webhookSecret}) {
 		return squel.insert().into('User')
 			.set('id', id)
 			.set('repoName', repoName)
@@ -35,14 +35,8 @@ const queries = {
 			.set('User_id', userId)
 			.set('token', newToken)
 			.set('updatedAt', new Date().getTime());
-	}
+	},
 };
-
-const getWithToken = async function getWithToken(token) {
-	const client = new Client(token);
-	const {id} = await client.getUser();
-	return getWithId(id);
-}
 
 const getWithId = async function getWithId(id) {
 	let query = queries.get(id);
@@ -51,7 +45,13 @@ const getWithId = async function getWithId(id) {
 	const [{token}] = await mysql(query);
 	gennyUser.token = token;
 	return gennyUser;
-}
+};
+
+const getWithToken = async function getWithToken(token) {
+	const client = new Client(token);
+	const {id} = await client.getUser();
+	return getWithId(id);
+};
 
 export default {
 	async create(user) {

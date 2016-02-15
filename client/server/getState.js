@@ -26,4 +26,4 @@ export const getState = async function getState(request, token) {
 	}
 
 	return store;
-}
+};

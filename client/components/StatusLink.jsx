@@ -27,7 +27,7 @@ const Success = React.createClass({
 				</Link>
 			</Continue>
 		);
-	}
+	},
 });
 
 const Failure = React.createClass({
@@ -50,7 +50,7 @@ const Failure = React.createClass({
 	},
 
 	render() {
-		const {step, stepName, db, moduleOrder} = this.props;
+		const {step} = this.props;
 
 		let componentName = step.getIn(['error', 'component']);
 		let Component;
@@ -92,7 +92,7 @@ const Failure = React.createClass({
 				</Modal>
 			</div>
 		);		
-	}
+	},
 });
 
 const Commit = React.createClass({
@@ -103,7 +103,7 @@ const Commit = React.createClass({
 				We got your code and we're running some tests.
 			</div>
 		);
-	}
+	},
 });
 
 export const StatusLink = React.createClass({
@@ -118,5 +118,5 @@ export const StatusLink = React.createClass({
 		}
 
 		return null;
-	}
+	},
 });

@@ -11,4 +11,4 @@ export const getMetadataFromRequest = async function getMetadataFromRequest(requ
 		webhookSecret,
 		token,
 	};
-}
+};
