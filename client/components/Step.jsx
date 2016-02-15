@@ -17,53 +17,9 @@ import {CopyButtonContainer} from '../../utils/components/CopyButton';
 import assertComponentMapping from '../../utils/assert';
 
 import {SUCCESS, FAILURE, COMMIT} from '../../domain/constants';
-
-function next(currentStepId, step, db, moduleOrder) {
-	const currentModuleId = step.get('module');
-	const module = db.getIn(['modules', currentModuleId.toString()]);
-	const currentStepIndex = module.get('steps').indexOf(currentStepId);
-	const finalStepInModule = currentStepIndex === module.get('steps').size - 1;
-	let nextStepId;
-	if (finalStepInModule) {
-		const currentModuleIndex = moduleOrder.indexOf(currentModuleId);
-		const isFinalModule = currentModuleIndex === moduleOrder.size - 1;
-		if (isFinalModule) {
-			return '/the-end';
-		}
-		const nextModuleId = moduleOrder.get(currentModuleIndex + 1);
-		const nextModule = db.get('modules').get(nextModuleId);
-		nextStepId = nextModule.getIn(['steps', 0]);
-	} else {
-		nextStepId = module.getIn(['steps', currentStepIndex + 1]);
-	}
-	return `/step/${nextStepId}`;
-}
-
-const modalStyles = {
-	overlay: {
-		zIndex: 1,
-	},
-};
+import {StatusLink} from './StatusLink';
 
 export const Step = React.createClass({
-	getInitialState() {
-		return {
-			modalOpen: true,
-		};
-	},
-
-	openModal() {
-		this.setState({
-			modalOpen: true,
-		});
-	},
-
-	closeModal() {
-		this.setState({
-			modalOpen: false,
-		});
-	},
-
 	postVisit(stepName) {
 		const {token} = this.props;
 		const path = BASE_PATH + Paths.ADD_VISIT[1](stepName, token);
@@ -94,7 +50,7 @@ export const Step = React.createClass({
 
 		const moduleOrder = db.get('moduleOrder');
 
-		let statusLink = getStatusLink(step, stepName, db, moduleOrder, this.state.modalOpen);
+		let statusLink = <StatusLink step={step} stepName={stepName} db={db} moduleOrder={moduleOrder} />;
 
 		let steps = db.getIn(['modules', 'html', 'steps']).map(step => db.getIn(['steps', step]));
 
@@ -111,71 +67,6 @@ export const Step = React.createClass({
 		);
 	},
 });
-
-function getStatusLink(step, stepName, db, moduleOrder, modalOpen) {
-	switch (step.get('status')) {
-		case SUCCESS:
-			let nextUrl = next(stepName, step, db, moduleOrder);
-			return (
-				<Continue>
-					You did it!{' '}
-					<Link className={styles.link} href={nextUrl} to={nextUrl}>
-						Move on to the next step.
-					</Link>
-				</Continue>
-			);
-		case FAILURE:
-			let componentName = step.getIn(['error', 'component']);
-			let Component;
-			if (componentName) {
-				Component = assertComponentMapping[componentName];
-			} else {
-				Component = assertComponentMapping.AssertComponent;
-			}
-			let error = step.get('error');
-			if (error.toJS) {
-				error = error.toJS();
-			}
-			let command = [
-				'git add .',
-				`git commit -m "Fix my code"`,
-				`git push origin ${step.get('branchName')}`,
-			].join(' && ');
-
-			return (
-				<div>
-					<p>
-						Something went wrong. 
-						<Button onClick={() => this.openModal()}>Click here</Button> for more info.
-					</p>
-					<Modal isOpen={modalOpen} onRequestClose={() => this.closeModal()} style={modalStyles}>
-						<div>
-							<h3 className={styles.failureHeader}>Oops!</h3>
-							<h4 className={styles.failureHeader}>Looks like something went wrong.</h4>
-							<Component {...error} />
-							<p>
-								When you're done making these changes, 
-								just copy and paste the following into your terminal to resubmit.
-							</p>
-							<div className={styles.bashContainer}>
-								<Bash className={styles.bash}>{command}</Bash>
-								<CopyButtonContainer text={`${command}\n`} className={styles.copy} />
-							</div>
-						</div>
-					</Modal>
-				</div>
-			);
-		case COMMIT:
-			return (
-				<div className={styles.loading}>
-					<Spinner />{' '}
-					We got your code and we're running some tests.
-				</div>
-			);
-	}
-
-	return null;
-}
 
 function mapStateToProps(state) {
 	let {user, db, env, ui} = state;

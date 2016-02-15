@@ -20,7 +20,7 @@ if [ "$USERNAME" = '' ]; then
 fi
 
 git checkout -b <%= branchName %>
-touch test-file.txt 
+echo "\n" >> test-file.txt
 
 git add . && git commit -m "Create my first text file" && git push -u origin <%= branchName %>
 subl .

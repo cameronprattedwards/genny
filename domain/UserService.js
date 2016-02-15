@@ -22,6 +22,14 @@ const queries = {
 		return squel.select().from('User').limit(1).where(`id = '${id}'`);
 	},
 
+	getToken(id) {
+		return squel.select().from('User_token_update')
+			.field('token')
+			.limit(1)
+			.order('updatedAt', false)
+			.where(`User_id = ${id}`);
+	},
+
 	updateToken(userId, newToken) {
 		return squel.insert().into('User_token_update')
 			.set('User_id', userId)
@@ -39,6 +47,9 @@ const getWithToken = async function getWithToken(token) {
 const getWithId = async function getWithId(id) {
 	let query = queries.get(id);
 	const [gennyUser] = await mysql(query);
+	query = queries.getToken(id);
+	const [{token}] = await mysql(query);
+	gennyUser.token = token;
 	return gennyUser;
 }
 

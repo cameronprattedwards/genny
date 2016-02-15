@@ -2,7 +2,6 @@ import express from 'express';
 import bodyParser from 'body-parser';
 
 import {Paths} from './paths';
-
 import {runTest} from './runTest';
 import {isSecure} from './isSecure';
 import {notify} from './notify';
@@ -11,24 +10,32 @@ import {getMetadataFromRequest} from './getMetadataFromRequest';
 import {getBranchNameFromHook} from './getBranchNameFromHook';
 import {commitExists} from './commitExists';
 
+import {COMMIT} from '../domain/constants';
+
 const hookFn = async function hookFn(request, response) {
-	response.status(200).send('');
-	const {hook, userId, webhookSecret, token} = await getMetadataFromRequest(request);
+	try {
+		response.status(200).send('');
+		const {hook, userId, webhookSecret, token} = await getMetadataFromRequest(request);
 
-	if (!isSecure(hook, webhookSecret, request)) {
-		return;
+		console.log({hook, userId, webhookSecret, token});
+
+		if (!isSecure(hook, webhookSecret, request)) {
+			return;
+		}
+
+		const branchName = getBranchNameFromHook(hook);
+
+		if (await commitExists(userId, branchName)) {
+			return;
+		}
+
+		notify(token, branchName, COMMIT);
+
+		let [status, error] = await runTest(branchName, hook);
+		persist(userId, token, branchName, status, error);
+	} catch (e) {
+		console.log(e.stack);
 	}
-
-	const branchName = getBranchNameFromHook(hook);
-
-	if (await commitExists(userId, branchName)) {
-		return;
-	}
-
-	notify(token, branchName, COMMIT);
-
-	let [status, error] = await runTest(branchName, hook);
-	persist(userId, token, branchName, status, error);
 };
 
 const {WEBHOOK_PORT} = process.env;

@@ -39,7 +39,7 @@ export const Home = React.createClass({
 		return (
 			<div className={styles.home}>
 				{content}
-				{callToAction}
+				<div className={styles.callToAction}>{callToAction}</div>
 			</div>
 		);
 	},
@@ -52,16 +52,14 @@ function getCallToAction({loading, setupFinished, currentStep, token}) {
 		if (setupFinished) {
 			return (
 				<p>
-					<Button component={Link} to={`/step/${currentStep}`}>Click here</Button>
-					{' '}to pick up where you left off.
+					<Button component={Link} to={`/step/${currentStep}`}>Pick up where you left off</Button>
 				</p>
 			);
 		}
 
 		return (
 			<p>
-				<Button component={Link} to={setupUrl(OPEN_YOUR_TERMINAL)}>Click here</Button>
-				{' '}to get started.
+				<Button component={Link} to={setupUrl(FIRST_PANE)}>Get started</Button>
 			</p>
 		);
 	}
@@ -69,7 +67,7 @@ function getCallToAction({loading, setupFinished, currentStep, token}) {
 	return (
 		<div>
 			<p>
-				<Button component={Link} to={setupUrl(FIRST_PANE)}>Click here</Button> to get started. 
+				<Button component={Link} to={setupUrl(FIRST_PANE)}>Get started</Button> to get started. 
 				(Don't worry - it's free.) 
 			</p>
 			<p>

@@ -19,7 +19,7 @@ export function hasTag(document, tagName, innerText = null, innerErrorMessage = 
 	let [tag] = document.getElementsByTagName(tagName);
 	assert.tagExists(tag, tagName, innerText, attributes);
 
-	if (innerText) {
+	if (innerText !== null) {
 		if (!innerErrorMessage) {
 			innerErrorMessage = `Wrap your ${tagName} tag around the words '${innerText}'`;
 		}

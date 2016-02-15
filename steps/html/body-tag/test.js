@@ -13,7 +13,7 @@ const {fileName} = fromScratchConfig;
 
 const testDom = async function testDom(markup) {
 	let asserter = await TagAsserter.instance(markup);
-	let h1 = asserter.hasTag('h1');
+	let h1 = asserter.hasTag('h1', 'Interesting Penguin Facts');
 	assert.tagIsNotEmpty(h1, 'Interesting Penguin Facts');
 	let p = asserter.hasTag('p', paragraph);
 	assert.tagIsNotEmpty(p, paragraph);
